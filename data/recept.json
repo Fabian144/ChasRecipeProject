@@ -3,7 +3,7 @@
   [
     {
       "name": "Pepperoni pizza",
-      "image": "./images/Pepperoni_pizza.png",
+      "image": "./images/pepperoni_pizza.svg",
       "alt-text": "(image alt text)",
       "rating": [{ "current_stars": 3.8 }, { "total_votes": 1 }],
       "ingredients": ["Mjöl", "Champinjoner"],

@@ -7,8 +7,10 @@
 	<title>Homepage</title>
 	<script src="https://kit.fontawesome.com/df5f7c64ea.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<link rel="stylesheet" href="./CSS/recipeCards.css">
 	<link rel="stylesheet" href="./CSS/css_reset.css">
+	<link rel="stylesheet" href="./CSS/recipeCards.css">
+	<link rel="stylesheet" href="./CSS/recipeCardsMedia.css">
+
 </head>
 
 <body>
@@ -42,9 +44,9 @@
 
 				</div>
 
-				<div class="recipe-detail-container">
+				<div class="recipe-bottom-container">
 					<hr>
-					<p class="recipe-details">{{recipe.ingredients.length}} INGREDIENSER | {{recipe.cooking_time}} MINUTER</p>
+					<p class="recipe-bottom-text">{{recipe.ingredients.length}} INGREDIENSER | {{recipe.cooking_time}} MINUTER</p>
 				</div>
 
 			</article>
