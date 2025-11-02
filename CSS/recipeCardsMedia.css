@@ -21,7 +21,7 @@
     margin: 0.5em 0 1.25em 0;
   }
 
-  .recipe-card-container {
+  .recipe-cards-container {
     display: flex;
     flex-direction: column;
   }
@@ -34,7 +34,7 @@
   .recipe-card {
     background-color: #c3c3c3;
     display: grid;
-    grid-template-columns: 1fr 10fr;
+    grid-template-columns: 1.25fr 1fr;
     grid-template-rows: 1fr;
     margin: 0 1.5em 1.5em;
     float: right;
@@ -72,6 +72,7 @@
 
   img {
     border: solid black 4px;
+		max-width: 100%;
   }
 
   .recipe-info-container {
@@ -104,6 +105,19 @@
 }
 
 @media (min-width: 992px) {
+  .recipe-card {
+    background-color: #c3c3c3;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    grid-template-rows: 1fr;
+    margin: 0 1.5em 1.5em;
+    float: right;
+  }
+
+  img {
+    border: solid black 4px;
+		max-width: unset;
+  }
 }
 
 @media (min-width: 1200px) {
