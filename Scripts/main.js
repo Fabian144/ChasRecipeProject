@@ -1,7 +1,7 @@
 import { createApp } from "https://unpkg.com/vue@3.5.22/dist/vue.esm-browser.js";
 import recipes from "./modules/fetchRecipeData.js";
 
-const theApp = createApp({
+const recipeCards = createApp({
   data() {
     return {
       recipes,
@@ -15,4 +15,4 @@ const theApp = createApp({
   },
 });
 
-theApp.mount("#recipe-card");
+recipeCards.mount("#recipe-cards");

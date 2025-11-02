@@ -20,37 +20,38 @@
 			expedita blanditiis, exercitationem ad.</p>
 	</header>
 
-	<div id="recipe-card">
-		<a v-for="recipe in recipes" class="recipe-card-link" href="./recipePage.html">
+	<div class="recipe-card-container">
+		<div id="recipe-cards">
+			<a v-for="recipe in recipes" class="recipe-card-link" href="./recipePage.html">
 
-			<article class="recipe-card">
-				<figure class="recipe-image-container">
-					<img :src="recipe.image" :alt="recipe.alt_text">
-				</figure>
+				<article class="recipe-card">
+					<figure class="recipe-image-container">
+						<img :src="recipe.image" :alt="recipe.alt_text">
+					</figure>
 
-				<div class="recipe-info-container">
-					<h2 class="recipe-heading">
-						{{recipe.name}}
-					</h2>
+					<div class="recipe-info-container">
+						<h2 class="recipe-heading">
+							{{recipe.name}}
+						</h2>
 
-					<div class="recipe-star-container">
-						<i v-for="star in stars" :class="{ 'fa-solid': recipeRating(recipe) >= star.rating}"
-							class="fa-regular fa-star fa-xl"></i>
+						<div class="recipe-star-container">
+							<i v-for="star in stars" :class="{ 'fa-solid': recipeRating(recipe) >= star.rating}"
+								class="fa-regular fa-star fa-xl"></i>
+						</div>
+
+						<p class="recipe-description">
+							{{recipe.description}}
+						</p>
 					</div>
 
-					<p class="recipe-description">
-						{{recipe.description}}
-					</p>
-
-				</div>
-
-				<div class="recipe-bottom-container">
-					<hr>
-					<p class="recipe-bottom-text">{{recipe.ingredients.length}} INGREDIENSER | {{recipe.cooking_time}} MINUTER</p>
-				</div>
-
-			</article>
-		</a>
+					<div class="recipe-bottom-container">
+						<hr>
+						<p class="recipe-bottom-text">{{recipe.ingredients.length}} INGREDIENSER | {{recipe.cooking_time}} MINUTER
+						</p>
+					</div>
+				</article>
+			</a>
+		</div>
 	</div>
 
 	<script type="module" src="./Scripts/main.js"></script>
