@@ -1,85 +1,83 @@
-@media (max-width: 767px) {
-  header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .homepage-heading {
-    margin-bottom: 0;
-    font-size: 3.25em;
-    margin-top: 0.5em;
-  }
+.homepage-heading {
+  margin-bottom: 0;
+  font-size: 3.25em;
+  margin-top: 0.5em;
+}
 
-  .header-caption {
-    max-width: 30em;
-    font-size: 1.25em;
-    margin: 0.5em 0 1.25em 0;
-  }
+.header-caption {
+  max-width: 30em;
+  font-size: 1.25em;
+  margin: 0.5em 0 1.25em 0;
+}
 
-  .recipe-card-link {
-    color: unset;
-    text-decoration: none;
-  }
+.recipe-card-link {
+  color: unset;
+  text-decoration: none;
+}
 
-  .recipe-card {
-    background-color: #c3c3c3;
-    display: flex;
-    flex-direction: column;
-    max-width: 92.5%;
-    margin: 0 auto 5%;
-  }
+.recipe-card {
+  background-color: #c3c3c3;
+  display: flex;
+  flex-direction: column;
+  max-width: 92.5%;
+  margin: 0 auto 5%;
+}
 
-  .recipe-card:hover {
-    box-shadow: #00000096 1px 1px 10px 1px;
-  }
+.recipe-card:hover {
+  box-shadow: #00000096 1px 1px 10px 1px;
+}
 
-  .recipe-image-container {
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 1em 1em 0;
-  }
+.recipe-image-container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 1em 1em 0;
+}
 
-  img {
-    width: 100%;
-    border: solid black 4px;
-  }
+img {
+  width: 100%;
+  border: solid black 4px;
+}
 
-  .recipe-heading {
-    font-size: 2.2em;
-    margin: 0;
-  }
+.recipe-heading {
+  font-size: 2.2em;
+  margin: 0;
+}
 
-  .recipe-star-container {
-    margin-top: 0.75em;
-  }
+.recipe-star-container {
+  margin-top: 0.75em;
+}
 
-  .recipe-star-container > i {
-    width: 1.1em;
-  }
+.recipe-star-container > i {
+  width: 1.1em;
+}
 
-  .recipe-info-container {
-    display: flex;
-    flex-direction: column;
-    padding: 1.5em 1.5em 0;
-  }
+.recipe-info-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em 1.5em 0;
+}
 
-  .recipe-description {
-    font-size: 1.25em;
-  }
+.recipe-description {
+  font-size: 1.25em;
+}
 
-  hr {
-    margin: 0 1.25em;
-  }
+hr {
+  margin: 0 1.25em;
+}
 
-  .recipe-bottom-container {
-    text-align: center;
-  }
+.recipe-bottom-container {
+  text-align: center;
+}
 
-  .recipe-bottom-text {
-    align-self: center;
-    font-size: 1.2em;
-  }
+.recipe-bottom-text {
+  align-self: center;
+  font-size: 1.2em;
 }
