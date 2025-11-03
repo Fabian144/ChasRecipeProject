@@ -21,9 +21,8 @@
     margin: 0.5em 0 1.25em 0;
   }
 
-  .recipe-cards-container {
+  .recipe-card-section {
     display: flex;
-    flex-direction: column;
   }
 
   .recipe-card-link {
