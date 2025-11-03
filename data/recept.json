@@ -3,8 +3,9 @@
     {
       "name": "Pepperoni pizza",
       "image": "./images/pepperoni_pizza.svg",
-      "alt_text": "(image alt text)",
-      "rating": { "current_stars": 3.8, "total_votes": 1 },
+      "alt-text": "(image alt text)",
+      "rating": [{ "current_stars": 3.8 }, { "total_votes": 1 }],
+
       "ingredients": ["Mjöl", "Champinjoner"],
       "steps": ["Rör om", "Grädda"],
       "cooking_time": "30",
@@ -13,8 +14,8 @@
     {
       "name": "Tacopaj",
       "image": "./images/tacopaj.svg",
-      "alt_text": "(image alt text)",
-      "rating": { "current_stars": 2.6, "total_votes": 1 },
+      "alt-text": "(image alt text)",
+      "rating": [{ "current_stars": 2.6 }, { "total_votes": 1 }],
       "ingredients": ["Mjöl", "Tomater"],
       "steps": ["Rör om", "Grädda"],
       "cooking_time": "15",
