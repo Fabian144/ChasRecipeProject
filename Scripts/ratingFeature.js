@@ -32,7 +32,6 @@ const ratingSectionComponent = createApp({
       if (this.addedVote > 0 && newCommentAmount > this.commentAmount) {
         const recipeHeading = document.querySelector(".recipe_title").innerText;
         const recipe = recipes.filter((recipe) => recipe.name === recipeHeading)[0];
-        console.log("This vote: " + this.addedVote);
 
         let currentRating = recipe.rating[0].current_stars;
         let currentVotes = recipe.rating[1].total_votes;
@@ -42,6 +41,7 @@ const ratingSectionComponent = createApp({
         recipe.rating[0].current_stars = newRating;
         recipe.rating[1].total_votes++;
         console.log(
+          "This vote: " + this.addedVote,
           "New average rating: " + recipe.rating[0].current_stars,
           "New total votes: " + recipe.rating[1].total_votes
         );
