@@ -1,6 +1,7 @@
 @media (min-width: 768px) {
-  .recipe-card-container {
+  .recipe-card-section {
     display: flex;
+		flex-direction: column;
   }
 
   .recipe-card {
@@ -9,6 +10,7 @@
     grid-template-rows: 1fr;
     margin: 0 1.5em 1.5em;
     float: right;
+		width: 100%;
   }
 
   .recipe-image-container {
@@ -44,10 +46,6 @@
   .recipe-bottom-container {
     grid-column-start: 2;
     grid-column-end: 4;
-  }
-
-  .recipe-bottom-text {
-    font-size: 1.3em;
   }
 }
 
