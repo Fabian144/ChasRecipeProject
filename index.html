@@ -35,7 +35,7 @@
 						</h2>
 
 						<div class="recipe-star-container">
-							<i v-for="star in stars" :class="{ 'fa-solid': recipeRating(recipe) >= star.rating}"
+							<i v-for="starIcon in starIcons" :class="{ 'fa-solid': recipeRating(recipe) >= starIcon.rating}"
 								class="fa-regular fa-star fa-xl"></i>
 						</div>
 
