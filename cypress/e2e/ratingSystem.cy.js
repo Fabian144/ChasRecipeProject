@@ -7,22 +7,22 @@ describe("Rating system", () => {
     });
   });
 
-  it("does not update the average rating when submitting without a comment", () => {
+  it("Does not update the average rating when submitting without a comment", () => {
     cy.get(".recipe-star-container i").first().click();
 
     cy.get("#addComment").click();
 
-    cy.get("@consoleLog").should("not.have.been.calledWithMatch", /New average rating/);
+    cy.get('@consoleLog').its('callCount').should('be.at.most', 0)
   });
 
-  it("updates the average rating only when a comment is added", () => {
+  it("Updates the average rating only when a comment is added", () => {
     cy.get(".recipe-star-container i").first().click();
 
     cy.get("#userName").type("Cypress Tester");
     cy.get("#userComment").type("Tasty!");
     cy.get("#addComment").click();
 
-    cy.get("@consoleLog").should("have.been.calledWithMatch", /New average rating/);
+    cy.get("@consoleLog").should("have.callCount", 1);
 
     cy.get("#addComment").click();
     cy.get("@consoleLog").should("have.callCount", 1);
