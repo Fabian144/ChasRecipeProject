@@ -5,96 +5,100 @@ const ratingSectionComponent = createApp({
   data() {
     return {
       recipes,
-      addedVote: 0,
+      chosenRating: 0,
       commentAmount: document.querySelectorAll("#commentList > .comment").length,
-      stars: [
-        { voteValue: 1, class: `${this.empty()}` },
-        { voteValue: 2, class: `${this.empty()}` },
-        { voteValue: 3, class: `${this.empty()}` },
-        { voteValue: 4, class: `${this.empty()}` },
-        { voteValue: 5, class: `${this.empty()}` },
+      starIcons: [
+        { voteValue: 1, class: `${this.emptyStar()}` },
+        { voteValue: 2, class: `${this.emptyStar()}` },
+        { voteValue: 3, class: `${this.emptyStar()}` },
+        { voteValue: 4, class: `${this.emptyStar()}` },
+        { voteValue: 5, class: `${this.emptyStar()}` },
       ],
     };
   },
 
   methods: {
-    empty() {
+    emptyStar() {
       return "fa-regular fa-star fa-xl";
     },
 
-    filled() {
+    filledStar() {
       return "fa-solid fa-star fa-xl";
     },
 
-    newRating() {
+    hoverStars(chosenStar) {
+      this.starIcons.forEach((starIcon) => {
+        if (starIcon.voteValue <= chosenStar.voteValue && this.chosenRating === 0) {
+          starIcon.class = this.filledStar();
+        } else if (starIcon.voteValue > chosenStar.voteValue && this.chosenRating === 0) {
+          starIcon.class = this.emptyStar();
+        }
+      });
+    },
+
+    hoverStarsOff() {
+      if (this.chosenRating === 0) {
+        this.starIcons.forEach((starIcon) => {
+          starIcon.class = this.emptyStar();
+        });
+      }
+    },
+
+    changeChosenRating(chosenStar) {
+      if (this.chosenRating !== chosenStar.voteValue) {
+        this.chosenRating = chosenStar.voteValue;
+
+        this.starIcons.forEach((starIcon) => {
+          if (starIcon.voteValue <= this.chosenRating) {
+            starIcon.class = this.filledStar();
+          } else {
+            starIcon.class = this.emptyStar();
+          }
+        });
+      } else {
+        this.chosenRating = 0;
+        this.starIcons.forEach((starIcon) => {
+          starIcon.class = this.emptyStar();
+        });
+      }
+    },
+
+    addNewRating() {
       const newCommentAmount = document.querySelectorAll("#commentList > .comment").length;
 
-      if (this.addedVote > 0 && newCommentAmount > this.commentAmount) {
-        const recipeHeading = document.querySelector(".recipe_title").innerText;
-        const recipe = recipes.filter((recipe) => recipe.name === recipeHeading)[0];
-        console.log("This vote: " + this.addedVote);
+      if (this.chosenRating > 0 && newCommentAmount > this.commentAmount) {
+        const recipeHeading = document.querySelector(".recipe-title").innerText;
+        const recipe = this.recipeBasedOffHeading(recipeHeading);
+        console.log("This vote: " + this.chosenRating);
 
-        let currentRating = recipe.rating[0].current_stars;
-        let currentVotes = recipe.rating[1].total_votes;
+        let currentRating = recipe.rating.current_stars;
+        let currentVotes = recipe.rating.total_votes;
 
-        const newRating = (currentRating * currentVotes + this.addedVote) / (currentVotes + 1);
+        const newRating = (currentRating * currentVotes + this.chosenRating) / (currentVotes + 1);
 
-        recipe.rating[0].current_stars = newRating;
-        recipe.rating[1].total_votes++;
+        this.appendNewRatingAndVotes(recipe, newRating);
         console.log(
-          "New average rating: " + recipe.rating[0].current_stars,
-          "New total votes: " + recipe.rating[1].total_votes
+          "New average rating: " + recipe.rating.current_stars,
+          "New total votes: " + recipe.rating.total_votes
         );
 
         this.commentAmount = document.querySelectorAll("#commentList > .comment").length;
       }
     },
 
-    hoverStars(chosenIcon) {
-      if (this.addedVote === 0) {
-        this.stars.forEach((starIcon) => {
-          if (starIcon.voteValue <= chosenIcon.voteValue) {
-            starIcon.class = this.filled();
-          } else {
-            starIcon.class = this.empty();
-          }
-        });
-      }
+    recipeBasedOffHeading(recipeHeading) {
+      return this.recipes.filter((recipe) => recipe.name === recipeHeading)[0];
     },
 
-    hoverStarsOff() {
-      if (this.addedVote === 0) {
-        this.stars.forEach((starIcon) => {
-          starIcon.class = this.empty();
-        });
-      }
-    },
-
-    logRating(chosenIcon) {
-      if (this.addedVote !== chosenIcon.voteValue) {
-        this.addedVote = chosenIcon.voteValue;
-
-        this.stars.forEach((starIcon) => {
-          if (starIcon.voteValue < this.addedVote) {
-            starIcon.class = this.filled();
-          } else {
-            starIcon.class = this.empty();
-          }
-        });
-
-        chosenIcon.class = this.filled();
-      } else {
-        this.addedVote = 0;
-        this.stars.forEach((starIcon) => {
-          starIcon.class = this.empty();
-        });
-      }
+    appendNewRatingAndVotes(recipe, newRating) {
+      recipe.rating.current_stars = newRating;
+      recipe.rating.total_votes++;
     },
   },
 
   mounted() {
     const commentButton = document.querySelector("#addComment");
-    commentButton.addEventListener("click", this.newRating);
+    commentButton.addEventListener("click", this.addNewRating);
   },
 });
 
