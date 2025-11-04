@@ -69,7 +69,6 @@ const ratingSectionComponent = createApp({
       if (this.chosenRating > 0 && newCommentAmount > this.commentAmount) {
         const recipeHeading = document.querySelector(".recipe-title").innerText;
         const recipe = this.recipeBasedOffHeading(recipeHeading);
-        console.log("This vote: " + this.chosenRating);
 
         let currentRating = recipe.rating.current_stars;
         let currentVotes = recipe.rating.total_votes;
@@ -77,12 +76,14 @@ const ratingSectionComponent = createApp({
         const newRating = (currentRating * currentVotes + this.chosenRating) / (currentVotes + 1);
 
         this.appendNewRatingAndVotes(recipe, newRating);
+
+        this.commentAmount = document.querySelectorAll("#commentList > .comment").length;
+
         console.log(
+          "This vote: " + this.chosenRating,
           "New average rating: " + recipe.rating.current_stars,
           "New total votes: " + recipe.rating.total_votes
         );
-
-        this.commentAmount = document.querySelectorAll("#commentList > .comment").length;
       }
     },
 
