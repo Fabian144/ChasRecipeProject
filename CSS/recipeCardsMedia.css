@@ -10,7 +10,7 @@
     grid-template-rows: 1fr;
     margin: 0 1.5em 1.5em;
     float: right;
-		width: 100%;
+		max-width: 100%;
   }
 
   .recipe-image-container {
@@ -51,7 +51,7 @@
 
 @media (min-width: 992px) {
   .recipe-card {
-    grid-template-columns: 1fr 10fr;
+    grid-template-columns: 1fr 12fr;
   }
 
 	img {
