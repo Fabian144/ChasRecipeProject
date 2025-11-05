@@ -2,7 +2,7 @@
   "recipes": [
     {
       "name": "Pepperoni pizza",
-      "image": "./images/pepperoni_pizza.svg",
+      "image": "./src/images/pepperoni_pizza.svg",
       "alt-text": "(image alt text)",
       "rating": { "current_stars": 3.8, "total_votes": 1 },
       "ingredients": ["Mjöl", "Champinjoner"],
@@ -12,7 +12,7 @@
     },
     {
       "name": "Tacopaj",
-      "image": "./images/tacopaj.svg",
+      "image": "./src/images/tacopaj.svg",
       "alt-text": "(image alt text)",
       "rating": { "current_stars": 2.6, "total_votes": 1 },
       "ingredients": ["Mjöl", "Tomater"],

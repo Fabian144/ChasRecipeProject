@@ -1,11 +1,11 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <Homepage />
+  <RecipePage />
 </template>
+
+<script setup>
+import Homepage from './components/homepage/Homepage.vue';
+import RecipePage from './components/recipe page/RecipePage.vue';
+</script>
 
 <style scoped></style>
