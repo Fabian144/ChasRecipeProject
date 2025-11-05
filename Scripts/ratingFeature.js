@@ -26,40 +26,31 @@ const ratingSectionComponent = createApp({
       return "fa-solid fa-star fa-xl";
     },
 
-    hoverStars(chosenStar) {
+    hoveringOverStar(hoveredStar) {
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.voteValue <= chosenStar.voteValue && this.chosenRating === 0) {
+        if (starIcon.voteValue <= hoveredStar.voteValue) {
           starIcon.class = this.filledStar();
-        } else if (starIcon.voteValue > chosenStar.voteValue && this.chosenRating === 0) {
+        } else {
           starIcon.class = this.emptyStar();
         }
       });
     },
 
-    hoverStarsOff() {
-      if (this.chosenRating === 0) {
-        this.starIcons.forEach((starIcon) => {
+    hoveringOutOfStar() {
+      this.starIcons.forEach((starIcon) => {
+        if (starIcon.voteValue > this.chosenRating) {
           starIcon.class = this.emptyStar();
-        });
-      }
+        } else {
+          starIcon.class = this.filledStar();
+        }
+      });
     },
 
-    changeChosenRating(chosenStar) {
-      if (this.chosenRating !== chosenStar.voteValue) {
-        this.chosenRating = chosenStar.voteValue;
-
-        this.starIcons.forEach((starIcon) => {
-          if (starIcon.voteValue <= this.chosenRating) {
-            starIcon.class = this.filledStar();
-          } else {
-            starIcon.class = this.emptyStar();
-          }
-        });
-      } else {
+    changeChosenRating(clickedStar) {
+      if (this.chosenRating === clickedStar.voteValue) {
         this.chosenRating = 0;
-        this.starIcons.forEach((starIcon) => {
-          starIcon.class = this.emptyStar();
-        });
+      } else {
+        this.chosenRating = clickedStar.voteValue;
       }
     },
 
@@ -75,7 +66,8 @@ const ratingSectionComponent = createApp({
 
         const newRating = (currentRating * currentVotes + this.chosenRating) / (currentVotes + 1);
 
-        this.appendNewRatingAndVotes(recipe, newRating);
+        recipe.rating.current_stars = newRating;
+        recipe.rating.total_votes++;
 
         this.commentAmount = document.querySelectorAll("#commentList > .comment").length;
 
@@ -89,11 +81,6 @@ const ratingSectionComponent = createApp({
 
     recipeBasedOffHeading(recipeHeading) {
       return this.recipes.filter((recipe) => recipe.name === recipeHeading)[0];
-    },
-
-    appendNewRatingAndVotes(recipe, newRating) {
-      recipe.rating.current_stars = newRating;
-      recipe.rating.total_votes++;
     },
   },
 
