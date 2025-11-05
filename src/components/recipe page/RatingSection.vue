@@ -3,31 +3,37 @@
     <h3>Ge ditt betyg!</h3>
 
     <div class="recipe-star-container">
-      <i
+      <font-awesome-icon
         v-for="starIcon in starIcons"
         @click="changeChosenRating(starIcon)"
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
-        :class="starIcon.class"
-      ></i>
+        :icon="starIcon.icon"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 export default {
   data() {
     return {
       chosenRating: 0,
       starIcons: [
-        { voteValue: 1, class: `${this.emptyStar()}` },
-        { voteValue: 2, class: `${this.emptyStar()}` },
-        { voteValue: 3, class: `${this.emptyStar()}` },
-        { voteValue: 4, class: `${this.emptyStar()}` },
-        { voteValue: 5, class: `${this.emptyStar()}` },
+        { voteValue: 1, icon: `${this.emptyStar()}` },
+        { voteValue: 2, icon: `${this.emptyStar()}` },
+        { voteValue: 3, icon: `${this.emptyStar()}` },
+        { voteValue: 4, icon: `${this.emptyStar()}` },
+        { voteValue: 5, icon: `${this.emptyStar()}` },
       ],
     };
   },
+
+	components: {
+		FontAwesomeIcon
+	},
 
   emits: ['chosenRatingChanged'],
 
@@ -39,11 +45,11 @@ export default {
 
   methods: {
     emptyStar() {
-      return 'fa-regular fa-star fa-xl';
+      return ['far', 'star', 'xl'];
     },
 
     filledStar() {
-      return 'fa-solid fa-star fa-xl';
+      return ['fas', 'star', 'xl'];
     },
 
     hoveringOverStar(hoveredStar) {
