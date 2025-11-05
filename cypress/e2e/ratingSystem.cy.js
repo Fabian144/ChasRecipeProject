@@ -29,8 +29,10 @@ describe("Rating system", () => {
   });
 });
 
-
-// Behövs i funktionen som lägger till ett nytt omdöme (addNewRating()) för att testet ska fungera på rätt sätt:
+// För att kunna köra testet:
+//
+// Kör först kommandot npm install
+// Behövs i funktionen som lägger till ett nytt omdöme (addNewRating()):
 //  console.log(
 // 					"This vote: " + this.addedVote,
 //           "New average rating: " + recipe.rating[0].current_stars,
