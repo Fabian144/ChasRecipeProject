@@ -2,8 +2,7 @@
   "recipes": [
     {
       "name": "Pepperoni pizza",
-      "image": "./src/images/pepperoni_pizza.svg",
-      "alt-text": "(image alt text)",
+      "image": { "path": "./src/images/pepperoni_pizza.svg", "alt-text": "(image alt text)" },
       "rating": { "current_stars": 3.8, "total_votes": 1 },
       "ingredients": ["Mjöl", "Champinjoner"],
       "steps": ["Rör om", "Grädda"],
@@ -12,7 +11,7 @@
     },
     {
       "name": "Tacopaj",
-      "image": "./src/images/tacopaj.svg",
+      "image": { "path": "./src/images/tacopaj.svg", "alt-text": "(image alt text)" },
       "alt-text": "(image alt text)",
       "rating": { "current_stars": 2.6, "total_votes": 1 },
       "ingredients": ["Mjöl", "Tomater"],

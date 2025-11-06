@@ -2,8 +2,8 @@
   <div class="recipe-cards-container">
     <RecipeCard
       v-for="recipe in recipes"
-      :recipe-image="recipe.image"
-      :recipe-alt-text="recipe.alt_text"
+      :recipe-image="recipe.image.path"
+      :recipe-alt-text="recipe.image.alt_text"
       :recipe-name="recipe.name"
       :recipe-description="recipe.description"
       :recipe-ingredients="recipe.ingredients"

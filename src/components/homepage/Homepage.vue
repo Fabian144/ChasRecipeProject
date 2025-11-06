@@ -18,7 +18,6 @@ export default {
 @media (min-width: 768px) {
   .recipe-card-section {
     display: flex;
-		width: 20em;
   }
 }
 </style>
