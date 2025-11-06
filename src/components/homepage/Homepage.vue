@@ -1,31 +1,24 @@
 <template>
-  <RecipeCard
-    v-for="recipe in recipes"
-    :recipe-image="recipe.image"
-    :recipe-alt-text="recipe.alt_text"
-    :recipe-name="recipe.name"
-    :recipe-description="recipe.description"
-    :recipe-ingredients="recipe.ingredients"
-    :recipe-cooking-time="recipe.cooking_time"
-    :recipe-rating="recipe.rating.current_stars"
-  />
+  <main class="recipe-card-section">
+    <RecipeCardSection />
+  </main>
 </template>
 
 <script>
-import recipes from '../../modules/fetchRecipeData.js';
-import RecipeCard from './RecipeCard.vue';
+import RecipeCardSection from './RecipeCardSection.vue';
 
 export default {
-  data() {
-    return {
-      recipes,
-    };
-  },
-
   components: {
-    RecipeCard,
+    RecipeCardSection,
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@media (min-width: 768px) {
+  .recipe-card-section {
+    display: flex;
+		width: 20em;
+  }
+}
+</style>
