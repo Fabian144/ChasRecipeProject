@@ -11,11 +11,14 @@
         </h2>
 
         <div class="recipe-star-container">
-          <i
-            v-for="star in stars"
-            :class="{ 'fa-solid': Math.round(recipeRating) >= star.rating }"
-            class="fa-regular fa-star fa-xl"
-          ></i>
+          <font-awesome-icon
+            v-for="starIcon in starIcons"
+            :icon="
+              starIcon.rating <= Math.round(recipeRating)
+                ? 'fa-solid fa-star'
+                : 'fa-regular fa-star'
+            "
+          />
         </div>
 
         <p class="recipe-description">
@@ -34,11 +37,24 @@
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas, far, faStar);
+
 export default {
   data() {
     return {
-      stars: [{ rating: 1 }, { rating: 2 }, { rating: 3 }, { rating: 4 }, { rating: 5 }],
+      starIcons: [{ rating: 1 }, { rating: 2 }, { rating: 3 }, { rating: 4 }, { rating: 5 }],
     };
+  },
+
+  components: {
+    FontAwesomeIcon,
   },
 
   props: {
@@ -75,7 +91,7 @@ export default {
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 1em 1em 0;
+  padding: 0.75em 0.75em 0;
 }
 
 img {
@@ -89,17 +105,17 @@ img {
 }
 
 .recipe-star-container {
-  margin-top: 0.75em;
+  margin-top: 0.5em;
 }
 
-.recipe-star-container > i {
-  width: 1.1em;
+.recipe-star-container > .fa-star {
+  font-size: 1.6em;
 }
 
 .recipe-info-container {
   display: flex;
   flex-direction: column;
-  padding: 1.5em 1.5em 0;
+  padding: 0.75em 1.25em 0;
 }
 
 .recipe-description {
@@ -162,10 +178,6 @@ hr {
   .recipe-bottom-container {
     grid-column-start: 2;
     grid-column-end: 4;
-  }
-
-  .recipe-bottom-text {
-    font-size: 1.3em;
   }
 }
 

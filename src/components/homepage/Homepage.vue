@@ -2,8 +2,8 @@
   <RecipeCard
     v-for="recipe in recipes"
     :recipe-image="recipe.image"
-    :recipe-name="recipe.name"
     :recipe-alt-text="recipe.alt_text"
+    :recipe-name="recipe.name"
     :recipe-description="recipe.description"
     :recipe-ingredients="recipe.ingredients"
     :recipe-cooking-time="recipe.cooking_time"
