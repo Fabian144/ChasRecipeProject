@@ -110,6 +110,7 @@ img {
 
 .recipe-star-container > .fa-star {
   font-size: 1.6em;
+  margin: -1px;
 }
 
 .recipe-info-container {
@@ -136,12 +137,16 @@ hr {
 }
 
 @media (min-width: 768px) {
+  .recipe-card-link {
+    margin: 0 1.5em 1em;
+    display: inline-block;
+  }
+
   .recipe-card {
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
     grid-template-rows: 1fr;
-    margin: 0 1.5em 1.5em;
-    float: right;
+    margin: 0;
     max-width: 100%;
   }
 
