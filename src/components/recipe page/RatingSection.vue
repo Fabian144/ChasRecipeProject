@@ -2,7 +2,7 @@
   <div class="rating-section-container">
     <h3>Ge ditt betyg!</h3>
 
-    <div class="recipe-star-container">
+    <div class="star-container">
       <font-awesome-icon
         v-for="starIcon in starIcons"
         @click="changeChosenRating(starIcon)"
@@ -15,7 +15,14 @@
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas, far, faStar);
 
 export default {
   data() {
@@ -31,9 +38,7 @@ export default {
     };
   },
 
-	components: {
-		FontAwesomeIcon
-	},
+  components: { FontAwesomeIcon },
 
   emits: ['chosenRatingChanged'],
 
@@ -45,19 +50,19 @@ export default {
 
   methods: {
     emptyStar() {
-      return ['far', 'star', 'xl'];
+      return 'fa-regular fa-star';
     },
 
     filledStar() {
-      return ['fas', 'star', 'xl'];
+      return 'fa-solid fa-star';
     },
 
     hoveringOverStar(hoveredStar) {
       this.starIcons.forEach((starIcon) => {
         if (starIcon.voteValue <= hoveredStar.voteValue) {
-          starIcon.class = this.filledStar();
+          starIcon.icon = this.filledStar();
         } else {
-          starIcon.class = this.emptyStar();
+          starIcon.icon = this.emptyStar();
         }
       });
     },
@@ -65,9 +70,9 @@ export default {
     hoveringOutOfStar() {
       this.starIcons.forEach((starIcon) => {
         if (starIcon.voteValue > this.chosenRating) {
-          starIcon.class = this.emptyStar();
+          starIcon.icon = this.emptyStar();
         } else {
-          starIcon.class = this.filledStar();
+          starIcon.icon = this.filledStar();
         }
       });
     },
@@ -89,6 +94,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+	margin: auto;
 }
 
 .rating-section-container h3 {
@@ -96,19 +102,19 @@ export default {
   margin-bottom: 0.5em;
 }
 
-.recipe-star-container {
+.star-container {
   background-color: #cfffd5;
-  padding: 1.5em;
+  padding: 0.75em;
   display: flex;
-  gap: 0.75em;
+  gap: 0.5em;
   width: fit-content;
 }
 
-.recipe-star-container > .fa-star {
+.star-container > .fa-star {
   font-size: 2em;
 }
 
-.recipe-star-container > .fa-star:hover {
+.star-container > .fa-star:hover {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
 }
