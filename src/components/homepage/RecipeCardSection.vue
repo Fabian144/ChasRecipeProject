@@ -1,15 +1,17 @@
 <template>
   <div class="recipe-cards-container">
-    <RecipeCard
-      v-for="recipe in recipes"
-      :recipe-image="recipe.image.path"
-      :recipe-alt-text="recipe.image.alt_text"
-      :recipe-name="recipe.name"
-      :recipe-description="recipe.description"
-      :recipe-ingredients="recipe.ingredients"
-      :recipe-cooking-time="recipe.cooking_time"
-      :recipe-rating="recipe.rating.current_stars"
-    />
+    <router-link to="/recipePage">
+      <RecipeCard
+        v-for="recipe in recipes"
+        :recipe-image="recipe.image.path"
+        :recipe-alt-text="recipe.image.alt_text"
+        :recipe-name="recipe.name"
+        :recipe-description="recipe.description"
+        :recipe-ingredients="recipe.ingredients"
+        :recipe-cooking-time="recipe.cooking_time"
+        :recipe-rating="recipe.rating.current_stars"
+      />
+    </router-link>
   </div>
 </template>
 
@@ -31,7 +33,9 @@ export default {
 </script>
 
 <style scoped>
-.recipe-cards-container {
-  width: fit-content;
+@media (max-width: 767px) {
+  .recipe-cards-container {
+    max-width: 92.5%;
+  }
 }
 </style>
