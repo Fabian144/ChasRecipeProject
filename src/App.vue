@@ -1,16 +1,15 @@
 <template>
-  <Homepage />
-  <RecipePage />
+  <router-view></router-view>
 </template>
 
 <script>
-import Homepage from './components/homepage/Homepage.vue';
-import RecipePage from './components/recipe page/RecipePage.vue';
+import HomeView from './views/HomeView.vue';
+import RecipeView from './views/RecipeView.vue';
 
 export default {
   components: {
-    Homepage,
-    RecipePage,
+    HomeView,
+    RecipeView,
   },
 };
 </script>
