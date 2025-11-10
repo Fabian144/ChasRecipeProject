@@ -1,39 +1,35 @@
 <template>
-  <a class="recipe-card-link" href="./recipePage.html">
-    <article class="recipe-card">
-      <figure class="recipe-image-container">
-        <img :src="recipeImage" :alt="recipeAltText" />
-      </figure>
+  <article class="recipe-card">
+    <figure class="recipe-image-container">
+      <img :src="recipeImage" :alt="recipeAltText" />
+    </figure>
 
-      <div class="recipe-info-container">
-        <h2 class="recipe-heading">
-          {{ recipeName }}
-        </h2>
+    <div class="recipe-info-container">
+      <h2 class="recipe-heading">
+        {{ recipeName }}
+      </h2>
 
-        <div class="recipe-star-container">
-          <font-awesome-icon
-            v-for="starIcon in starIcons"
-            :icon="
-              starIcon.rating <= Math.round(recipeRating)
-                ? 'fa-solid fa-star'
-                : 'fa-regular fa-star'
-            "
-          />
-        </div>
-
-        <p class="recipe-description">
-          {{ recipeDescription }}
-        </p>
+      <div class="recipe-star-container">
+        <font-awesome-icon
+          v-for="starIcon in starIcons"
+          :icon="
+            starIcon.rating <= Math.round(recipeRating) ? 'fa-solid fa-star' : 'fa-regular fa-star'
+          "
+        />
       </div>
 
-      <div class="recipe-bottom-container">
-        <hr />
-        <p class="recipe-bottom-text">
-          {{ recipeIngredients.length }} INGREDIENSER | {{ recipeCookingTime }} MINUTER
-        </p>
-      </div>
-    </article>
-  </a>
+      <p class="recipe-description">
+        {{ recipeDescription }}
+      </p>
+    </div>
+
+    <div class="recipe-bottom-container">
+      <hr />
+      <p class="recipe-bottom-text">
+        {{ recipeIngredients.length }} INGREDIENSER | {{ recipeCookingTime }} MINUTER
+      </p>
+    </div>
+  </article>
 </template>
 
 <script>
@@ -70,17 +66,13 @@ export default {
 </script>
 
 <style scoped>
-.recipe-card-link {
-  color: unset;
-  text-decoration: none;
-}
-
 .recipe-card {
   background-color: #c3c3c3;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  max-width: 92.5%;
-  margin: 0 auto 5%;
+  margin: 0 0 5%;
+  color: black;
+  text-decoration: none;
 }
 
 .recipe-card:hover {
@@ -137,17 +129,12 @@ hr {
 }
 
 @media (min-width: 768px) {
-  .recipe-card-link {
-    margin: 0 1.5em 1em;
-    display: inline-block;
-  }
-
   .recipe-card {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: 1.2fr 1fr;
     grid-template-rows: 1fr;
-    margin: 0;
     max-width: 100%;
+    margin: 0 1.5em 1em;
   }
 
   .recipe-image-container {

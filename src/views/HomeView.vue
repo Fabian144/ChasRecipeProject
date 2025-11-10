@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RecipeCardSection from './RecipeCardSection.vue';
+import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
@@ -15,9 +15,8 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 768px) {
-  .recipe-card-section {
-    display: flex;
-  }
+.recipe-card-section {
+  display: flex;
+  justify-content: center;
 }
 </style>
