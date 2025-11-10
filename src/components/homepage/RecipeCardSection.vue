@@ -1,8 +1,7 @@
 <template>
   <div class="recipe-cards-container">
-    <router-link to="/recipePage">
+    <router-link v-for="recipe in recipes" :to="{ name: `${recipe.name}` }">
       <RecipeCard
-        v-for="recipe in recipes"
         :recipe-image="recipe.image.path"
         :recipe-alt-text="recipe.image.alt_text"
         :recipe-name="recipe.name"
