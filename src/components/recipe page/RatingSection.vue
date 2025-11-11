@@ -29,11 +29,11 @@ export default {
     return {
       chosenRating: 0,
       starIcons: [
-        { voteValue: 1, icon: `${this.emptyStar()}` },
-        { voteValue: 2, icon: `${this.emptyStar()}` },
-        { voteValue: 3, icon: `${this.emptyStar()}` },
-        { voteValue: 4, icon: `${this.emptyStar()}` },
-        { voteValue: 5, icon: `${this.emptyStar()}` },
+        { voteValue: 1, icon: 'fa-regular fa-star' },
+        { voteValue: 2, icon: 'fa-regular fa-star' },
+        { voteValue: 3, icon: 'fa-regular fa-star' },
+        { voteValue: 4, icon: 'fa-regular fa-star' },
+        { voteValue: 5, icon: 'fa-regular fa-star' },
       ],
     };
   },
