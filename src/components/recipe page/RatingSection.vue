@@ -78,6 +78,7 @@ export default {
     },
 
     changeChosenRating(clickedStar) {
+      clickedStar.classList.add('clicked');
       if (this.chosenRating === clickedStar.voteValue) {
         this.chosenRating = 0;
       } else {
@@ -119,7 +120,18 @@ export default {
   background-color: rgba(0, 0, 0, 0);
 }
 
-.star-container > .fa-star:active {
-  font-size: 2.1em;
+.star-container > .fa-star.clicked {
+  animation: starClickAnimation;
+  animation-delay: 500ms;
+  animation-duration: 500ms;
+}
+
+@keyframes starClickAnimation {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.5);
+  }
 }
 </style>
