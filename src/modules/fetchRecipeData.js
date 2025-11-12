@@ -10,7 +10,7 @@ async function fetchData(url) {
 }
 
 async function getRecipes() {
-	const data = await fetchData(`./src/data/recept.json`);
+	const data = await fetchData(`../src/data/recept.json`);
 	return data.recipes;
 }
 
