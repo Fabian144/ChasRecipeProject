@@ -17,6 +17,5 @@ export default {
 <style scoped>
 .recipe-card-section {
   display: flex;
-  justify-content: center;
 }
 </style>
