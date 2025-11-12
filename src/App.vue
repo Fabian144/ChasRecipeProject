@@ -21,10 +21,9 @@ import CommentSection from '/components/ recipepage/CommentSection.vue'
   </div>
 </template>
 
+
 <script setup>
 import CommentSection from './components/recipepage/CommentSection.vue'
-
-
 </script>
 
 <style scoped>
