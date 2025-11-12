@@ -43,9 +43,13 @@ export default {
   margin: 0 1em 1em;
 }
 
+.recipe-cards-container > a:focus {
+  outline: solid black 2px;
+}
+
 @media (max-width: 768px) {
   .recipe-cards-container {
-		margin: 0 auto 1em;
+    margin: 0 auto 1em;
     max-width: 92.5%;
   }
 }
