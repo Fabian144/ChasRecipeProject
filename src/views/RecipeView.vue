@@ -12,6 +12,12 @@ export default {
     };
   },
 
+  computed: {
+    recipeId() {
+      return this.$route.params.id;
+    },
+  },
+
   components: {
     RatingSection,
   },

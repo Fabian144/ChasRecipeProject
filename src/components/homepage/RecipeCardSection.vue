@@ -1,9 +1,9 @@
 <template>
   <div class="recipe-cards-container">
-    <router-link v-for="recipe in recipes" :to="{ name: `${recipe.name}` }">
+    <router-link v-for="recipe in recipes" :key="recipe.id" :to="{ name: 'recipe', params: { id: recipe.id } }">
       <RecipeCard
-        :recipe-image="recipe.image.path"
-        :recipe-alt-text="recipe.image.alt_text"
+        :recipe-image="recipe.image"
+        :recipe-alt-text="recipe.name"
         :recipe-name="recipe.name"
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
