@@ -1,8 +1,9 @@
 {
   "recipes": [
     {
+      "id": "0",
       "name": "Pepperoni pizza",
-      "image": { "path": "./src/images/pepperoni_pizza.svg", "alt-text": "(image alt text)" },
+      "image": "./src/images/pepperoni_pizza.svg",
       "rating": { "current_stars": 3.8, "total_votes": 1 },
       "ingredients": ["Mjöl", "Champinjoner"],
       "steps": ["Rör om", "Grädda"],
@@ -10,9 +11,9 @@
       "description": "En italiensk klassiker i svensk tappning. Varför krångla med mozarella och tomatsås när man har hushålls och tomatpuré!"
     },
     {
+      "id": "1",
       "name": "Tacopaj",
-      "image": { "path": "./src/images/tacopaj.svg", "alt-text": "(image alt text)" },
-      "alt-text": "(image alt text)",
+      "image": "./src/images/tacopaj.svg",
       "rating": { "current_stars": 2.6, "total_votes": 1 },
       "ingredients": ["Mjöl", "Tomater"],
       "steps": ["Rör om", "Grädda"],
