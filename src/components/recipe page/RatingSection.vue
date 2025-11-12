@@ -5,10 +5,12 @@
     <div class="star-container">
       <font-awesome-icon
         v-for="starIcon in starIcons"
-        @click="changeChosenRating(starIcon)"
+        @click="(changeChosenRating(starIcon), animateClickedStar(starIcon))"
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
         :icon="starIcon.icon"
+        :class="starIcon.class"
+        :aria-label="`Rate ${starIcon.voteValue} stars`"
       />
     </div>
   </div>
@@ -29,11 +31,11 @@ export default {
     return {
       chosenRating: 0,
       starIcons: [
-        { voteValue: 1, icon: 'fa-regular fa-star' },
-        { voteValue: 2, icon: 'fa-regular fa-star' },
-        { voteValue: 3, icon: 'fa-regular fa-star' },
-        { voteValue: 4, icon: 'fa-regular fa-star' },
-        { voteValue: 5, icon: 'fa-regular fa-star' },
+        { voteValue: 1, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 2, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 3, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 4, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 5, icon: 'fa-regular fa-star', class: String },
       ],
     };
   },
@@ -78,12 +80,17 @@ export default {
     },
 
     changeChosenRating(clickedStar) {
-      clickedStar.classList.add('clicked');
       if (this.chosenRating === clickedStar.voteValue) {
         this.chosenRating = 0;
       } else {
         this.chosenRating = clickedStar.voteValue;
       }
+    },
+
+    animateClickedStar(clickedStar) {
+      clickedStar.class === 'clicked'
+        ? (clickedStar.class = String)
+        : (clickedStar.class = 'clicked');
     },
   },
 };
@@ -122,16 +129,15 @@ export default {
 
 .star-container > .fa-star.clicked {
   animation: starClickAnimation;
-  animation-delay: 500ms;
-  animation-duration: 500ms;
+  animation-duration: 250ms;
 }
 
 @keyframes starClickAnimation {
-  from {
-    transform: scale(1);
+  50% {
+    transform: scale(1.1);
   }
-  to {
-    transform: scale(0.5);
+  100% {
+    transform: scale(1);
   }
 }
 </style>
