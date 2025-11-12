@@ -1,9 +1,16 @@
 [
   {
-    "recipeId": 1,
-    "comments": [
-      { "user": "Latifa", "text": "So good!", "date": "2025-10-25" }
-    ]
+    "id": 1,
+    "name": "Sara",
+    "text": "Supergott recept, tack!",
+    "date": "2025-11-10"
+  },
+  {
+    "id": 2,
+    "name": "Jonas",
+    "text": "Jag la till lite chili, blev ännu bättre!",
+    "date": "2025-11-11"
   }
 ]
+
 
