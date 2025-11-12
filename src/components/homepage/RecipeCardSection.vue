@@ -1,6 +1,10 @@
 <template>
   <div class="recipe-cards-container">
-    <router-link v-for="recipe in recipes" :key="recipe.id" :to="{ name: 'recipe', params: { id: recipe.id } }">
+    <router-link
+      v-for="recipe in recipes"
+      :key="recipe.id"
+      :to="{ name: 'recipe', params: { id: recipe.id } }"
+    >
       <RecipeCard
         :recipe-image="recipe.image"
         :recipe-alt-text="recipe.name"
@@ -32,8 +36,20 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 767px) {
+.recipe-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 0 1em 1em;
+}
+
+.recipe-cards-container > a:focus {
+  outline: solid black 2px;
+}
+
+@media (max-width: 768px) {
   .recipe-cards-container {
+    margin: 0 auto 1em;
     max-width: 92.5%;
   }
 }
