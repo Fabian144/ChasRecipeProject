@@ -9,7 +9,10 @@
         {{ recipeName }}
       </h2>
 
-      <div class="recipe-star-container">
+      <div
+        class="recipe-star-container"
+        :aria-label="`Recipe rating is ${Math.round(recipeRating)}`"
+      >
         <font-awesome-icon
           v-for="starIcon in starIcons"
           :icon="
@@ -94,10 +97,12 @@ img {
 .recipe-heading {
   font-size: 2.2em;
   margin: 0;
+  width: fit-content;
 }
 
 .recipe-star-container {
   margin-top: 0.5em;
+  width: fit-content;
 }
 
 .recipe-star-container > .fa-star {
@@ -126,6 +131,8 @@ hr {
 .recipe-bottom-text {
   align-self: center;
   font-size: 1.2em;
+  width: fit-content;
+  margin: 1em auto;
 }
 
 @media (min-width: 768px) {
