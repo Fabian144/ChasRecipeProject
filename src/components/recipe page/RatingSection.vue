@@ -94,7 +94,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-	margin: auto;
+  margin: auto;
 }
 
 .rating-section-container h3 {
@@ -117,5 +117,9 @@ export default {
 .star-container > .fa-star:hover {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
+}
+
+.star-container > .fa-star:active {
+  font-size: 2.1em;
 }
 </style>
