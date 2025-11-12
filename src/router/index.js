@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import HomeView from '../views/HomeView.vue';
 import RecipeView from '../views/RecipeView.vue';
-import recipes from '../modules/fetchRecipeData.js';
 
 let routes = [
   { path: '/', component: HomeView },

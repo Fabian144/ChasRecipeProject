@@ -1,7 +1,7 @@
 <template>
   <article class="recipe-card">
     <figure class="recipe-image-container">
-      <img :src="recipeImage" :alt="recipeAltText" />
+      <img class="recipe-image" :src="recipeImage" :alt="recipeAltText" />
     </figure>
 
     <div class="recipe-info-container">
@@ -9,7 +9,10 @@
         {{ recipeName }}
       </h2>
 
-      <div class="recipe-star-container">
+      <div
+        class="recipe-star-container"
+        :aria-label="`Recipe rating is ${Math.round(recipeRating)}`"
+      >
         <font-awesome-icon
           v-for="starIcon in starIcons"
           :icon="
@@ -68,11 +71,12 @@ export default {
 <style scoped>
 .recipe-card {
   background-color: #c3c3c3;
-  display: inline-flex;
-  flex-direction: column;
-  margin: 0 0 5%;
+  display: inline-grid;
   color: black;
   text-decoration: none;
+  margin: 0;
+  max-width: 40em;
+  width: 100%;
 }
 
 .recipe-card:hover {
@@ -83,10 +87,11 @@ export default {
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 0.75em 0.75em 0;
+  padding: 0.8em 0.8em 0;
+  height: fit-content;
 }
 
-img {
+.recipe-image {
   width: 100%;
   border: solid black 4px;
 }
@@ -94,10 +99,12 @@ img {
 .recipe-heading {
   font-size: 2.2em;
   margin: 0;
+  width: fit-content;
 }
 
 .recipe-star-container {
   margin-top: 0.5em;
+  width: fit-content;
 }
 
 .recipe-star-container > .fa-star {
@@ -126,28 +133,27 @@ hr {
 .recipe-bottom-text {
   align-self: center;
   font-size: 1.2em;
+  width: fit-content;
+  margin: 1em auto;
 }
 
 @media (min-width: 768px) {
   .recipe-card {
-    display: inline-grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 12fr;
     grid-template-rows: 1fr;
-    max-width: 100%;
-    margin: 0 1.5em 1em;
+    max-width: unset;
   }
 
   .recipe-image-container {
-    align-items: center;
-    justify-content: unset;
+    align-self: center;
     padding: 1.25em;
     grid-row-start: 1;
     grid-row-end: 3;
   }
 
-  img {
-    width: unset;
-    max-width: 100%;
+  .recipe-image {
+    width: 23em;
+    max-width: unset;
   }
 
   .recipe-heading {
@@ -164,22 +170,20 @@ hr {
   }
 
   hr {
-    margin: 0 1em 0 0;
+    margin: 0;
   }
 
   .recipe-bottom-container {
     grid-column-start: 2;
     grid-column-end: 4;
+    padding-right: 1em;
   }
 }
 
-@media (min-width: 992px) {
-  .recipe-card {
-    grid-template-columns: 1fr 12fr;
-  }
-
-  img {
+@media (min-width: 1200px) {
+  .recipe-image {
     max-width: unset;
+    width: unset;
   }
 }
 </style>

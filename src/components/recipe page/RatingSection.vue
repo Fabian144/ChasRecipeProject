@@ -5,10 +5,12 @@
     <div class="star-container">
       <font-awesome-icon
         v-for="starIcon in starIcons"
-        @click="changeChosenRating(starIcon)"
+        @click="(changeChosenRating(starIcon), animateClickedStar(starIcon))"
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
         :icon="starIcon.icon"
+        :class="starIcon.class"
+        :aria-label="`Rate ${starIcon.voteValue} stars`"
       />
     </div>
   </div>
@@ -29,11 +31,11 @@ export default {
     return {
       chosenRating: 0,
       starIcons: [
-        { voteValue: 1, icon: 'fa-regular fa-star' },
-        { voteValue: 2, icon: 'fa-regular fa-star' },
-        { voteValue: 3, icon: 'fa-regular fa-star' },
-        { voteValue: 4, icon: 'fa-regular fa-star' },
-        { voteValue: 5, icon: 'fa-regular fa-star' },
+        { voteValue: 1, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 2, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 3, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 4, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 5, icon: 'fa-regular fa-star', class: String },
       ],
     };
   },
@@ -84,6 +86,12 @@ export default {
         this.chosenRating = clickedStar.voteValue;
       }
     },
+
+    animateClickedStar(clickedStar) {
+      clickedStar.class === 'clicked'
+        ? (clickedStar.class = String)
+        : (clickedStar.class = 'clicked');
+    },
   },
 };
 </script>
@@ -94,7 +102,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-	margin: auto;
+  margin: auto;
 }
 
 .rating-section-container h3 {
@@ -117,5 +125,19 @@ export default {
 .star-container > .fa-star:hover {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
+}
+
+.star-container > .fa-star.clicked {
+  animation: starClickAnimation;
+  animation-duration: 250ms;
+}
+
+@keyframes starClickAnimation {
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
