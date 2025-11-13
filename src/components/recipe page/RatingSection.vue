@@ -10,7 +10,7 @@
         @mouseleave="hoveringOutOfStar"
         :icon="starIcon.icon"
         :class="starIcon.class"
-        :aria-label="`Rate ${starIcon.voteValue} stars`"
+        :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
       />
     </div>
   </div>

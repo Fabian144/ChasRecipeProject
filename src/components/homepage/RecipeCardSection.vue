@@ -3,7 +3,8 @@
     <router-link
       v-for="recipe in recipes"
       :key="recipe.id"
-      :to="{ name: 'recipe', params: { id: recipe.id } }"
+      :to="{ name: 'theRecipe', params: { recipeId: recipe.id } }"
+			:aria-label="`Länk till ${recipe.name} receptet`"
     >
       <RecipeCard
         :recipe-image="recipe.image"
