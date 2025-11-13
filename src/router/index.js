@@ -5,7 +5,7 @@ import RecipeView from '../views/RecipeView.vue';
 
 let routes = [
   { path: '/', component: HomeView },
-  { path: '/recipes/:id', name: 'recipe', component: RecipeView },
+  { path: '/recipe/:recipeId', name: 'theRecipe', component: RecipeView },
 ];
 
 const router = createRouter({

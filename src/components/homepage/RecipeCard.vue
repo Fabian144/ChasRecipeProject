@@ -11,7 +11,7 @@
 
       <div
         class="recipe-star-container"
-        :aria-label="`Recipe rating is ${Math.round(recipeRating)}`"
+        :aria-label="`Receptet har ett omdöme på ${Math.round(recipeRating)} av 5 stjärnor`"
       >
         <font-awesome-icon
           v-for="starIcon in starIcons"
