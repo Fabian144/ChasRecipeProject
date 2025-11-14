@@ -1,28 +1,10 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-
-    <!-- Kommentar-sektionen -->
-    <CommentSection />
-  </div>
+  <router-view></router-view>
 </template>
 
-<script>
-import CommentSection from './components/recipepage/commentSection.vue';
 
-export default {
-  components: {
-    CommentSection,
-  },
-};
+<script>
+
 </script>
 
-<style>
-#app {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-}
-</style>
+<style scoped></style>
