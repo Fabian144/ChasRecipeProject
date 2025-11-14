@@ -1,15 +1,4 @@
-<!-- <template>
-  <router-view></router-view>
-   <CommentSection />
-</template>
 
-
-<script>
-import CommentSection from '/components/ recipepage/CommentSection.vue'
-
-</script>
-
-<style scoped></style> -->
 
 <template>
   <div id="app">
@@ -23,7 +12,7 @@ import CommentSection from '/components/ recipepage/CommentSection.vue'
 
 
 <script setup>
-import CommentSection from './components/recipepage/CommentSection.vue'
+import CommentSection from '../components/recipepage/CommentSection.vue'
 </script>
 
 <style scoped>
