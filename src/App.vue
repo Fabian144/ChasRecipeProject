@@ -2,7 +2,6 @@
 
 <template>
   <div id="app">
-    <!-- Om du använder Vue Router -->
     <router-view></router-view>
 
     <!-- Kommentar-sektionen -->
@@ -15,15 +14,12 @@
 import CommentSection from '../components/recipepage/CommentSection.vue'
 </script>
 
-<style scoped>
-/* Du kan lägga global styling här om du vill */
+<style>
 #app {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  padding: 20px;
-  background-color: #fdfdfd;
+}
+
+body {
+	margin: 0;
 }
 </style>
-
-
-
-
