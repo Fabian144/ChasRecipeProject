@@ -1,5 +1,6 @@
 <template>
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
+    <CommentSection />
 </template>
 
 <script>
