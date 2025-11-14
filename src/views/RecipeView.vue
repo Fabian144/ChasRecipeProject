@@ -4,7 +4,7 @@
 
 <script>
 import RatingSection from '../components/recipepage/RatingSection.vue';
-import CommentSection from '../components/recipepage/CommentSection.vue';
+import CommentSection from '../components/recipepage/commentSection.vue';
 
 
 export default {

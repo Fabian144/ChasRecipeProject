@@ -1,5 +1,3 @@
-
-
 <template>
   <div id="app">
     <router-view></router-view>
@@ -9,9 +7,14 @@
   </div>
 </template>
 
+<script>
+import CommentSection from './components/recipepage/commentSection.vue';
 
-<script setup>
-import CommentSection from '../components/recipepage/CommentSection.vue'
+export default {
+  components: {
+    CommentSection,
+  },
+};
 </script>
 
 <style>
@@ -20,6 +23,6 @@ import CommentSection from '../components/recipepage/CommentSection.vue'
 }
 
 body {
-	margin: 0;
+  margin: 0;
 }
 </style>
