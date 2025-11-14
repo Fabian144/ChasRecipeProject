@@ -3,7 +3,9 @@
 </template>
 
 <script>
-import RatingSection from '../components/recipe page/RatingSection.vue';
+import RatingSection from '../components/recipepage/RatingSection.vue';
+import CommentSection from '../components/recipepage/CommentSection.vue';
+
 
 export default {
   data() {
@@ -20,6 +22,7 @@ export default {
 
   components: {
     RatingSection,
+    CommentSection,
   },
 };
 </script>
