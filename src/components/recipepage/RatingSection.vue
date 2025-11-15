@@ -88,9 +88,8 @@ export default {
     },
 
     animateClickedStar(clickedStar) {
-      clickedStar.class === 'clicked'
-        ? (clickedStar.class = String)
-        : (clickedStar.class = 'clicked');
+      this.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
+      setTimeout(() => (clickedStar.class = String), 250);
     },
   },
 };
