@@ -77,7 +77,7 @@ export default {
       default: () => [],
     },
 
-    currentRecipe: {
+    currentRecipe: { // För rating systemet
       type: Object,
     },
   },
@@ -90,23 +90,23 @@ export default {
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
-      chosenRating: Number,
-      newRating: Number,
+      chosenRating: Number, // För rating systemet
+      newRating: Number, // För rating systemet
     };
   },
 
   computed: {
-    currentRating() {
+    currentRating() { // För rating systemet
       return this.currentRecipe.rating.current_stars;
     },
 
-    currentTotalVotes() {
+    currentTotalVotes() { // För rating systemet
       return this.currentRecipe.rating.total_votes;
     },
   },
 
   watch: {
-    newRating() {
+    newRating() { // För rating systemet
       fetch('../src/data/recept.json', {
         method: 'PATCH',
         body: JSON.stringify({
@@ -145,7 +145,7 @@ export default {
           date: new Date().toLocaleDateString('sv-SE'),
         });
 
-        if (this.chosenRating > 0) {
+        if (this.chosenRating > 0) { // För rating systemet
           this.newRating =
             (this.currentRating * this.currentTotalVotes + this.chosenRating) /
             (this.currentTotalVotes + 1);
