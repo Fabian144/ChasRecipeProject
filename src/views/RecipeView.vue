@@ -1,17 +1,18 @@
 <template>
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
-    <CommentSection />
+  <CommentSection />
 </template>
 
 <script>
 import RatingSection from '../components/recipepage/RatingSection.vue';
 import CommentSection from '../components/recipepage/commentSection.vue';
-
+import recipes from '@/modules/fetchRecipeData';
 
 export default {
   data() {
     return {
       chosenRating: 0,
+      recipes: recipes,
     };
   },
 
@@ -19,6 +20,12 @@ export default {
     recipeId() {
       return this.$route.params.recipeId;
     },
+  },
+
+  mounted() {
+    setInterval(() => {
+      this.recipes = recipes;
+    }, 5000);
   },
 
   components: {
