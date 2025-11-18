@@ -20,6 +20,10 @@ export default {
     recipeId() {
       return this.$route.params.recipeId;
     },
+
+    currentRecipe() {
+      return this.recipes.filter((recipe) => recipe.id === this.recipeId)[0];
+    },
   },
 
   mounted() {
