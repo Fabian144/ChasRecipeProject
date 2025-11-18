@@ -3,7 +3,7 @@
     {
       "id": "0",
       "name": "Pepperoni pizza",
-      "image": "./src/images/pepperoni_pizza.svg",
+      "image": "../src/images/pepperoni_pizza.svg",
       "rating": { "current_stars": 3.8, "total_votes": 1 },
       "ingredients": ["Mjöl", "Champinjoner"],
       "steps": ["Rör om", "Grädda"],
@@ -13,7 +13,7 @@
     {
       "id": "1",
       "name": "Tacopaj",
-      "image": "./src/images/tacopaj.svg",
+      "image": "../src/images/tacopaj.svg",
       "rating": { "current_stars": 2.6, "total_votes": 1 },
       "ingredients": ["Mjöl", "Tomater"],
       "steps": ["Rör om", "Grädda"],
