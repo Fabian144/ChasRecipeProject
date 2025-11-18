@@ -1,4 +1,6 @@
 <template>
+  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
+
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
     <h3 class="text-2xl font-semibold mb-4 text-gray-800">Kommentarer</h3>
 
@@ -6,34 +8,47 @@
     <form v-if="!commentSent" @submit.prevent="submitComment" class="space-y-3">
       <div>
         <label class="block text-sm font-medium text-gray-700">Ditt namn</label>
-        <input v-model="name" type="text"
+        <input
+          v-model="name"
+          type="text"
           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-400"
-          placeholder="Skriv ditt namn" :disabled="isSending" />
+          placeholder="Skriv ditt namn"
+          :disabled="isSending"
+        />
       </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-700">Din kommentar</label>
-        <textarea v-model="comment"
+        <textarea
+          v-model="comment"
           class="w-full border border-gray-300 rounded-lg px-3 py-2 h-24 focus:ring focus:ring-blue-200 focus:border-blue-400"
-          placeholder="Skriv din kommentar" :disabled="isSending"></textarea>
+          placeholder="Skriv din kommentar"
+          :disabled="isSending"
+        ></textarea>
       </div>
 
       <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
 
-      <button type="submit" :disabled="isSending"
-        class="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
-        {{ isSending ? "Skickar..." : "Skicka" }}
+      <button
+        type="submit"
+        :disabled="isSending"
+        class="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+        @click=""
+      >
+        {{ isSending ? 'Skickar...' : 'Skicka' }}
       </button>
     </form>
 
     <!-- Tack-meddelande -->
-    <p v-else class="text-green-600 font-semibold text-center my-3">
-      Tack för din kommentar!
-    </p>
+    <p v-else class="text-green-600 font-semibold text-center my-3">Tack för din kommentar!</p>
 
     <!-- Kommentarlista -->
     <ul class="mt-6 space-y-4">
-      <li v-for="c in comments" :key="c.id" class="border border-gray-200 rounded-xl p-3 bg-gray-50">
+      <li
+        v-for="c in comments"
+        :key="c.id"
+        class="border border-gray-200 rounded-xl p-3 bg-gray-50"
+      >
         <div class="flex justify-between items-center mb-1">
           <strong class="text-gray-800">{{ c.name }}</strong>
           <small class="text-gray-500 text-xs">{{ c.date }}</small>
@@ -44,36 +59,82 @@
   </div>
 </template>
 
-
 <!-- Script -->
 
 <script>
+import RatingSection from './RatingSection.vue';
+
 export default {
-  name: "CommentSection",
+  name: 'CommentSection',
+
+  components: {
+    RatingSection,
+  },
+
   props: {
     initialComments: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
+
+    currentRecipe: {
+      type: Object,
+    },
   },
+
   data() {
     return {
-      name: "",
-      comment: "",
-      error: "",
+      name: '',
+      comment: '',
+      error: '',
       isSending: false,
       commentSent: false,
-      comments: [...this.initialComments] // startar med kommentarer från recept JSON
+      comments: [...this.initialComments], // startar med kommentarer från recept JSON
+      chosenRating: Number,
+      newRating: Number,
     };
   },
+
+  computed: {
+    currentRating() {
+      return this.currentRecipe.rating.current_stars;
+    },
+
+    currentTotalVotes() {
+      return this.currentRecipe.rating.total_votes;
+    },
+  },
+
+  watch: {
+    newRating() {
+      fetch('../src/data/recept.json', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          current_stars: this.newRating,
+          total_votes: this.currentTotalVotes + 1,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then(
+          console.log(
+            'This vote: ' + this.chosenRating,
+            'New average rating: ' + this.currentRating,
+            'New total votes: ' + this.currentTotalVotes,
+          ),
+        );
+    },
+  },
+
   methods: {
     submitComment() {
       if (!this.name.trim() || !this.comment.trim()) {
-        this.error = "Du måste fylla i både namn och kommentar.";
+        this.error = 'Du måste fylla i både namn och kommentar.';
         return;
       }
 
-      this.error = "";
+      this.error = '';
       this.isSending = true;
 
       setTimeout(() => {
@@ -81,21 +142,27 @@ export default {
           id: Date.now(),
           name: this.name,
           text: this.comment,
-          date: new Date().toLocaleDateString("sv-SE")
+          date: new Date().toLocaleDateString('sv-SE'),
         });
 
-        this.name = "";
-        this.comment = "";
+        if (this.chosenRating > 0) {
+          this.newRating =
+            (this.currentRating * this.currentTotalVotes + this.chosenRating) /
+            (this.currentTotalVotes + 1);
+        }
+
+        this.name = '';
+        this.comment = '';
         this.commentSent = true;
         this.isSending = false;
       }, 1000);
-    }
-  }
+    },
+  },
 };
-</script> -->
+</script>
+-->
 
 <!-- CSS -->
-
 
 <style scoped>
 .comment-section {
@@ -144,7 +211,9 @@ button {
   font-size: 15px;
   display: block;
   margin: 0 auto;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 button:hover {
