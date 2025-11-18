@@ -27,8 +27,15 @@ export default {
   },
 
   mounted() {
-    setInterval(() => {
-      this.recipes = recipes;
+    setInterval(async () => {
+      try {
+        const response = await fetch(`/src/data/recept.json`);
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
+        const data = await response.json();
+        this.recipes = data.recipes;
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
     }, 5000);
   },
 
