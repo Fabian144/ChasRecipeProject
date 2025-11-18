@@ -41,6 +41,12 @@ export default {
       } else 
       {
         console.error(`Recept med ID ${recipeId} hittades inte.`);
+        this.recipeNameVar = "Receptet kunde inte hittas";
+        this.cookTimeVar = "N/A";
+        this.ingredientsAmountVar = 0;
+        this.stepsVar = ["Receptet kunde inte hittas. Kontrollera receptets ID."];
+        this.ingredientsVar = ["Ingredienser kunde inte hittas."];
+        this.imageVar = "Error, kunde inte ladda bild.";
       }
 
     } catch (error) 
