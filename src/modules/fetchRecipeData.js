@@ -5,15 +5,12 @@ async function fetchData(url) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Fetch failed:", error);
+    console.error('Fetch failed:', error);
   }
 }
 
-async function getRecipes() {
-	const data = await fetchData(`../src/data/recept.json`);
-	return data.recipes;
-}
+const data = await fetchData(`../src/data/recept.json`);
 
-const recipes = await getRecipes();
+const recipes = data.recipes;
 
 export default recipes;
