@@ -3,15 +3,16 @@
     <h3>Ge ditt betyg!</h3>
 
     <div class="star-container">
-      <font-awesome-icon
+      <button
         v-for="starIcon in starIcons"
         @click="(changeChosenRating(starIcon), animateClickedStar(starIcon))"
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
-        :icon="starIcon.icon"
         :class="starIcon.class"
         :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
-      />
+      >
+        <font-awesome-icon :icon="starIcon.icon" />
+      </button>
     </div>
   </div>
 </template>
@@ -82,15 +83,16 @@ export default {
     changeChosenRating(clickedStar) {
       if (this.chosenRating === clickedStar.voteValue) {
         this.chosenRating = 0;
+				clickedStar.icon = this.emptyStar();
       } else {
         this.chosenRating = clickedStar.voteValue;
+        clickedStar.icon = this.filledStar();
       }
     },
 
     animateClickedStar(clickedStar) {
-      clickedStar.class === 'clicked'
-        ? (clickedStar.class = String)
-        : (clickedStar.class = 'clicked');
+      this.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
+      setTimeout(() => (clickedStar.class = String), 250);
     },
   },
 };
@@ -118,16 +120,22 @@ export default {
   width: fit-content;
 }
 
-.star-container > .fa-star {
+.star-container > button {
   font-size: 2em;
-}
-
-.star-container > .fa-star:hover {
-  cursor: pointer;
+  padding: 0;
   background-color: rgba(0, 0, 0, 0);
+  border: none;
 }
 
-.star-container > .fa-star.clicked {
+.star-container > button:hover {
+  cursor: pointer;
+}
+
+.star-container > button:focus-visible {
+  outline: solid black 2px;
+}
+
+.star-container > button.clicked {
   animation: starClickAnimation;
   animation-duration: 250ms;
 }
