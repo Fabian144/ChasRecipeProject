@@ -25,18 +25,12 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-import { useChosenRatingStore } from '@/stores/chosenRating.js';
-
 library.add(fas, far, faStar);
 
 export default {
-  setup() {
-    const store = useChosenRatingStore();
-    return { store };
-  },
-
   data() {
     return {
+      chosenRating: 0,
       starIcons: [
         { voteValue: 1, icon: 'fa-regular fa-star', class: String },
         { voteValue: 2, icon: 'fa-regular fa-star', class: String },
@@ -51,6 +45,14 @@ export default {
 
   components: { FontAwesomeIcon },
 
+  emits: ['chosenRatingChanged'],
+
+  watch: {
+    chosenRating() {
+      this.$emit('chosenRatingChanged', this.chosenRating);
+    },
+  },
+
   methods: {
     hoveringOverStar(hoveredStar) {
       this.starIcons.forEach((starIcon) => {
@@ -64,7 +66,7 @@ export default {
 
     hoveringOutOfStar() {
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.voteValue > this.store.chosenRating) {
+        if (starIcon.voteValue > this.chosenRating) {
           starIcon.icon = this.emptyStar;
         } else {
           starIcon.icon = this.filledStar;
@@ -73,17 +75,17 @@ export default {
     },
 
     changeChosenRating(clickedStar) {
-      if (this.store.chosenRating === clickedStar.voteValue) {
-        this.store.chosenRating = 0;
+      if (this.chosenRating === clickedStar.voteValue) {
+        this.chosenRating = 0;
         clickedStar.icon = this.emptyStar;
       } else {
-        this.store.chosenRating = clickedStar.voteValue;
+        this.chosenRating = clickedStar.voteValue;
         clickedStar.icon = this.filledStar;
       }
     },
 
     animateClickedStar(clickedStar) {
-      this.store.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
+      this.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
       setTimeout(() => (clickedStar.class = String), 250);
     },
   },

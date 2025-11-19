@@ -1,4 +1,6 @@
 <template>
+  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
+
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
     <h3 class="text-2xl font-semibold mb-4 text-gray-800">Kommentarer</h3>
 
@@ -60,15 +62,14 @@
 <!-- Script -->
 
 <script>
-import { useChosenRatingStore } from '@/stores/chosenRating.js';
+import RatingSection from './RatingSection.vue';
 
 export default {
-  setup() { // Del av rating systemet
-    const store = useChosenRatingStore();
-    return { store };
-  },
-
   name: 'CommentSection',
+
+  components: {
+    RatingSection,
+  },
 
   props: {
     initialComments: {
@@ -89,6 +90,7 @@ export default {
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
+      chosenRating: Number, // Del av rating systemet
       newRating: Number, // Del av rating systemet
     };
   },
@@ -105,9 +107,9 @@ export default {
 
   watch: {
     commentSent() { // Del av rating systemet
-      if (this.store.chosenRating > 0 && this.commentSent) {
+      if (this.chosenRating > 0 && this.commentSent) {
         this.newRating =
-          (this.currentRating * this.currentTotalVotes + this.store.chosenRating) /
+          (this.currentRating * this.currentTotalVotes + this.chosenRating) /
           (this.currentTotalVotes + 1);
       }
     },
@@ -124,7 +126,7 @@ export default {
         },
       }).then(
         console.log(
-          'This vote: ' + this.store.chosenRating,
+          'This vote: ' + this.chosenRating,
           'New average rating: ' + this.currentRating,
           'New total votes: ' + this.currentTotalVotes,
         ),
