@@ -77,7 +77,7 @@ export default {
       default: () => [],
     },
 
-    currentRecipe: { // För rating systemet
+    currentRecipe: { // Del av rating systemet
       type: Object,
     },
   },
@@ -90,23 +90,31 @@ export default {
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
-      chosenRating: Number, // För rating systemet
-      newRating: Number, // För rating systemet
+      chosenRating: Number, // Del av rating systemet
+      newRating: Number, // Del av rating systemet
     };
   },
 
   computed: {
-    currentRating() { // För rating systemet
+    currentRating() { // Del av rating systemet
       return this.currentRecipe.rating.current_stars;
     },
 
-    currentTotalVotes() { // För rating systemet
+    currentTotalVotes() { // Del av rating systemet
       return this.currentRecipe.rating.total_votes;
     },
   },
 
   watch: {
-    newRating() { // För rating systemet
+    commentSent() { // Del av rating systemet
+      if (this.chosenRating > 0 && this.commentSent) {
+        this.newRating =
+          (this.currentRating * this.currentTotalVotes + this.chosenRating) /
+          (this.currentTotalVotes + 1);
+      }
+    },
+
+    newRating() { // Del av rating systemet
       fetch('../src/data/recept.json', {
         method: 'PATCH',
         body: JSON.stringify({
@@ -116,14 +124,13 @@ export default {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         },
-      })
-        .then(
-          console.log(
-            'This vote: ' + this.chosenRating,
-            'New average rating: ' + this.currentRating,
-            'New total votes: ' + this.currentTotalVotes,
-          ),
-        );
+      }).then(
+        console.log(
+          'This vote: ' + this.chosenRating,
+          'New average rating: ' + this.currentRating,
+          'New total votes: ' + this.currentTotalVotes,
+        ),
+      );
     },
   },
 
@@ -144,12 +151,6 @@ export default {
           text: this.comment,
           date: new Date().toLocaleDateString('sv-SE'),
         });
-
-        if (this.chosenRating > 0) { // För rating systemet
-          this.newRating =
-            (this.currentRating * this.currentTotalVotes + this.chosenRating) /
-            (this.currentTotalVotes + 1);
-        }
 
         this.name = '';
         this.comment = '';
