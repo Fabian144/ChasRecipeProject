@@ -62,7 +62,7 @@ export default {
     recipeAltText: String,
     recipeDescription: String,
     recipeIngredients: Array,
-    recipeCookingTime: String,
+    recipeCookingTime: Number,
     recipeRating: Number,
   },
 };
