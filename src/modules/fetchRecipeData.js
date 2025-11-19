@@ -1,4 +1,4 @@
-async function fetchAllRecipes() {
+export default async function fetchAllRecipes() {
   try {
     const response = await fetch(
       'REMOVED/REMOVED/recipes',
@@ -10,5 +10,3 @@ async function fetchAllRecipes() {
     console.error('Fetch failed:', error);
   }
 }
-
-export { fetchAllRecipes };
