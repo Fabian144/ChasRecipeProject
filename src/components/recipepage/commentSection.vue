@@ -77,8 +77,8 @@ export default {
       default: () => [],
     },
 
-    currentRecipe: { // Del av rating systemet
-      type: Object,
+    recipeId: { // Del av rating systemet
+      type: String,
     },
   },
 
@@ -91,40 +91,21 @@ export default {
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
       chosenRating: Number, // Del av rating systemet
-      newRating: Number, // Del av rating systemet
     };
-  },
-
-  computed: {
-    currentRating() { // Del av rating systemet
-      return this.currentRecipe.rating.current_stars;
-    },
-
-    currentTotalVotes() { // Del av rating systemet
-      return this.currentRecipe.rating.total_votes;
-    },
   },
 
   watch: {
     commentSent() { // Del av rating systemet
-      if (this.chosenRating > 0 && this.commentSent) {
-        this.newRating =
-          (this.currentRating * this.currentTotalVotes + this.chosenRating) /
-          (this.currentTotalVotes + 1);
-      }
-    },
-
-    newRating() { // Del av rating systemet
-      fetch('../src/data/recept.json', {
-        method: 'PATCH',
-        body: JSON.stringify({
-          current_stars: this.newRating,
-          total_votes: this.currentTotalVotes + 1,
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
+      fetch(
+        `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
+        {
+          headers: {
+            'Content-type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify(this.chosenRating),
         },
-      }).then(
+      ).then(
         console.log(
           'This vote: ' + this.chosenRating,
           'New average rating: ' + this.currentRating,
