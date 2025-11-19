@@ -38,6 +38,8 @@ export default {
         { voteValue: 4, icon: 'fa-regular fa-star', class: String },
         { voteValue: 5, icon: 'fa-regular fa-star', class: String },
       ],
+      emptyStar: 'fa-regular fa-star',
+      filledStar: 'fa-solid fa-star',
     };
   },
 
@@ -52,20 +54,12 @@ export default {
   },
 
   methods: {
-    emptyStar() {
-      return 'fa-regular fa-star';
-    },
-
-    filledStar() {
-      return 'fa-solid fa-star';
-    },
-
     hoveringOverStar(hoveredStar) {
       this.starIcons.forEach((starIcon) => {
         if (starIcon.voteValue <= hoveredStar.voteValue) {
-          starIcon.icon = this.filledStar();
+          starIcon.icon = this.filledStar;
         } else {
-          starIcon.icon = this.emptyStar();
+          starIcon.icon = this.emptyStar;
         }
       });
     },
@@ -73,9 +67,9 @@ export default {
     hoveringOutOfStar() {
       this.starIcons.forEach((starIcon) => {
         if (starIcon.voteValue > this.chosenRating) {
-          starIcon.icon = this.emptyStar();
+          starIcon.icon = this.emptyStar;
         } else {
-          starIcon.icon = this.filledStar();
+          starIcon.icon = this.filledStar;
         }
       });
     },
@@ -83,10 +77,10 @@ export default {
     changeChosenRating(clickedStar) {
       if (this.chosenRating === clickedStar.voteValue) {
         this.chosenRating = 0;
-				clickedStar.icon = this.emptyStar();
+        clickedStar.icon = this.emptyStar;
       } else {
         this.chosenRating = clickedStar.voteValue;
-        clickedStar.icon = this.filledStar();
+        clickedStar.icon = this.filledStar;
       }
     },
 
