@@ -99,18 +99,10 @@ export default {
       fetch(
         `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
         {
-          headers: {
-            'Content-type': 'application/json',
-          },
-          method: 'POST',
+				  method: 'POST',
+          headers: { 'Content-type': 'application/json' },
           body: JSON.stringify(this.chosenRating),
         },
-      ).then(
-        console.log(
-          'This vote: ' + this.chosenRating,
-          'New average rating: ' + this.currentRating,
-          'New total votes: ' + this.currentTotalVotes,
-        ),
       );
     },
   },
