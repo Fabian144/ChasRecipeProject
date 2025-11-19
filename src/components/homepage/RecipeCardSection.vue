@@ -4,16 +4,15 @@
       v-for="recipe in recipes"
       :key="recipe.id"
       :to="{ name: 'theRecipe', params: { recipeId: recipe.id } }"
-			:aria-label="`Länk till ${recipe.name} receptet`"
+			:aria-label="`Länk till ${recipe.title} receptet`"
     >
       <RecipeCard
-        :recipe-image="recipe.image"
-        :recipe-alt-text="recipe.name"
-        :recipe-name="recipe.name"
+        :recipe-alt-text="recipe.title"
+        :recipe-name="recipe.title"
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
-        :recipe-cooking-time="recipe.cooking_time"
-        :recipe-rating="recipe.rating.current_stars"
+        :recipe-cooking-time="recipe.timeInMins"
+        :recipe-rating="recipe.ratings"
       />
     </router-link>
   </div>

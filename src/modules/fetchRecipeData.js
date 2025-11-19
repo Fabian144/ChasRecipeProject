@@ -9,7 +9,9 @@ async function fetchData(url) {
   }
 }
 
-const data = await fetchData(`../src/data/recept.json`);
+const data = await fetchData(
+  `REMOVED/REMOVED/recipes/637c639a-1d94-43be-a347-8076dd69eb82`,
+);
 
 const recipes = data.recipes;
 
