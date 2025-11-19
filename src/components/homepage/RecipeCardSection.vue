@@ -12,7 +12,7 @@
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
         :recipe-cooking-time="recipe.timeInMins"
-        :recipe-rating="recipe.ratings"
+        :recipe-rating="recipe.ratings.length > 0 ? calculateAverageRating(recipe.ratings) : 0"
       />
     </router-link>
   </div>
@@ -35,6 +35,15 @@ export default {
 
   components: {
     RecipeCard,
+  },
+
+  methods: {
+    calculateAverageRating(ratings) {
+      return (
+        ratings.reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
+        ratings.length
+      );
+    },
   },
 };
 </script>
