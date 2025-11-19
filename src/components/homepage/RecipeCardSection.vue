@@ -4,34 +4,46 @@
       v-for="recipe in recipes"
       :key="recipe.id"
       :to="{ name: 'theRecipe', params: { recipeId: recipe.id } }"
-			:aria-label="`Länk till ${recipe.name} receptet`"
+      :aria-label="`Länk till ${recipe.title} receptet`"
     >
       <RecipeCard
-        :recipe-image="recipe.image"
-        :recipe-alt-text="recipe.name"
-        :recipe-name="recipe.name"
+        :recipe-alt-text="recipe.title"
+        :recipe-name="recipe.title"
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
-        :recipe-cooking-time="recipe.cooking_time"
-        :recipe-rating="recipe.rating.current_stars"
+        :recipe-cooking-time="recipe.timeInMins"
+        :recipe-rating="recipe.ratings.length > 0 ? calculateAverageRating(recipe.ratings) : 0"
       />
     </router-link>
   </div>
 </template>
 
 <script>
-import recipes from '../../modules/fetchRecipeData.js';
+import { fetchAllRecipes } from '../../modules/fetchRecipeData.js';
 import RecipeCard from './RecipeCard.vue';
 
 export default {
+  async mounted() {
+    this.recipes = await fetchAllRecipes();
+  },
+
   data() {
     return {
-      recipes,
+      recipes: Array,
     };
   },
 
   components: {
     RecipeCard,
+  },
+
+  methods: {
+    calculateAverageRating(ratings) {
+      return (
+        ratings.reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
+        ratings.length
+      );
+    },
   },
 };
 </script>
