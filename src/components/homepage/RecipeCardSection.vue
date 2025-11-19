@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import fetchAllRecipes from '../../modules/fetchRecipeData.js';
+import { fetchAllRecipes } from '../../modules/fetchRecipeData.js';
 import RecipeCard from './RecipeCard.vue';
 
 export default {

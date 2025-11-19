@@ -99,18 +99,10 @@ export default {
       fetch(
         `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
         {
-          headers: {
-            'Content-type': 'application/json',
-          },
-          method: 'POST',
+				  method: 'POST',
+          headers: { 'Content-type': 'application/json' },
           body: JSON.stringify(this.chosenRating),
         },
-      ).then(
-        console.log(
-          'This vote: ' + this.chosenRating,
-          'New average rating: ' + this.currentRating,
-          'New total votes: ' + this.currentTotalVotes,
-        ),
       );
     },
   },
