@@ -4,7 +4,7 @@
       v-for="recipe in recipes"
       :key="recipe.id"
       :to="{ name: 'theRecipe', params: { recipeId: recipe.id } }"
-			:aria-label="`Länk till ${recipe.title} receptet`"
+      :aria-label="`Länk till ${recipe.title} receptet`"
     >
       <RecipeCard
         :recipe-alt-text="recipe.title"
@@ -19,13 +19,17 @@
 </template>
 
 <script>
-import recipes from '../../modules/fetchRecipeData.js';
+import { fetchAllRecipes } from '../../modules/fetchRecipeData.js';
 import RecipeCard from './RecipeCard.vue';
 
 export default {
+  async mounted() {
+    this.recipes = await fetchAllRecipes();
+  },
+
   data() {
     return {
-      recipes,
+      recipes: Array,
     };
   },
 

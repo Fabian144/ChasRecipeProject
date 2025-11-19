@@ -1,6 +1,8 @@
-async function fetchData(url) {
+async function fetchAllRecipes() {
   try {
-    const response = await fetch(url);
+    const response = await fetch(
+      'REMOVED/REMOVED/recipes',
+    );
     if (!response.ok) throw new Error(`Status: ${response.status}`);
     const data = await response.json();
     return data;
@@ -9,10 +11,4 @@ async function fetchData(url) {
   }
 }
 
-const data = await fetchData(
-  `REMOVED/REMOVED/recipes/637c639a-1d94-43be-a347-8076dd69eb82`,
-);
-
-const recipes = data.recipes;
-
-export default recipes;
+export { fetchAllRecipes };
