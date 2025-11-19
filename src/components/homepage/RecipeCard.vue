@@ -63,7 +63,7 @@ export default {
     recipeDescription: String,
     recipeIngredients: Array,
     recipeCookingTime: Number,
-    recipeRating: Array,
+    recipeRating: Number,
   },
 };
 </script>
