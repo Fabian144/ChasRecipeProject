@@ -1,11 +1,9 @@
 <template>
-  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
-  <CommentSection :current-recipe="currentRecipe" />
+  <CommentSection :current-recipe="currentRecipe"/>
 </template>
 
 <script>
 import CommentSection from '../components/recipepage/commentSection.vue';
-import RatingSection from '../components/recipepage/RatingSection.vue';
 import recipes from '@/modules/fetchRecipeData';
 
 export default {
@@ -40,7 +38,6 @@ export default {
 
   components: {
     CommentSection,
-    RatingSection,
   },
 };
 </script>
