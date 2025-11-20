@@ -19,23 +19,14 @@
 </template>
 
 <script>
-import { fetchAllRecipes } from '../../modules/fetchRecipeData.js';
 import RecipeCard from './RecipeCard.vue';
 
 export default {
-  async mounted() {
-    this.recipes = await fetchAllRecipes();
-  },
-
-  data() {
-    return {
-      recipes: Array,
-    };
-  },
-
   components: {
     RecipeCard,
   },
+
+  props: ['recipes'],
 
   methods: {
     calculateAverageRating(ratings) {
@@ -54,7 +45,7 @@ export default {
   flex-direction: column;
   gap: 1em;
   margin: 0 1em 1em;
-	width: 100%;
+  width: 100%;
 }
 
 .recipe-cards-container > a:focus-visible {
@@ -63,7 +54,7 @@ export default {
 
 @media (max-width: 991px) {
   .recipe-cards-container {
-		align-items: center;
+    align-items: center;
   }
 }
 </style>
