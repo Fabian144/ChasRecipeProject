@@ -57,6 +57,8 @@
       </li>
     </ul>
   </div>
+
+  <p v-if="error" class="rating-error-message">{{ error }}</p>
 </template>
 
 <!-- Script -->
@@ -77,7 +79,7 @@ export default {
       default: () => [],
     },
 
-    recipeId: { // Del av rating systemet
+    recipeId: { // Del av omdömes systemet
       type: String,
     },
   },
@@ -90,20 +92,29 @@ export default {
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
-      chosenRating: Number, // Del av rating systemet
+      chosenRating: Number, // Del av omdömes systemet
     };
   },
 
   watch: {
-    commentSent() { // Del av rating systemet
+    commentSent() { // Del av omdömes systemet
       fetch(
         `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
         {
-				  method: 'POST',
+          method: 'POST',
           headers: { 'Content-type': 'application/json' },
           body: JSON.stringify(this.chosenRating),
         },
-      );
+      )
+        .then((response) => {
+          if (!response.ok) {
+            this.error = `Misslyckades att skicka omdöme: Status ${response.status}`;
+            throw new Error(`Status: ${response.status}`);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 
@@ -227,5 +238,12 @@ button:hover {
   color: #6b7280;
   float: right;
   margin-top: 5px;
+}
+
+.rating-error-message { /* Del av omdömes systemet */
+  width: fit-content;
+  margin: auto;
+  color: rgb(255, 65, 65);
+  font-size: 1.5em;
 }
 </style>
