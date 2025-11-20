@@ -7,8 +7,8 @@ import CommentSection from '../components/recipepage/commentSection.vue';
 import { fetchRecipe } from '../modules/fetchRecipeData.js';
 
 export default {
-  async mounted() {
-    this.currentRecipe = await fetchRecipe(this.recipeId);
+  components: {
+    CommentSection,
   },
 
   data() {
@@ -23,8 +23,8 @@ export default {
     },
   },
 
-  components: {
-    CommentSection,
+  async mounted() {
+    this.currentRecipe = await fetchRecipe(this.recipeId);
   },
 };
 </script>
