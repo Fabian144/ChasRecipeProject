@@ -2,10 +2,15 @@
   <!-- Del av omdömes systemet -->
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
 
-  <div
-    v-if="!fetchError"
-    class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md"
-  >
+  <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
+    <!-- Del av omdömes systemet -->
+    <div v-if="fetchError" class="rating-error-message">
+      <p>
+        Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme <br /><br />
+        Status:{{ fetchError }}
+      </p>
+    </div>
+
     <h3 class="text-2xl font-semibold mb-4 text-gray-800">Kommentarer</h3>
 
     <!-- Formulär -->
@@ -61,9 +66,6 @@
       </li>
     </ul>
   </div>
-
-  <!-- Del av omdömes systemet -->
-  <p v-if="fetchError" class="rating-error-message">{{ fetchError }}</p>
 </template>
 
 <script>
@@ -82,8 +84,7 @@ export default {
       default: () => [],
     },
 
-    recipeId: {
-      // Del av omdömes systemet
+    recipeId: { // Del av omdömes systemet
       type: String,
     },
   },
@@ -93,7 +94,7 @@ export default {
       name: '',
       comment: '',
       error: '',
-      fetchError: '',
+      fetchError: false, // Del av omdömes systemet
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
@@ -102,8 +103,7 @@ export default {
   },
 
   watch: {
-    async isSending() {
-      // Del av omdömes systemet
+    async isSending() { // Del av omdömes systemet
       if (this.chosenRating > 0 && this.isSending) {
         try {
           const response = await fetch(
@@ -115,7 +115,7 @@ export default {
             },
           );
           if (!response.ok) {
-            this.fetchError = `Misslyckades att skicka omdöme: Status ${response.status}`;
+            this.fetchError = `${response.status}`;
             throw new Error(`Status: ${response.status}`);
           }
         } catch (error) {
@@ -129,24 +129,28 @@ export default {
     submitComment() {
       if (!this.name.trim() || !this.comment.trim()) {
         this.error = 'Du måste fylla i både namn och kommentar.';
-      } else if (!this.fetchError) {
-        this.error = '';
-        this.isSending = true;
+      }
 
-        setTimeout(() => {
+			this.fetchError = false;
+      this.error = '';
+      this.isSending = true;
+
+      setTimeout(() => {
+        if (!this.fetchError) {
           this.comments.unshift({
             id: Date.now(),
             name: this.name,
             text: this.comment,
             date: new Date().toLocaleDateString('sv-SE'),
           });
-
           this.name = '';
           this.comment = '';
           this.commentSent = true;
           this.isSending = false;
-        }, 1000);
-      }
+        } else {
+          this.isSending = false;
+        }
+      }, 1000);
     },
   },
 };
@@ -247,7 +251,6 @@ button:hover {
   /* Del av omdömes systemet */
   width: fit-content;
   margin: 1em auto;
-  color: rgb(255, 65, 65);
-  font-size: 1.5em;
+  text-align: center;
 }
 </style>
