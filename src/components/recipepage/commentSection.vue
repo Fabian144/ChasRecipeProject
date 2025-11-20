@@ -2,7 +2,10 @@
   <!-- Del av omdömes systemet -->
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
 
-  <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
+  <div
+    v-if="!fetchError"
+    class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md"
+  >
     <h3 class="text-2xl font-semibold mb-4 text-gray-800">Kommentarer</h3>
 
     <!-- Formulär -->
@@ -60,7 +63,7 @@
   </div>
 
   <!-- Del av omdömes systemet -->
-  <p v-if="error" class="rating-error-message">{{ error }}</p>
+  <p v-if="fetchError" class="rating-error-message">{{ fetchError }}</p>
 </template>
 
 <script>
@@ -90,6 +93,7 @@ export default {
       name: '',
       comment: '',
       error: '',
+      fetchError: '',
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
@@ -98,23 +102,25 @@ export default {
   },
 
   watch: {
-    async commentSent() { // Del av omdömes systemet
-      try {
-        const response = await fetch(
-          `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
-          {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(this.chosenRating),
-          },
-        );
-        if (!response.ok) {
-          this.error = `Misslyckades att skicka omdöme: Status ${response.status}`;
-          throw new Error(`Status: ${response.status}`);
+    async isSending() {
+      // Del av omdömes systemet
+      if (this.chosenRating > 0 && this.isSending) {
+        try {
+          const response = await fetch(
+            `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
+            {
+              method: 'POST',
+              headers: { 'Content-type': 'application/json' },
+              body: JSON.stringify(this.chosenRating),
+            },
+          );
+          if (!response.ok) {
+            this.fetchError = `Misslyckades att skicka omdöme: Status ${response.status}`;
+            throw new Error(`Status: ${response.status}`);
+          }
+        } catch (error) {
+          console.error('Fetch failed:', error);
         }
-        this.recipes = await response.json();
-      } catch (error) {
-        console.error('Fetch failed:', error);
       }
     },
   },
@@ -123,25 +129,24 @@ export default {
     submitComment() {
       if (!this.name.trim() || !this.comment.trim()) {
         this.error = 'Du måste fylla i både namn och kommentar.';
-        return;
+      } else if (!this.fetchError) {
+        this.error = '';
+        this.isSending = true;
+
+        setTimeout(() => {
+          this.comments.unshift({
+            id: Date.now(),
+            name: this.name,
+            text: this.comment,
+            date: new Date().toLocaleDateString('sv-SE'),
+          });
+
+          this.name = '';
+          this.comment = '';
+          this.commentSent = true;
+          this.isSending = false;
+        }, 1000);
       }
-
-      this.error = '';
-      this.isSending = true;
-
-      setTimeout(() => {
-        this.comments.unshift({
-          id: Date.now(),
-          name: this.name,
-          text: this.comment,
-          date: new Date().toLocaleDateString('sv-SE'),
-        });
-
-        this.name = '';
-        this.comment = '';
-        this.commentSent = true;
-        this.isSending = false;
-      }, 1000);
     },
   },
 };
@@ -241,7 +246,7 @@ button:hover {
 .rating-error-message {
   /* Del av omdömes systemet */
   width: fit-content;
-  margin: auto;
+  margin: 1em auto;
   color: rgb(255, 65, 65);
   font-size: 1.5em;
 }
