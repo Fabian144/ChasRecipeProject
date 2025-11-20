@@ -1,7 +1,7 @@
 <template>
   <article class="recipe-card">
     <figure class="recipe-image-container">
-      <img class="recipe-image" :src="recipeImage" :alt="recipeAltText" />
+      <img class="recipe-image" :src="recipeImage" :alt="recipeName" />
     </figure>
 
     <div class="recipe-info-container">
@@ -59,7 +59,6 @@ export default {
   props: {
     recipeImage: String,
     recipeName: String,
-    recipeAltText: String,
     recipeDescription: String,
     recipeIngredients: Array,
     recipeCookingTime: Number,
@@ -74,13 +73,8 @@ export default {
   display: inline-grid;
   color: black;
   text-decoration: none;
-  margin: 0;
-  max-width: 40em;
+  max-width: 35em;
   width: 100%;
-}
-
-.recipe-card:hover {
-  box-shadow: #00000096 1px 1px 10px 1px;
 }
 
 .recipe-image-container {
@@ -92,8 +86,9 @@ export default {
 }
 
 .recipe-image {
-  width: 100%;
   border: solid black 4px;
+  max-width: 100%;
+	object-fit: cover
 }
 
 .recipe-heading {
@@ -137,11 +132,15 @@ hr {
   margin: 1em auto;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .recipe-card {
-    grid-template-columns: 1fr 12fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
     max-width: unset;
+  }
+
+  .recipe-card:hover {
+    box-shadow: #00000096 1px 1px 10px 1px;
   }
 
   .recipe-image-container {
@@ -152,8 +151,8 @@ hr {
   }
 
   .recipe-image {
-    width: 23em;
-    max-width: unset;
+    width: 31.25em;
+    height: 20em;
   }
 
   .recipe-heading {
@@ -162,7 +161,7 @@ hr {
   }
 
   .recipe-star-container {
-    margin-top: 0.5em;
+    margin-top: 0.25em;
   }
 
   .recipe-info-container {
@@ -177,13 +176,6 @@ hr {
     grid-column-start: 2;
     grid-column-end: 4;
     padding-right: 1em;
-  }
-}
-
-@media (min-width: 1200px) {
-  .recipe-image {
-    max-width: unset;
-    width: unset;
   }
 }
 </style>
