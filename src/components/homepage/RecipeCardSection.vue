@@ -7,7 +7,7 @@
       :aria-label="`Länk till ${recipe.title} receptet`"
     >
       <RecipeCard
-        :recipe-alt-text="recipe.title"
+        :recipe-image="recipe.imageUrl"
         :recipe-name="recipe.title"
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
@@ -54,16 +54,16 @@ export default {
   flex-direction: column;
   gap: 1em;
   margin: 0 1em 1em;
+	width: 100%;
 }
 
-.recipe-cards-container > a:focus {
+.recipe-cards-container > a:focus-visible {
   outline: solid black 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .recipe-cards-container {
-    margin: 0 auto 1em;
-    max-width: 92.5%;
+		align-items: center;
   }
 }
 </style>
