@@ -1,4 +1,5 @@
 <template>
+	<!-- Del av omdömes systemet -->
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
 
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
@@ -58,10 +59,9 @@
     </ul>
   </div>
 
+	<!-- Del av omdömes systemet -->
   <p v-if="error" class="rating-error-message">{{ error }}</p>
 </template>
-
-<!-- Script -->
 
 <script>
 import RatingSection from './RatingSection.vue';
@@ -145,9 +145,6 @@ export default {
   },
 };
 </script>
--->
-
-<!-- CSS -->
 
 <style scoped>
 .comment-section {
