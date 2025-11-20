@@ -1,5 +1,10 @@
 <template>
-  <div v-if="error" class="error-message">Misslyckades med att ladda in recepten <br> Status: {{ error }}</div>
+  <div v-if="error" class="error-message">
+    <h1>
+      Recepten kunde inte laddas in eller hittas inte <br />
+      Status: {{ error }}
+    </h1>
+  </div>
 
   <div class="loading-container" v-if="loading">
     <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
@@ -14,10 +19,14 @@
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
+  components: {
+    RecipeCardSection,
+  },
+
   data() {
     return {
       recipes: Array,
-      error: '',
+      error: false,
       loading: true,
     };
   },
@@ -56,7 +65,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5em;
-	text-align: center;
+  text-align: center;
 }
 </style>
