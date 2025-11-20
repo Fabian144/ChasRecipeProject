@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
-    <h1>404 – Page Not Found</h1>
-    <p>The page you are looking for does not exist.</p>
+    <h1>404 – Den här sidan finns inte</h1>
+    <a href="/">Gå till startsidan</a>
   </div>
 </template>
 
@@ -14,5 +14,9 @@
   flex-direction: column;
 	align-items: center;
 	justify-content: center;
+}
+
+a {
+	font-size: 1.25em;
 }
 </style>
