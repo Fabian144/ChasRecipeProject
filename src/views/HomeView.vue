@@ -1,6 +1,10 @@
 <template>
   <div v-if="error" class="error-message">{{ error }}</div>
 
+  <div class="loading-container" v-if="loading">
+    <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
+  </div>
+
   <main v-else class="recipe-card-section">
     <RecipeCardSection :recipes="recipes" />
   </main>
@@ -14,6 +18,7 @@ export default {
     return {
       recipes: Array,
       error: '',
+      loading: true,
     };
   },
 
@@ -27,10 +32,12 @@ export default {
         'REMOVED/REMOVED/recipes',
       );
       if (!response.ok) {
+        this.loading = false;
         this.error = `Misslyckades att ladda in recept: Status ${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
+      this.loading = false;
     } catch (error) {
       console.error('Fetch failed:', error);
     }
