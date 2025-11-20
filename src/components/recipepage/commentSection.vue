@@ -1,5 +1,5 @@
 <template>
-	<!-- Del av omdömes systemet -->
+  <!-- Del av omdömes systemet -->
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
 
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
@@ -59,7 +59,7 @@
     </ul>
   </div>
 
-	<!-- Del av omdömes systemet -->
+  <!-- Del av omdömes systemet -->
   <p v-if="error" class="rating-error-message">{{ error }}</p>
 </template>
 
@@ -79,7 +79,8 @@ export default {
       default: () => [],
     },
 
-    recipeId: { // Del av omdömes systemet
+    recipeId: {
+      // Del av omdömes systemet
       type: String,
     },
   },
@@ -97,24 +98,24 @@ export default {
   },
 
   watch: {
-    commentSent() { // Del av omdömes systemet
-      fetch(
-        `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
-        {
-          method: 'POST',
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify(this.chosenRating),
-        },
-      )
-        .then((response) => {
-          if (!response.ok) {
-            this.error = `Misslyckades att skicka omdöme: Status ${response.status}`;
-            throw new Error(`Status: ${response.status}`);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    async commentSent() { // Del av omdömes systemet
+      try {
+        const response = await fetch(
+          `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
+          {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(this.chosenRating),
+          },
+        );
+        if (!response.ok) {
+          this.error = `Misslyckades att skicka omdöme: Status ${response.status}`;
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.recipes = await response.json();
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
     },
   },
 
@@ -237,7 +238,8 @@ button:hover {
   margin-top: 5px;
 }
 
-.rating-error-message { /* Del av omdömes systemet */
+.rating-error-message {
+  /* Del av omdömes systemet */
   width: fit-content;
   margin: auto;
   color: rgb(255, 65, 65);
