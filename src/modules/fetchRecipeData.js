@@ -15,19 +15,6 @@ const recipes = data.recipes;
 
 export default recipes;
 
-export async function fetchAllRecipes() {
-  try {
-    const response = await fetch(
-      'REMOVED/REMOVED/recipes',
-    );
-    if (!response.ok) throw new Error(`Status: ${response.status}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Fetch failed:', error);
-  }
-}
-
 export async function fetchRecipe(id) {
   try {
     const response = await fetch(

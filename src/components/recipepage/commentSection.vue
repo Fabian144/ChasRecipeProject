@@ -1,4 +1,5 @@
 <template>
+  <!-- Del av omdömes systemet -->
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
 
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
@@ -57,9 +58,10 @@
       </li>
     </ul>
   </div>
-</template>
 
-<!-- Script -->
+  <!-- Del av omdömes systemet -->
+  <p v-if="error" class="rating-error-message">{{ error }}</p>
+</template>
 
 <script>
 import RatingSection from './RatingSection.vue';
@@ -77,7 +79,8 @@ export default {
       default: () => [],
     },
 
-    recipeId: { // Del av rating systemet
+    recipeId: {
+      // Del av omdömes systemet
       type: String,
     },
   },
@@ -90,20 +93,29 @@ export default {
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
-      chosenRating: Number, // Del av rating systemet
+      chosenRating: Number, // Del av omdömes systemet
     };
   },
 
   watch: {
-    commentSent() { // Del av rating systemet
-      fetch(
-        `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
-        {
-				  method: 'POST',
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify(this.chosenRating),
-        },
-      );
+    async commentSent() { // Del av omdömes systemet
+      try {
+        const response = await fetch(
+          `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
+          {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(this.chosenRating),
+          },
+        );
+        if (!response.ok) {
+          this.error = `Misslyckades att skicka omdöme: Status ${response.status}`;
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.recipes = await response.json();
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
     },
   },
 
@@ -134,9 +146,6 @@ export default {
   },
 };
 </script>
--->
-
-<!-- CSS -->
 
 <style scoped>
 .comment-section {
@@ -227,5 +236,13 @@ button:hover {
   color: #6b7280;
   float: right;
   margin-top: 5px;
+}
+
+.rating-error-message {
+  /* Del av omdömes systemet */
+  width: fit-content;
+  margin: auto;
+  color: rgb(255, 65, 65);
+  font-size: 1.5em;
 }
 </style>
