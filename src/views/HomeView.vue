@@ -1,5 +1,5 @@
 <template>
-  <div v-if="error" class="error-message">{{ error }}</div>
+  <div v-if="error" class="error-message">Misslyckades med att ladda in recepten <br> Status: {{ error }}</div>
 
   <div class="loading-container" v-if="loading">
     <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
@@ -33,7 +33,7 @@ export default {
       );
       if (!response.ok) {
         this.loading = false;
-        this.error = `Misslyckades att ladda in recept: Status ${response.status}`;
+        this.error = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
@@ -57,6 +57,6 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 1.5em;
-  color: rgb(77, 77, 77);
+	text-align: center;
 }
 </style>

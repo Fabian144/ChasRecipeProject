@@ -7,7 +7,7 @@
     <div v-if="fetchError" class="rating-error-message">
       <p>
         Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme <br /><br />
-        Status:{{ fetchError }}
+        Status: {{ fetchError }}
       </p>
     </div>
 
