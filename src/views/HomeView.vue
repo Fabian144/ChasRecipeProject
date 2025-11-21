@@ -15,10 +15,12 @@
     <p class="loading-text">Laddar...</p>
   </div>
 
-  <nav></nav>
-  <main class="recipe-card-section">
-    <RecipeCardSection :recipes="recipes" />
-  </main>
+  <div v-else>
+    <nav></nav>
+    <main class="recipe-card-section">
+      <RecipeCardSection :recipes="recipes" />
+    </main>
+  </div>
 </template>
 
 <script>
