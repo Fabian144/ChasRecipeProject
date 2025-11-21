@@ -15,7 +15,8 @@
     <p class="loading-text">Laddar...</p>
   </div>
 
-  <main v-else class="recipe-card-section">
+  <nav></nav>
+  <main class="recipe-card-section">
     <RecipeCardSection :recipes="recipes" />
   </main>
 </template>
@@ -71,5 +72,15 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  nav {
+    height: 100dvh;
+    width: 15em;
+    max-width: 16%;
+    float: left;
+    background-color: black;
+  }
 }
 </style>
