@@ -16,7 +16,9 @@
     <p class="loading-text">Laddar...</p>
   </div>
 
-  <CommentSection :recipe-id="recipeId" />
+  <div v-else>
+    <CommentSection :recipe-id="recipeId" />
+  </div>
 </template>
 
 <script>
