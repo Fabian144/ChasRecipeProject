@@ -8,7 +8,12 @@
   </div>
 
   <div class="loading-container" v-if="loading">
-    <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
+    <img
+      src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png"
+      alt="Julgran"
+      class="loading-icon"
+    />
+    <p class="loading-text">Laddar...</p>
   </div>
 
   <CommentSection :recipe-id="recipeId" />

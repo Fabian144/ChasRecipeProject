@@ -10,16 +10,22 @@ body {
 }
 
 .loading-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100vw;
-	height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
 }
 
-.loading {
+.loading-icon {
   width: 150px;
   animation: spin 2s linear infinite;
+}
+
+.loading-text {
+  font-size: 1.25em;
+  margin: 0;
 }
 
 @keyframes spin {
