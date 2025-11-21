@@ -70,9 +70,14 @@ export default {
 <style scoped>
 .recipe-card {
   background-color: #c3c3c3;
-  display: inline-grid;
+  display: inline-block;
   color: black;
   text-decoration: none;
+  max-width: 25em;
+}
+
+.recipe-card:active {
+  box-shadow: #00000096 1px 1px 10px 1px;
 }
 
 .recipe-image-container {
@@ -86,6 +91,8 @@ export default {
 .recipe-image {
   border: solid black 4px;
   max-width: 100%;
+  max-height: 17em;
+  width: 25em;
   object-fit: cover;
 }
 
@@ -123,64 +130,12 @@ hr {
   align-self: center;
   width: fit-content;
   margin: 1em auto;
+	font-size: 0.9em;
 }
 
-@media (min-width: 768px) {
-  .recipe-image {
-    width: 100%;
-    height: 16em;
-  }
-}
-
-@media (min-width: 992px) {
-  .recipe-card {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr;
-    max-width: unset;
-  }
-
+@media (min-width: 526px) {
   .recipe-card:hover {
     box-shadow: #00000096 1px 1px 10px 1px;
-  }
-
-  .recipe-image-container {
-    align-self: center;
-    padding: 1.25em;
-    grid-row-start: 1;
-    grid-row-end: 3;
-  }
-
-  .recipe-image {
-    width: 18em;
-    height: 13em;
-  }
-
-  .recipe-heading {
-    margin: 0.35em 0 0;
-  }
-
-  .recipe-star-container {
-    margin-top: 0.25em;
-  }
-
-  .recipe-info-container {
-    padding: 1em 1em 0;
-  }
-
-  hr {
-    margin: 0;
-  }
-
-  .recipe-bottom-container {
-    grid-column-start: 2;
-    grid-column-end: 4;
-    padding-right: 1em;
-  }
-}
-
-@media (min-width: 1200px) {
-  .recipe-card {
-    min-height: 17.5em;
   }
 }
 </style>

@@ -42,23 +42,22 @@ export default {
 <style scoped>
 .recipe-cards-container {
   display: flex;
-  flex-direction: row;
-  gap: 1em;
-  margin: 0 1em 1em;
+  flex-direction: column;
+  gap: 0.75em;
+  margin: 0 0.75em 0.75em;
   width: 100%;
-}
-
-.recipe-cards-container > a {
-  height: fit-content;
+  align-items: center;
 }
 
 .recipe-cards-container > a:focus-visible {
   outline: solid black 2px;
 }
 
-@media (max-width: 525px) {
+@media (min-width: 526px) {
   .recipe-cards-container {
-    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
 </style>
