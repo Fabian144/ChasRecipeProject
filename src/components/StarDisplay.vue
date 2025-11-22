@@ -1,7 +1,7 @@
 <template>
   <font-awesome-icon
     v-for="starIcon in starIcons"
-    :icon="starIcon.value <= Math.round(ratingValue) ? 'fa-solid fa-star' : 'fa-regular fa-star'"
+    :icon="starIcon.value <= Math.round(ratingValue) ? filledStar : emptyStar"
   />
 </template>
 
@@ -29,6 +29,8 @@ export default {
   data() {
     return {
       starIcons: [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }],
+      filledStar: 'fa-solid fa-star',
+      emptyStar: 'fa-regular fa-star',
     };
   },
 };
@@ -37,6 +39,6 @@ export default {
 <style scoped>
 .fa-star {
   width: 100%;
-	height: 100%;
+  height: 100%;
 }
 </style>
