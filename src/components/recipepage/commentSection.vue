@@ -60,6 +60,12 @@
         <div class="flex justify-between items-center mb-1">
           <strong class="text-gray-800">{{ c.name }}</strong>
           <small class="text-gray-500 text-xs">{{ c.date }}</small>
+          <div
+            class="chosen-star-container"
+            :aria-label="`Du har gett receptet ett omdöme på ${chosenRating} av 5 stjärnor`"
+          >
+            <StarDisplay :rating-value="chosenRating" />
+          </div>
         </div>
         <p class="text-gray-700">{{ c.text }}</p>
       </li>
@@ -69,12 +75,14 @@
 
 <script>
 import RatingSection from './RatingSection.vue';
+import StarDisplay from '../StarDisplay.vue';
 
 export default {
   name: 'CommentSection',
 
   components: {
     RatingSection,
+    StarDisplay,
   },
 
   props: {
@@ -83,7 +91,8 @@ export default {
       default: () => [],
     },
 
-    recipeId: { // Del av omdömes systemet
+    recipeId: {
+      // Del av omdömes systemet
       type: String,
     },
   },
@@ -102,7 +111,8 @@ export default {
   },
 
   watch: {
-    async isSending() { // Del av omdömes systemet
+    async isSending() {
+      // Del av omdömes systemet
       if (this.chosenRating > 0 && this.isSending) {
         try {
           const response = await fetch(
@@ -252,5 +262,13 @@ button:hover {
   width: fit-content;
   margin: 1em auto;
   text-align: center;
+}
+
+.chosen-star-container {
+  /* Del av omdömes systemet */
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  width: 7em;
 }
 </style>
