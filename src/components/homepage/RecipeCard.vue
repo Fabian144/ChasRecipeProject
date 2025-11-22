@@ -109,10 +109,16 @@ hr {
   align-self: center;
   width: fit-content;
   margin: 1em auto;
-	font-size: 0.9em;
+  font-size: 0.9em;
 }
 
 @media (min-width: 526px) {
+	.recipe-card{
+		min-height: 15em;
+	}
+}
+
+@media (min-width: 768px) {
   .recipe-card:hover {
     box-shadow: #00000096 1px 1px 10px 1px;
   }
