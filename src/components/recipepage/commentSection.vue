@@ -1,13 +1,10 @@
 <template>
-  <!-- Del av omdömes systemet -->
   <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
 
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
-    <!-- Del av omdömes systemet -->
     <div v-if="fetchError" class="rating-error-message">
       <p>
-        Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme <br /><br />
-        Status: {{ fetchError }}
+        {{ fetchError }}
       </p>
     </div>
 
@@ -52,7 +49,7 @@
     <p v-else class="text-green-600 font-semibold text-center my-3">Tack för din kommentar!</p>
 
     <!-- Kommentarlista -->
-    <ul class="mt-6 space-y-4">
+    <ul v-if="!fetchError" class="mt-6 space-y-4">
       <li
         v-for="c in comments"
         :key="c.id"
@@ -61,6 +58,13 @@
         <div class="flex justify-between items-center mb-1">
           <strong class="text-gray-800">{{ c.name }}</strong>
           <small class="text-gray-500 text-xs">{{ c.date }}</small>
+          <div
+            v-if="!fetchError && chosenRating > 0"
+            class="chosen-star-container"
+            :aria-label="`Du har gett receptet ett omdöme på ${chosenRating} av 5 stjärnor`"
+          >
+            <StarDisplay :rating-value="chosenRating" />
+          </div>
         </div>
         <p class="text-gray-700">{{ c.text }}</p>
       </li>
@@ -70,12 +74,14 @@
 
 <script>
 import RatingSection from './RatingSection.vue';
+import StarDisplay from '../StarDisplay.vue';
 
 export default {
   name: 'CommentSection',
 
   components: {
     RatingSection,
+    StarDisplay,
   },
 
   props: {
@@ -84,7 +90,7 @@ export default {
       default: () => [],
     },
 
-    recipeId: { // Del av omdömes systemet
+    recipeId: {
       type: String,
     },
   },
@@ -94,7 +100,7 @@ export default {
       name: '',
       comment: '',
       error: '',
-      fetchError: false, // Del av omdömes systemet
+      fetchError: false,
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
@@ -103,7 +109,8 @@ export default {
   },
 
   watch: {
-    async isSending() { // Del av omdömes systemet
+    async isSending() {
+      // Del av omdömes systemet
       if (this.chosenRating > 0 && this.isSending) {
         try {
           const response = await fetch(
@@ -115,7 +122,8 @@ export default {
             },
           );
           if (!response.ok) {
-            this.fetchError = `${response.status}`;
+            this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
+						Status: ${response.status}`;
             throw new Error(`Status: ${response.status}`);
           }
         } catch (error) {
@@ -131,7 +139,7 @@ export default {
         this.error = 'Du måste fylla i både namn och kommentar.';
       }
 
-			this.fetchError = false;
+      this.fetchError = false;
       this.error = '';
       this.isSending = true;
 
@@ -252,5 +260,13 @@ button:hover {
   width: fit-content;
   margin: 1em auto;
   text-align: center;
+}
+
+.chosen-star-container {
+  /* Del av omdömes systemet */
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  width: 7em;
 }
 </style>
