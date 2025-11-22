@@ -85,8 +85,8 @@ export default {
 .recipe-star-container {
   margin-top: 0.25em;
   display: flex;
-	flex-direction: row;
-	width: 9em;
+  flex-direction: row;
+  width: 9em;
 }
 
 .recipe-info-container {
@@ -110,7 +110,13 @@ hr {
 	font-size: 0.9em;
 }
 
-@media (min-width: 526px) {
+@media (min-width: 992px) {
+  .recipe-card {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    max-width: unset;
+  }
+
   .recipe-card:hover {
     box-shadow: #00000096 1px 1px 10px 1px;
   }
@@ -123,12 +129,11 @@ hr {
   }
 
   .recipe-image {
-    width: 31.25em;
-    height: 20em;
+    width: 18em;
+    height: 13em;
   }
 
   .recipe-heading {
-    font-size: 2.4em;
     margin: 0.35em 0 0;
   }
 
@@ -148,6 +153,12 @@ hr {
     grid-column-start: 2;
     grid-column-end: 4;
     padding-right: 1em;
+  }
+}
+
+@media (min-width: 1200px) {
+  .recipe-card {
+    min-height: 17.5em;
   }
 }
 </style>

@@ -49,6 +49,10 @@ export default {
   align-items: center;
 }
 
+.recipe-cards-container > a {
+  height: fit-content;
+}
+
 .recipe-cards-container > a:focus-visible {
   outline: solid black 2px;
 }
