@@ -6,8 +6,7 @@
     <!-- Del av omdömes systemet -->
     <div v-if="fetchError" class="rating-error-message">
       <p>
-        Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme <br /><br />
-        Status: {{ fetchError }}
+        {{ fetchError }}
       </p>
     </div>
 
@@ -115,7 +114,8 @@ export default {
             },
           );
           if (!response.ok) {
-            this.fetchError = `${response.status}`;
+            this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
+						Status: ${response.status}`;
             throw new Error(`Status: ${response.status}`);
           }
         } catch (error) {
@@ -131,7 +131,7 @@ export default {
         this.error = 'Du måste fylla i både namn och kommentar.';
       }
 
-			this.fetchError = false;
+      this.fetchError = false;
       this.error = '';
       this.isSending = true;
 
