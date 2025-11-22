@@ -13,12 +13,7 @@
         class="recipe-star-container"
         :aria-label="`Receptet har ett omdöme på ${Math.round(recipeRating)} av 5 stjärnor`"
       >
-        <font-awesome-icon
-          v-for="starIcon in starIcons"
-          :icon="
-            starIcon.rating <= Math.round(recipeRating) ? 'fa-solid fa-star' : 'fa-regular fa-star'
-          "
-        />
+        <StarDisplay :rating-value="recipeRating" />
       </div>
 
       <p class="recipe-description">
@@ -36,26 +31,9 @@
 </template>
 
 <script>
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-
-library.add(fas, far, faStar);
+import StarDisplay from '../StarDisplay.vue';
 
 export default {
-  data() {
-    return {
-      starIcons: [{ rating: 1 }, { rating: 2 }, { rating: 3 }, { rating: 4 }, { rating: 5 }],
-    };
-  },
-
-  components: {
-    FontAwesomeIcon,
-  },
-
   props: {
     recipeImage: String,
     recipeName: String,
@@ -63,6 +41,10 @@ export default {
     recipeIngredients: Array,
     recipeCookingTime: Number,
     recipeRating: Number,
+  },
+
+  components: {
+    StarDisplay,
   },
 };
 </script>
@@ -91,8 +73,6 @@ export default {
 .recipe-image {
   border: solid black 4px;
   max-width: 100%;
-  max-height: 17em;
-  width: 25em;
   object-fit: cover;
 }
 
@@ -103,13 +83,10 @@ export default {
 }
 
 .recipe-star-container {
-  margin-top: 0.5em;
-  width: fit-content;
-}
-
-.recipe-star-container > .fa-star {
-  font-size: 1.4em;
-  margin: -1px;
+  margin-top: 0.25em;
+  display: flex;
+	flex-direction: row;
+	width: 9em;
 }
 
 .recipe-info-container {
@@ -136,6 +113,41 @@ hr {
 @media (min-width: 526px) {
   .recipe-card:hover {
     box-shadow: #00000096 1px 1px 10px 1px;
+  }
+
+  .recipe-image-container {
+    align-self: center;
+    padding: 1.25em;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+
+  .recipe-image {
+    width: 31.25em;
+    height: 20em;
+  }
+
+  .recipe-heading {
+    font-size: 2.4em;
+    margin: 0.35em 0 0;
+  }
+
+  .recipe-star-container {
+    margin-top: 0.25em;
+  }
+
+  .recipe-info-container {
+    padding: 1em 1em 0;
+  }
+
+  hr {
+    margin: 0;
+  }
+
+  .recipe-bottom-container {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    padding-right: 1em;
   }
 }
 </style>
