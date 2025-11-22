@@ -73,6 +73,8 @@ export default {
 .recipe-image {
   border: solid black 4px;
   max-width: 100%;
+  max-height: 17em;
+  width: 25em;
   object-fit: cover;
 }
 
@@ -110,13 +112,7 @@ hr {
 	font-size: 0.9em;
 }
 
-@media (min-width: 992px) {
-  .recipe-card {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr;
-    max-width: unset;
-  }
-
+@media (min-width: 526px) {
   .recipe-card:hover {
     box-shadow: #00000096 1px 1px 10px 1px;
   }
