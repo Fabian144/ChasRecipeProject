@@ -57,7 +57,7 @@ export default {
   .recipe-cards-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    align-items: flex-start;
   }
 }
 </style>
