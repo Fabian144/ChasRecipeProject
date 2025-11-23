@@ -11,15 +11,18 @@
     <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
   </div>
 
-  <CommentSection :recipe-id="recipeId" />
+  <RatingSection :recipe-id="recipeId" />
+  <CommentSection />
 </template>
 
 <script>
+import RatingSection from '../components/recipepage/RatingSection.vue';
 import CommentSection from '../components/recipepage/commentSection.vue';
 
 export default {
   components: {
     CommentSection,
+    RatingSection,
   },
 
   data() {
