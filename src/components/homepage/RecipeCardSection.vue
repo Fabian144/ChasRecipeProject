@@ -60,4 +60,14 @@ export default {
     align-items: flex-start;
   }
 }
+
+@media (min-width: 768px) {
+  .recipe-cards-container {
+    flex-direction: column;
+  }
+
+  .recipe-cards-container > a {
+    width: 100%;
+  }
+}
 </style>

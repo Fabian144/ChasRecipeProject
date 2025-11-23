@@ -55,7 +55,6 @@ export default {
   display: inline-block;
   color: black;
   text-decoration: none;
-  max-width: 25em;
 }
 
 .recipe-card:active {
@@ -66,15 +65,13 @@ export default {
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 0.8em 0.8em 0;
-  height: fit-content;
+  padding: 0.5em 0.5em 0;
+  max-height: 17em;
 }
 
 .recipe-image {
   border: solid black 4px;
-  max-width: 100%;
-  max-height: 17em;
-  width: 25em;
+  width: 100%;
   object-fit: cover;
 }
 
@@ -113,26 +110,39 @@ hr {
 }
 
 @media (min-width: 526px) {
-	.recipe-card{
-		min-height: 15em;
-	}
+  .recipe-card {
+    min-height: 15em;
+  }
+
+  .recipe-image-container {
+    max-height: 11em;
+  }
 }
 
 @media (min-width: 768px) {
+  .recipe-card {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    width: 100%;
+  }
+
   .recipe-card:hover {
     box-shadow: #00000096 1px 1px 10px 1px;
   }
 
   .recipe-image-container {
+    max-height: 13em;
     align-self: center;
     padding: 1.25em;
+    min-width: 12em;
+    max-width: 20em;
     grid-row-start: 1;
     grid-row-end: 3;
   }
 
   .recipe-image {
-    width: 18em;
-    height: 13em;
+    max-width: 100%;
   }
 
   .recipe-heading {
@@ -144,7 +154,7 @@ hr {
   }
 
   .recipe-info-container {
-    padding: 1em 1em 0;
+    padding: 1em 1em 0 0;
   }
 
   hr {
