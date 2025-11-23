@@ -1,8 +1,11 @@
 <template>
-  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" :comment-sent="commentSent"/>
+  <RatingSection
+    @chosenRatingChanged="(theRating) => (chosenRating = theRating)"
+    :comment-sent="commentSent"
+  />
 
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
-    <div v-if="fetchError" class="rating-error-message">
+    <div v-if="fetchError && !isSending" class="rating-error-message">
       <p>
         {{ fetchError }}
       </p>
@@ -100,12 +103,12 @@ export default {
       name: '',
       comment: '',
       error: '',
-      fetchError: false,
-      ratingFetched: false,
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
       chosenRating: Number, // Del av omdömes systemet
+      fetchError: false,
+      ratingFetchPassed: false, // Del av omdömes systemet
     };
   },
 
@@ -113,44 +116,13 @@ export default {
     async isSending() {
       // Del av omdömes systemet
       if (this.isSending && this.chosenRating > 0) {
-        try {
-          const response = await fetch(
-            `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
-            {
-              method: 'POST',
-              headers: { 'Content-type': 'application/json' },
-              body: JSON.stringify(this.chosenRating),
-            },
-          );
-          if (!response.ok) {
-            this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
-						Status: ${response.status}`;
-            this.isSending = false;
-            throw new Error(`Status: ${response.status}`);
-          }
-          this.ratingFetched = true;
-        } catch (error) {
-          console.error('Fetch failed:', error);
-        }
+        this.fetchRatings();
       } else if (this.isSending) {
-        this.ratingFetched = true;
+        this.ratingFetchPassed = true;
       }
-    },
 
-    ratingFetched() {
-      if (this.ratingFetched) {
-        setTimeout(() => {
-          this.comments.unshift({
-            id: Date.now(),
-            name: this.name,
-            text: this.comment,
-            date: new Date().toLocaleDateString('sv-SE'),
-          });
-          this.name = '';
-          this.comment = '';
-          this.isSending = false;
-          this.commentSent = true;
-        }, 1000);
+      if (this.ratingFetchPassed) {
+        this.displayComment();
       }
     },
   },
@@ -165,6 +137,41 @@ export default {
       this.fetchError = false;
       this.error = '';
       this.isSending = true;
+    },
+
+    async fetchRatings() {
+      try {
+        const response = await fetch(
+          `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
+          {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(this.chosenRating),
+          },
+        );
+        if (!response.ok) {
+          this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
+					Status: ${response.status}`;
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.ratingFetchPassed = true;
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      } finally {
+        this.isSending = false;
+      }
+    },
+
+    displayComment() {
+      this.comments.unshift({
+        id: Date.now(),
+        name: this.name,
+        text: this.comment,
+        date: new Date().toLocaleDateString('sv-SE'),
+      });
+      this.name = '';
+      this.comment = '';
+      this.commentSent = true;
     },
   },
 };
