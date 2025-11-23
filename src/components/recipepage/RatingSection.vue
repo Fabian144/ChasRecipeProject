@@ -10,6 +10,7 @@
         @mouseleave="hoveringOutOfStar"
         :class="starIcon.class"
         :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
+				:disabled="commentSent"
       >
         <font-awesome-icon :icon="starIcon.icon" />
       </button>
@@ -46,6 +47,12 @@ export default {
   components: { FontAwesomeIcon },
 
   emits: ['chosenRatingChanged'],
+
+	props: {
+		commentSent: {
+			type: Boolean
+		}
+	},
 
   watch: {
     chosenRating() {
