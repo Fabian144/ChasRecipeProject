@@ -5,7 +5,9 @@
     <div class="star-container">
       <button
         v-for="starIcon in starIcons"
-        @click="(changeChosenRating(starIcon), animateClickedStar(starIcon))"
+        @click="
+          (hoveringOverStar(starIcon), changeChosenRating(starIcon), animateClickedStar(starIcon))
+        "
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
         :class="starIcon.class"
@@ -16,10 +18,20 @@
       </button>
     </div>
 
-    <button @click="fetchRatings" :disabled="ratingFetchPassed">Skicka</button>
+    <button
+      v-if="chosenRating"
+      class="send-rating-button"
+      @click="fetchRatings"
+      :disabled="ratingFetchPassed"
+    >
+      {{ sendingRating ? 'Skickar...' : 'Skicka' }}
+    </button>
 
     <div v-if="fetchError" class="rating-error-message">
-      <p>{{ fetchError }}</p>
+      <p>
+        Misslyckades att skicka omdöme, försök igen <br />
+        Status: {{ fetchError }}
+      </p>
     </div>
 
     <div v-if="ratingFetchPassed" class="thank-you-message">
@@ -53,6 +65,7 @@ export default {
       chosenRating: 0,
       fetchError: false,
       ratingFetchPassed: false,
+      sendingRating: false,
     };
   },
 
@@ -86,22 +99,26 @@ export default {
     },
 
     changeChosenRating(clickedStar) {
-      if (this.chosenRating === clickedStar.voteValue) {
+      this.fetchError = false;
+      if (clickedStar.voteValue === this.chosenRating) {
         this.chosenRating = 0;
-        clickedStar.icon = this.emptyStar;
+        this.starIcons.forEach((starIcon) => {
+          starIcon.icon = this.emptyStar;
+        });
       } else {
         this.chosenRating = clickedStar.voteValue;
-        clickedStar.icon = this.filledStar;
       }
     },
 
     animateClickedStar(clickedStar) {
-      this.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
+      this.chosenRating ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
       setTimeout(() => (clickedStar.class = String), 250);
     },
 
     async fetchRatings() {
       try {
+        this.fetchError = false;
+        this.sendingRating = true;
         const response = await fetch(
           `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
           {
@@ -111,13 +128,14 @@ export default {
           },
         );
         if (!response.ok) {
-          this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
-					Status: ${response.status}`;
+          this.fetchError = `${response.status}`;
           throw new Error(`Status: ${response.status}`);
         }
         this.ratingFetchPassed = true;
       } catch (error) {
         console.error('Fetch failed:', error);
+      } finally {
+        this.sendingRating = false;
       }
     },
   },
@@ -166,16 +184,34 @@ export default {
   animation-duration: 250ms;
 }
 
+.send-rating-button {
+  margin-top: 1em;
+  font-size: 1em;
+  padding: 0.5em 0.7em;
+  cursor: pointer;
+  background-color: #000;
+  border: none;
+  color: white;
+  border-radius: 100px;
+}
+
+.send-rating-button:hover {
+  box-shadow: black 0 0 5px 0;
+}
+
+.send-rating-button:disabled {
+  cursor: not-allowed;
+}
+
 .rating-error-message {
   width: fit-content;
-  margin: 1em auto;
+  margin: 0;
   text-align: center;
 }
 
 .thank-you-message {
   width: fit-content;
-  margin: 1em auto;
-  text-align: center;
+  margin: 0;
 }
 
 @keyframes starClickAnimation {
