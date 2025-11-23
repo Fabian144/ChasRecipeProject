@@ -49,7 +49,7 @@
     <p v-else class="text-green-600 font-semibold text-center my-3">Tack för din kommentar!</p>
 
     <!-- Kommentarlista -->
-    <ul v-if="!fetchError" class="mt-6 space-y-4">
+    <ul v-if="commentSent" class="mt-6 space-y-4">
       <li
         v-for="c in comments"
         :key="c.id"
@@ -59,7 +59,7 @@
           <strong class="text-gray-800">{{ c.name }}</strong>
           <small class="text-gray-500 text-xs">{{ c.date }}</small>
           <div
-            v-if="!fetchError && chosenRating > 0"
+            v-if="chosenRating > 0"
             class="chosen-star-container"
             :aria-label="`Du har gett receptet ett omdöme på ${chosenRating} av 5 stjärnor`"
           >
@@ -101,6 +101,7 @@ export default {
       comment: '',
       error: '',
       fetchError: false,
+      ratingFetched: false,
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
@@ -111,7 +112,7 @@ export default {
   watch: {
     async isSending() {
       // Del av omdömes systemet
-      if (this.chosenRating > 0 && this.isSending) {
+      if (this.isSending && this.chosenRating > 0) {
         try {
           const response = await fetch(
             `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
@@ -124,27 +125,21 @@ export default {
           if (!response.ok) {
             this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
 						Status: ${response.status}`;
+            this.isSending = false;
             throw new Error(`Status: ${response.status}`);
           }
+          this.ratingFetched = true;
         } catch (error) {
           console.error('Fetch failed:', error);
         }
+      } else if (this.isSending) {
+        this.ratingFetched = true;
       }
     },
-  },
 
-  methods: {
-    submitComment() {
-      if (!this.name.trim() || !this.comment.trim()) {
-        this.error = 'Du måste fylla i både namn och kommentar.';
-      }
-
-      this.fetchError = false;
-      this.error = '';
-      this.isSending = true;
-
-      setTimeout(() => {
-        if (!this.fetchError) {
+    ratingFetched() {
+      if (this.ratingFetched) {
+        setTimeout(() => {
           this.comments.unshift({
             id: Date.now(),
             name: this.name,
@@ -153,12 +148,23 @@ export default {
           });
           this.name = '';
           this.comment = '';
+          this.isSending = false;
           this.commentSent = true;
-          this.isSending = false;
-        } else {
-          this.isSending = false;
-        }
-      }, 1000);
+        }, 1000);
+      }
+    },
+  },
+
+  methods: {
+    submitComment() {
+      if (!this.name.trim() || !this.comment.trim()) {
+        this.error = 'Du måste fylla i både namn och kommentar.';
+        return;
+      }
+
+      this.fetchError = false;
+      this.error = '';
+      this.isSending = true;
     },
   },
 };
