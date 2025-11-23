@@ -1,5 +1,5 @@
 <template>
-  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
+  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" :comment-sent="commentSent"/>
 
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
     <div v-if="fetchError" class="rating-error-message">
