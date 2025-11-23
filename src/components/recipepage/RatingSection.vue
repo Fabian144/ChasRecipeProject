@@ -10,10 +10,20 @@
         @mouseleave="hoveringOutOfStar"
         :class="starIcon.class"
         :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
-				:disabled="commentSent"
+        :disabled="ratingFetchPassed"
       >
         <font-awesome-icon :icon="starIcon.icon" />
       </button>
+    </div>
+
+    <button @click="fetchRatings" :disabled="ratingFetchPassed">Skicka</button>
+
+    <div v-if="fetchError" class="rating-error-message">
+      <p>{{ fetchError }}</p>
+    </div>
+
+    <div v-if="ratingFetchPassed" class="thank-you-message">
+      <p>Tack för ditt omdöme!</p>
     </div>
   </div>
 </template>
@@ -31,7 +41,6 @@ library.add(fas, far, faStar);
 export default {
   data() {
     return {
-      chosenRating: 0,
       starIcons: [
         { voteValue: 1, icon: 'fa-regular fa-star', class: String },
         { voteValue: 2, icon: 'fa-regular fa-star', class: String },
@@ -41,22 +50,17 @@ export default {
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
+      chosenRating: 0,
+      fetchError: false,
+      ratingFetchPassed: false,
     };
   },
 
   components: { FontAwesomeIcon },
 
-  emits: ['chosenRatingChanged'],
-
-	props: {
-		commentSent: {
-			type: Boolean
-		}
-	},
-
-  watch: {
-    chosenRating() {
-      this.$emit('chosenRatingChanged', this.chosenRating);
+  props: {
+    recipeId: {
+      type: String,
     },
   },
 
@@ -94,6 +98,27 @@ export default {
     animateClickedStar(clickedStar) {
       this.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
       setTimeout(() => (clickedStar.class = String), 250);
+    },
+
+    async fetchRatings() {
+      try {
+        const response = await fetch(
+          `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
+          {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(this.chosenRating),
+          },
+        );
+        if (!response.ok) {
+          this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
+					Status: ${response.status}`;
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.ratingFetchPassed = true;
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
     },
   },
 };
@@ -139,6 +164,18 @@ export default {
 .star-container > button.clicked {
   animation: starClickAnimation;
   animation-duration: 250ms;
+}
+
+.rating-error-message {
+  width: fit-content;
+  margin: 1em auto;
+  text-align: center;
+}
+
+.thank-you-message {
+  width: fit-content;
+  margin: 1em auto;
+  text-align: center;
 }
 
 @keyframes starClickAnimation {
