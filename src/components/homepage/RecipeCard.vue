@@ -115,7 +115,7 @@ hr {
   }
 
   .recipe-image-container {
-    max-height: 11em;
+    max-height: 12em;
   }
 }
 
@@ -132,11 +132,12 @@ hr {
   }
 
   .recipe-image-container {
-    max-height: 13em;
-    align-self: center;
-    padding: 1.25em;
+    aspect-ratio: 16/10;
+		max-height: unset;
     min-width: 12em;
     max-width: 20em;
+    align-self: center;
+    padding: 1.25em;
     grid-row-start: 1;
     grid-row-end: 3;
   }
@@ -168,9 +169,14 @@ hr {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
   .recipe-card {
-    min-height: 17.5em;
+    min-height: 17em;
   }
+
+	 .recipe-image-container {
+		max-height: 100%;
+  }
+
 }
 </style>
