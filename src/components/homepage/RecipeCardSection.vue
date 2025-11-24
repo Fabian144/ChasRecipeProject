@@ -70,4 +70,10 @@ export default {
     width: 100%;
   }
 }
+
+@media (min-width: 1400px) {
+  .recipe-cards-container {
+    flex-direction: row;
+  }
+}
 </style>
