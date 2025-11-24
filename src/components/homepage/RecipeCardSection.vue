@@ -4,34 +4,37 @@
       v-for="recipe in recipes"
       :key="recipe.id"
       :to="{ name: 'theRecipe', params: { recipeId: recipe.id } }"
-			:aria-label="`Länk till ${recipe.name} receptet`"
+      :aria-label="`Länk till ${recipe.title} receptet`"
     >
       <RecipeCard
-        :recipe-image="recipe.image"
-        :recipe-alt-text="recipe.name"
-        :recipe-name="recipe.name"
+        :recipe-image="recipe.imageUrl"
+        :recipe-name="recipe.title"
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
-        :recipe-cooking-time="recipe.cooking_time"
-        :recipe-rating="recipe.rating.current_stars"
+        :recipe-cooking-time="recipe.timeInMins"
+        :recipe-rating="recipe.ratings.length > 0 ? calculateAverageRating(recipe.ratings) : 0"
       />
     </router-link>
   </div>
 </template>
 
 <script>
-import recipes from '../../modules/fetchRecipeData.js';
 import RecipeCard from './RecipeCard.vue';
 
 export default {
-  data() {
-    return {
-      recipes,
-    };
-  },
-
   components: {
     RecipeCard,
+  },
+
+  props: ['recipes'],
+
+  methods: {
+    calculateAverageRating(ratings) {
+      return (
+        ratings.reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
+        ratings.length
+      );
+    },
   },
 };
 </script>
@@ -42,16 +45,16 @@ export default {
   flex-direction: column;
   gap: 1em;
   margin: 0 1em 1em;
+  width: 100%;
 }
 
-.recipe-cards-container > a:focus {
+.recipe-cards-container > a:focus-visible {
   outline: solid black 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .recipe-cards-container {
-    margin: 0 auto 1em;
-    max-width: 92.5%;
+    align-items: center;
   }
 }
 </style>

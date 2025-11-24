@@ -1,7 +1,7 @@
 <template>
   <article class="recipe-card">
     <figure class="recipe-image-container">
-      <img class="recipe-image" :src="recipeImage" :alt="recipeAltText" />
+      <img class="recipe-image" :src="recipeImage" :alt="recipeName" />
     </figure>
 
     <div class="recipe-info-container">
@@ -13,12 +13,7 @@
         class="recipe-star-container"
         :aria-label="`Receptet har ett omdöme på ${Math.round(recipeRating)} av 5 stjärnor`"
       >
-        <font-awesome-icon
-          v-for="starIcon in starIcons"
-          :icon="
-            starIcon.rating <= Math.round(recipeRating) ? 'fa-solid fa-star' : 'fa-regular fa-star'
-          "
-        />
+        <StarDisplay :rating-value="recipeRating" />
       </div>
 
       <p class="recipe-description">
@@ -36,34 +31,20 @@
 </template>
 
 <script>
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-
-library.add(fas, far, faStar);
+import StarDisplay from '../StarDisplay.vue';
 
 export default {
-  data() {
-    return {
-      starIcons: [{ rating: 1 }, { rating: 2 }, { rating: 3 }, { rating: 4 }, { rating: 5 }],
-    };
-  },
-
-  components: {
-    FontAwesomeIcon,
-  },
-
   props: {
     recipeImage: String,
     recipeName: String,
-    recipeAltText: String,
     recipeDescription: String,
     recipeIngredients: Array,
-    recipeCookingTime: String,
+    recipeCookingTime: Number,
     recipeRating: Number,
+  },
+
+  components: {
+    StarDisplay,
   },
 };
 </script>
@@ -74,13 +55,8 @@ export default {
   display: inline-grid;
   color: black;
   text-decoration: none;
-  margin: 0;
-  max-width: 40em;
+  max-width: 35em;
   width: 100%;
-}
-
-.recipe-card:hover {
-  box-shadow: #00000096 1px 1px 10px 1px;
 }
 
 .recipe-image-container {
@@ -92,8 +68,9 @@ export default {
 }
 
 .recipe-image {
-  width: 100%;
   border: solid black 4px;
+  max-width: 100%;
+  object-fit: cover;
 }
 
 .recipe-heading {
@@ -103,13 +80,10 @@ export default {
 }
 
 .recipe-star-container {
-  margin-top: 0.5em;
-  width: fit-content;
-}
-
-.recipe-star-container > .fa-star {
-  font-size: 1.6em;
-  margin: -1px;
+  margin-top: 0.25em;
+  display: flex;
+	flex-direction: row;
+	width: 9em;
 }
 
 .recipe-info-container {
@@ -137,11 +111,15 @@ hr {
   margin: 1em auto;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .recipe-card {
-    grid-template-columns: 1fr 12fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
     max-width: unset;
+  }
+
+  .recipe-card:hover {
+    box-shadow: #00000096 1px 1px 10px 1px;
   }
 
   .recipe-image-container {
@@ -152,17 +130,13 @@ hr {
   }
 
   .recipe-image {
-    width: 23em;
-    max-width: unset;
+    width: 31.25em;
+    height: 20em;
   }
 
   .recipe-heading {
     font-size: 2.4em;
     margin: 0.35em 0 0;
-  }
-
-  .recipe-star-container {
-    margin-top: 0.5em;
   }
 
   .recipe-info-container {
@@ -177,13 +151,6 @@ hr {
     grid-column-start: 2;
     grid-column-end: 4;
     padding-right: 1em;
-  }
-}
-
-@media (min-width: 1200px) {
-  .recipe-image {
-    max-width: unset;
-    width: unset;
   }
 }
 </style>
