@@ -7,12 +7,19 @@
   </div>
 
   <div class="loading-container" v-if="loading">
-    <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
+    <img
+      src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png"
+      alt="Julgran"
+      class="loading-icon"
+    />
+    <p class="loading-text">Laddar...</p>
   </div>
 
-  <main v-else class="recipe-card-section">
-    <RecipeCardSection :recipes="recipes" />
-  </main>
+  <div v-else>
+    <main class="recipe-card-section">
+      <RecipeCardSection :recipes="recipes" />
+    </main>
+  </div>
 </template>
 
 <script>

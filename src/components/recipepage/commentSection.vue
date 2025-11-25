@@ -1,13 +1,5 @@
 <template>
-  <RatingSection @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
-
   <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
-    <div v-if="fetchError" class="rating-error-message">
-      <p>
-        {{ fetchError }}
-      </p>
-    </div>
-
     <h3 class="text-2xl font-semibold mb-4 text-gray-800">Kommentarer</h3>
 
     <!-- Formulär -->
@@ -49,7 +41,7 @@
     <p v-else class="text-green-600 font-semibold text-center my-3">Tack för din kommentar!</p>
 
     <!-- Kommentarlista -->
-    <ul v-if="!fetchError" class="mt-6 space-y-4">
+    <ul v-if="commentSent" class="mt-6 space-y-4">
       <li
         v-for="c in comments"
         :key="c.id"
@@ -73,25 +65,13 @@
 </template>
 
 <script>
-import RatingSection from './RatingSection.vue';
-import StarDisplay from '../StarDisplay.vue';
-
 export default {
   name: 'CommentSection',
-
-  components: {
-    RatingSection,
-    StarDisplay,
-  },
 
   props: {
     initialComments: {
       type: Array,
       default: () => [],
-    },
-
-    recipeId: {
-      type: String,
     },
   },
 
@@ -100,43 +80,17 @@ export default {
       name: '',
       comment: '',
       error: '',
-      fetchError: false,
       isSending: false,
       commentSent: false,
       comments: [...this.initialComments], // startar med kommentarer från recept JSON
-      chosenRating: Number, // Del av omdömes systemet
     };
-  },
-
-  watch: {
-    async isSending() {
-      // Del av omdömes systemet
-      if (this.chosenRating > 0 && this.isSending) {
-        try {
-          const response = await fetch(
-            `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
-            {
-              method: 'POST',
-              headers: { 'Content-type': 'application/json' },
-              body: JSON.stringify(this.chosenRating),
-            },
-          );
-          if (!response.ok) {
-            this.fetchError = `Misslyckades att skicka omdöme, försök igen eller skicka utan omdöme.
-						Status: ${response.status}`;
-            throw new Error(`Status: ${response.status}`);
-          }
-        } catch (error) {
-          console.error('Fetch failed:', error);
-        }
-      }
-    },
   },
 
   methods: {
     submitComment() {
       if (!this.name.trim() || !this.comment.trim()) {
         this.error = 'Du måste fylla i både namn och kommentar.';
+        return;
       }
 
       this.fetchError = false;
@@ -144,20 +98,15 @@ export default {
       this.isSending = true;
 
       setTimeout(() => {
-        if (!this.fetchError) {
-          this.comments.unshift({
-            id: Date.now(),
-            name: this.name,
-            text: this.comment,
-            date: new Date().toLocaleDateString('sv-SE'),
-          });
-          this.name = '';
-          this.comment = '';
-          this.commentSent = true;
-          this.isSending = false;
-        } else {
-          this.isSending = false;
-        }
+        this.comments.unshift({
+          id: Date.now(),
+          name: this.name,
+          text: this.comment,
+          date: new Date().toLocaleDateString('sv-SE'),
+        });
+        this.name = '';
+        this.comment = '';
+        this.commentSent = true;
       }, 1000);
     },
   },
@@ -253,20 +202,5 @@ button:hover {
   color: #6b7280;
   float: right;
   margin-top: 5px;
-}
-
-.rating-error-message {
-  /* Del av omdömes systemet */
-  width: fit-content;
-  margin: 1em auto;
-  text-align: center;
-}
-
-.chosen-star-container {
-  /* Del av omdömes systemet */
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  width: 7em;
 }
 </style>

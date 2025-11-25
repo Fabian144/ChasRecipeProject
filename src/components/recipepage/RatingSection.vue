@@ -5,14 +5,37 @@
     <div class="star-container">
       <button
         v-for="starIcon in starIcons"
-        @click="(changeChosenRating(starIcon), animateClickedStar(starIcon))"
+        @click="
+          (hoveringOverStar(starIcon), changeChosenRating(starIcon), animateClickedStar(starIcon))
+        "
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
         :class="starIcon.class"
         :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
+        :disabled="ratingFetchPassed"
       >
         <font-awesome-icon :icon="starIcon.icon" />
       </button>
+    </div>
+
+    <button
+      v-if="chosenRating"
+      class="send-rating-button"
+      @click="fetchRatings"
+      :disabled="ratingFetchPassed"
+    >
+      {{ sendingRating ? 'Skickar...' : 'Skicka' }}
+    </button>
+
+    <div v-if="fetchError" class="rating-error-message">
+      <p>
+        Misslyckades att skicka omdöme, försök igen <br />
+        Status: {{ fetchError }}
+      </p>
+    </div>
+
+    <div v-if="ratingFetchPassed" class="thank-you-message">
+      <p>Tack för ditt omdöme!</p>
     </div>
   </div>
 </template>
@@ -30,7 +53,6 @@ library.add(fas, far, faStar);
 export default {
   data() {
     return {
-      chosenRating: 0,
       starIcons: [
         { voteValue: 1, icon: 'fa-regular fa-star', class: String },
         { voteValue: 2, icon: 'fa-regular fa-star', class: String },
@@ -40,16 +62,18 @@ export default {
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
+      chosenRating: 0,
+      fetchError: false,
+      ratingFetchPassed: false,
+      sendingRating: false,
     };
   },
 
   components: { FontAwesomeIcon },
 
-  emits: ['chosenRatingChanged'],
-
-  watch: {
-    chosenRating() {
-      this.$emit('chosenRatingChanged', this.chosenRating);
+  props: {
+    recipeId: {
+      type: String,
     },
   },
 
@@ -75,18 +99,44 @@ export default {
     },
 
     changeChosenRating(clickedStar) {
-      if (this.chosenRating === clickedStar.voteValue) {
+      this.fetchError = false;
+      if (clickedStar.voteValue === this.chosenRating) {
         this.chosenRating = 0;
-        clickedStar.icon = this.emptyStar;
+        this.starIcons.forEach((starIcon) => {
+          starIcon.icon = this.emptyStar;
+        });
       } else {
         this.chosenRating = clickedStar.voteValue;
-        clickedStar.icon = this.filledStar;
       }
     },
 
     animateClickedStar(clickedStar) {
-      this.chosenRating > 0 ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
+      this.chosenRating ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
       setTimeout(() => (clickedStar.class = String), 250);
+    },
+
+    async fetchRatings() {
+      try {
+        this.fetchError = false;
+        this.sendingRating = true;
+        const response = await fetch(
+          `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
+          {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(this.chosenRating),
+          },
+        );
+        if (!response.ok) {
+          this.fetchError = `${response.status}`;
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.ratingFetchPassed = true;
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      } finally {
+        this.sendingRating = false;
+      }
     },
   },
 };
@@ -132,6 +182,36 @@ export default {
 .star-container > button.clicked {
   animation: starClickAnimation;
   animation-duration: 250ms;
+}
+
+.send-rating-button {
+  margin-top: 1em;
+  font-size: 1em;
+  padding: 0.5em 0.7em;
+  cursor: pointer;
+  background-color: #000;
+  border: none;
+  color: white;
+  border-radius: 100px;
+}
+
+.send-rating-button:hover {
+  box-shadow: black 0 0 5px 0;
+}
+
+.send-rating-button:disabled {
+  cursor: not-allowed;
+}
+
+.rating-error-message {
+  width: fit-content;
+  margin: 0;
+  text-align: center;
+}
+
+.thank-you-message {
+  width: fit-content;
+  margin: 0;
 }
 
 @keyframes starClickAnimation {
