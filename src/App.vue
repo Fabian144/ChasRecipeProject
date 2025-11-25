@@ -12,8 +12,8 @@ body {
 
 .background {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: 100dvh;
+  width: 100vw;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/images/background.png');
   background-size: cover;
