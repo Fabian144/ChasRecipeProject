@@ -55,16 +55,18 @@ export default {
   display: inline-grid;
   color: black;
   text-decoration: none;
-  max-width: 35em;
-  width: 100%;
+}
+
+.recipe-card:active {
+  box-shadow: #00000096 1px 1px 10px 1px;
 }
 
 .recipe-image-container {
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 0.8em 0.8em 0;
-  height: fit-content;
+  padding: 0.5em 0.5em 0;
+  max-height: 17em;
 }
 
 .recipe-image {
@@ -74,7 +76,7 @@ export default {
 }
 
 .recipe-heading {
-  font-size: 2.2em;
+  font-size: 2em;
   margin: 0;
   width: fit-content;
 }
@@ -92,30 +94,39 @@ export default {
   padding: 0.75em 1.25em 0;
 }
 
-.recipe-description {
-  font-size: 1.25em;
-}
-
 hr {
   margin: 0 1.25em;
 }
 
 .recipe-bottom-container {
   text-align: center;
+  margin-top: auto;
 }
 
 .recipe-bottom-text {
   align-self: center;
-  font-size: 1.2em;
   width: fit-content;
   margin: 1em auto;
+  font-size: 0.9em;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 526px) {
+  .recipe-card {
+    min-height: 25em;
+		max-width: inherit;
+  }
+
+  .recipe-image-container {
+    max-height: 12em;
+  }
+}
+
+@media (min-width: 768px) {
   .recipe-card {
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
-    max-width: unset;
+    width: 100%;
+    min-height: unset;
   }
 
   .recipe-card:hover {
@@ -123,6 +134,10 @@ hr {
   }
 
   .recipe-image-container {
+    aspect-ratio: 16/11;
+    max-height: unset;
+		width: 38vw;
+		max-width: 22em;
     align-self: center;
     padding: 1.25em;
     grid-row-start: 1;
@@ -130,17 +145,15 @@ hr {
   }
 
   .recipe-image {
-    width: 31.25em;
-    height: 20em;
+    max-width: 100%;
   }
 
   .recipe-heading {
-    font-size: 2.4em;
     margin: 0.35em 0 0;
   }
 
   .recipe-info-container {
-    padding: 1em 1em 0;
+    padding: 1em 1em 0 0;
   }
 
   hr {
@@ -151,6 +164,16 @@ hr {
     grid-column-start: 2;
     grid-column-end: 4;
     padding-right: 1em;
+  }
+}
+
+@media (min-width: 1400px) {
+  .recipe-card {
+    max-height: 17em;
+  }
+
+  .recipe-image-container {
+    width: 20vw;
   }
 }
 </style>
