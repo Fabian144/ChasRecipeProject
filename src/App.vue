@@ -18,8 +18,10 @@ body {
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/images/background.png');
   background-size: cover;
   background-position: center;
-  filter: blur(1px);
+  filter: blur(2px);
   z-index: -1;
+	transform: scale(1.1);
+	position: fixed;
 }
 
 .loading-container {
