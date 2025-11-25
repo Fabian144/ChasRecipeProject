@@ -7,12 +7,20 @@
   </div>
 
   <div class="loading-container" v-if="loading">
-    <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
+    <img
+      src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png"
+      alt="Julgran"
+      class="loading-icon"
+    />
+    <p class="loading-text">Laddar...</p>
   </div>
 
-  <main v-else class="recipe-card-section">
-    <RecipeCardSection :recipes="recipes" />
-  </main>
+  <div v-else>
+    <nav></nav>
+    <main class="recipe-card-section">
+      <RecipeCardSection :recipes="recipes" />
+    </main>
+  </div>
 </template>
 
 <script>
@@ -66,5 +74,15 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  nav {
+    height: 100dvh;
+    width: 15em;
+    max-width: 16%;
+    float: left;
+    background-color: black;
+  }
 }
 </style>

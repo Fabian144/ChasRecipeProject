@@ -43,18 +43,37 @@ export default {
 .recipe-cards-container {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  margin: 0 1em 1em;
+  gap: 0.75em;
+  margin: 0 0.75em 0.75em;
   width: 100%;
+  align-items: center;
 }
 
 .recipe-cards-container > a:focus-visible {
   outline: solid black 2px;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 526px) {
   .recipe-cards-container {
-    align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 768px) {
+  .recipe-cards-container {
+    flex-direction: column;
+  }
+
+  .recipe-cards-container > a {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .recipe-cards-container {
+    flex-direction: row;
   }
 }
 </style>
