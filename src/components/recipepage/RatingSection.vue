@@ -10,7 +10,7 @@
         "
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
-        :class="starIcon.icon"
+        :class="[starIcon.class, starIcon.icon ]"
         :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
         :disabled="ratingFetchPassed"
       >
@@ -54,11 +54,11 @@ export default {
   data() {
     return {
       starIcons: [
-        { voteValue: 1, icon: 'fa-regular fa-star' },
-        { voteValue: 2, icon: 'fa-regular fa-star' },
-        { voteValue: 3, icon: 'fa-regular fa-star' },
-        { voteValue: 4, icon: 'fa-regular fa-star' },
-        { voteValue: 5, icon: 'fa-regular fa-star' },
+        { voteValue: 1, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 2, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 3, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 4, icon: 'fa-regular fa-star', class: String },
+        { voteValue: 5, icon: 'fa-regular fa-star', class: String },
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
