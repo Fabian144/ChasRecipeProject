@@ -16,7 +16,6 @@
   </div>
 
   <div v-else>
-    <nav></nav>
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="recipes" />
     </main>
@@ -74,15 +73,5 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-}
-
-@media (min-width: 768px) {
-  nav {
-    height: 100dvh;
-    width: 15em;
-    max-width: 16%;
-    float: left;
-    background-color: black;
-  }
 }
 </style>
