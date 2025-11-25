@@ -154,6 +154,7 @@ export default {
 .rating-section-container h3 {
   font-size: 2em;
   margin-bottom: 0.5em;
+	color: #ffffff;
 }
 
 .star-container {
