@@ -1,73 +1,91 @@
 import RatingSection from '../components/recipepage/RatingSection.vue';
 
-describe('RatingSection component', () => {
+describe('Rating system component', () => {
   beforeEach(() => {
     cy.mount(RatingSection);
   });
 
-  it('shows hover effects: stars up to hovered become filled', () => {
+  it('Tests hover effects when no star is clicked', () => {
     cy.get('.star-container button').as('stars');
 
-    // hover the 3rd star (index 2)
     cy.get('@stars').eq(2).trigger('mouseover');
-
-    // first three should show filled icon (fa-solid), others regular
     cy.get('@stars').each((btn, idx) => {
-      const expectation = idx <= 2 ? 'have.class' : 'not.have.class';
-      if (idx <= 2) cy.wrap(btn).find('svg').should('have.class', 'fa-solid');
-      else cy.wrap(btn).find('svg').should('have.class', 'fa-regular');
+      const svg = cy.wrap(btn);
+      if (idx <= 2) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
     });
 
-    // leave hover => icons should revert to state based on chosenRating (none chosen => all regular)
     cy.get('@stars').eq(2).trigger('mouseleave');
     cy.get('@stars').each((btn) => {
-      cy.wrap(btn).find('svg').should('have.class', 'fa-regular');
+      cy.wrap(btn).should('have.class', 'fa-regular');
     });
   });
 
-  it('send button appears when a star is clicked and disappears when unclicked', () => {
+  it('Tests hover effects when a star is clicked', () => {
     cy.get('.star-container button').as('stars');
 
-    // initially no send button
+    cy.get('@stars').eq(3).click();
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 3) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
+    });
+
+    cy.get('@stars').eq(1).trigger('mouseover');
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 1) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
+    });
+
+    cy.get('@stars').eq(1).trigger('mouseleave');
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 3) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
+    });
+
+    cy.get('@stars').eq(3).click();
+    cy.get('@stars').each((btn) => {
+      cy.wrap(btn).should('have.class', 'fa-regular');
+    });
+  });
+
+  it('Shows a send button when a star is clicked and removes it when no stars are selected', () => {
+    cy.get('.star-container button').as('stars');
+
     cy.get('.send-rating-button').should('not.exist');
 
-    // click a star => send button appears
     cy.get('@stars').eq(1).click();
     cy.get('.send-rating-button').should('be.visible').and('not.be.disabled');
 
-    // clicking same star toggles choice off => send button removed
     cy.get('@stars').eq(1).click();
     cy.get('.send-rating-button').should('not.exist');
   });
 
-  it('performs POST when clicking send and shows thank-you on success; disables UI after success', () => {
+  it('Succeeds POST when sending rating, shows a thank you message and disables button and stars', () => {
     cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 200, body: {} }).as('postRating');
 
-    cy.get('.star-container button').as('stars').eq(3).click(); // choose 4 stars
+    cy.get('.star-container button').as('stars').eq(3).click();
     cy.get('.send-rating-button').should('be.visible').click();
 
     cy.wait('@postRating');
 
-    // thank-you message visible
     cy.get('.thank-you-message').should('be.visible');
 
-    // send button and star buttons disabled after successful submit
     cy.get('.send-rating-button').should('be.disabled');
     cy.get('.star-container button').each((b) => cy.wrap(b).should('be.disabled'));
   });
 
-  it('shows error message when POST fails and clears it when retry succeeds or when unselecting the star', () => {
-    // First make the request fail
+  it('Fails POST, shows error message and removes it when retry succeeds or when no stars are selected', () => {
     cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 500, body: {} }).as('postFail');
 
     cy.get('.star-container button').as('stars').eq(2).click(); // choose 3 stars
     cy.get('.send-rating-button').click();
     cy.wait('@postFail');
 
-    // error message shown with status
     cy.get('.rating-error-message').should('be.visible').and('contain.text', 'Status: 500');
 
-    // a) retry: stub success and click send again -> error disappears, thank-you appears
     cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 200, body: {} }).as('postOk');
     cy.get('.send-rating-button').click();
     cy.wait('@postOk');
@@ -77,9 +95,7 @@ describe('RatingSection component', () => {
     cy.get('.send-rating-button').should('be.disabled');
     cy.get('.star-container button').each((b) => cy.wrap(b).should('be.disabled'));
 
-    // b) simulate fresh failure then clear by unselecting the star
-    // reload to reset component state
-    visitPage();
+    cy.mount(RatingSection);
 
     cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 500, body: {} }).as('postFail2');
     cy.get('.star-container button').as('stars').eq(2).click();
@@ -87,7 +103,16 @@ describe('RatingSection component', () => {
     cy.wait('@postFail2');
     cy.get('.rating-error-message').should('be.visible');
 
-    // clicking the same star toggles chosenRating to 0 and should clear the error
+    cy.get('@stars').eq(2).click();
+    cy.get('.rating-error-message').should('not.exist');
+    cy.get('.send-rating-button').should('not.exist');
+
+    cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 500, body: {} }).as('postFail2');
+    cy.get('.star-container button').as('stars').eq(2).click();
+    cy.get('.send-rating-button').click();
+    cy.wait('@postFail2');
+    cy.get('.rating-error-message').should('be.visible');
+
     cy.get('@stars').eq(2).click();
     cy.get('.rating-error-message').should('not.exist');
     cy.get('.send-rating-button').should('not.exist');
