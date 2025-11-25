@@ -113,7 +113,7 @@ hr {
 @media (min-width: 526px) {
   .recipe-card {
     min-height: 25em;
-		max-width: inherit;
+		max-width: 30em;
   }
 
   .recipe-image-container {
@@ -127,6 +127,7 @@ hr {
     grid-template-rows: 1fr;
     width: 100%;
     min-height: unset;
+		max-width: unset;
   }
 
   .recipe-card:hover {
@@ -137,7 +138,7 @@ hr {
     aspect-ratio: 16/11;
     max-height: unset;
 		width: 38vw;
-		max-width: 22em;
+		max-width: 20em;
     align-self: center;
     padding: 1.25em;
     grid-row-start: 1;
