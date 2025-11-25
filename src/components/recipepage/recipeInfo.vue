@@ -1,19 +1,24 @@
 <script>
 
-import { getRecipes } from '../../modules/fetchRecipeData.js';
+// import { getRecipes } from '../../modules/fetchRecipeData.js'; <---- defunct/meningslös 
 
 export default {
   data() 
   {
     return {
-      recipeVar: "",
-      recipeNameVar: "",
-      cookTimeVar: "",
+      //recipeMainVar: "", <--- defunct
+      titleVar: "",
+      //descriptionVar: "", <---defunct
+      timeInMinsVar: "",
       ingredientsVar: [],
-      stepsVar: [],
-      imageVar: "",
+      instructionsVar: [],
+      imageUrlVar: "",
       ingredientsAmountVar: 0,
-      recipeSelectionNameVar: "",
+      //recipeSelectionNameVar: "", <--- defunct
+      categoriesVar: "",
+
+      portionMultiplier: 1,
+
       fetchedRecipe: null
 
     };
@@ -21,32 +26,45 @@ export default {
   async mounted() 
   {
     try {
-      const recipeList = await getRecipes();
+
+      //const recipeList = await getRecipes(); <---defunct
+      //this.fetchedRecipe = recipeList.find(recipe => recipe.id === String(recipeId)); <---defunct
+
       const recipeId = this.$route.params.recipeId;
       
-      // Hitta rätt recept baserat på ID
-      this.fetchedRecipe = recipeList.find(recipe => recipe.id === String(recipeId));
+      const response = await fetch(
+        `REMOVED/REMOVED/recipes/${recipeId}`
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Status: ${response.status}`);
+      }
+      
+      this.fetchedRecipe = await response.json();
 
       if (this.fetchedRecipe != null) 
       {
-        this.recipeVar = this.fetchedRecipe;
-          this.recipeNameVar = this.fetchedRecipe.name;
-          this.cookTimeVar = this.fetchedRecipe.cooking_time;
-          this.ingredientsVar = this.fetchedRecipe.ingredients;
-          this.stepsVar = this.fetchedRecipe.steps;
-          this.imageVar = this.fetchedRecipe.image;
-          this.ingredientsAmountVar = this.fetchedRecipe.ingredients.length;
+        //this.recipeMainVar = this.fetchedRecipe; <--- defunct!
 
-        console.log(this.fetchedRecipe.name);
-      } else 
+          this.titleVar = this.fetchedRecipe.title;
+          this.timeInMinsVar = this.fetchedRecipe.timeInMins;
+          this.ingredientsVar = this.fetchedRecipe.ingredients;
+          this.instructionsVar = this.fetchedRecipe.instructions;
+          this.imageUrlVar = this.fetchedRecipe.imageUrl;
+          this.ingredientsAmountVar = this.fetchedRecipe.ingredients.length;
+          this.categoriesVar = this.fetchedRecipe.categories;
+
+        // console.log(this.fetchedRecipe.name); <--- test log
+      } else // <--- ta bort hela blocket senare, fabian har redan fixat??
       {
         console.error(`Recept med ID ${recipeId} hittades inte.`);
-        this.recipeNameVar = "Receptet kunde inte hittas";
-        this.cookTimeVar = "N/A";
+        this.titleVar = "Receptet kunde inte hittas";
+        this.timeInMinsVar = "N/A";
         this.ingredientsAmountVar = 0;
-        this.stepsVar = ["Receptet kunde inte hittas. Kontrollera receptets ID."];
+        this.instructionsVar = ["Receptet kunde inte hittas. Kontrollera receptets ID."];
         this.ingredientsVar = ["Ingredienser kunde inte hittas."];
-        this.imageVar = "Error, kunde inte ladda bild.";
+        this.imageUrlVar = "Error, kunde inte ladda bild.";
+        this.categoriesVar = "N/A";
       }
 
     } catch (error) 
@@ -54,21 +72,18 @@ export default {
       console.error("Error fetching or parsing JSON:", error);
     }
   },
-
-  methods: 
-  {
-  }
 }
 </script>
 
 <template>
   <section class="Title_and_recipe_information">
     <div class="recipe_title">
-      <h2>{{ recipeNameVar }}</h2>
+      <h2>{{ titleVar }}</h2>
     </div>
     <div class="recipe_information">
-      <p>Cook Time: {{ cookTimeVar }} minuter</p>
+      <p>Matlagnings tid: {{ timeInMinsVar }} minuter</p>
       <p>Nödvändiga ingredienser: {{ ingredientsAmountVar }}</p>
+      <p>Kategori: {{ categoriesVar }}</p>
     </div>
   </section>
 
@@ -76,21 +91,40 @@ export default {
     <div class="steps_div">
       <h3>Gör såhär:</h3>
       <ol class="steps_list">
-        <li v-for="(step, index) in stepsVar">{{ step }}</li>
+        <li v-for="(step) in instructionsVar">{{ step }}</li>
         <!---- for (int i = 0; i < stepsVar.Length; i++)--->
       </ol>
     </div>
 
     <div class="recipe_column">
       <div class="recipe_image">
-        <img v-bind:src="imageVar" alt="alt img var">
+        <img v-bind:src="imageUrlVar" alt="alt img var">
         <p>[Dynamisk rating etc]</p>
       </div>
 
       <div class="ingredients_div">
         <p>Ingredienser:</p>
         <ul>
-          <li v-for="(ingredient, index) in ingredientsVar">{{ ingredient }}</li>
+          <li v-for="ingredient in ingredientsVar" :key="ingredient.id">
+            
+            {{ ingredient.amount * portionMultiplier }} {{ ingredient.unit }} {{ ingredient.name }}
+            
+          </li>
+          <div class="ingredients_header">
+          <div class="portion_control">
+            <label for="portion-slider">
+              {{ portionMultiplier }} Portioner
+            </label>
+            <input 
+              type="range" 
+              v-model.number="portionMultiplier"
+              min="1" 
+              max="20" 
+              step="1"
+              class="slider">
+              <!---v-model.number parse till int/number--->
+          </div>
+        </div>
         </ul>
       </div>
     </div>
@@ -167,6 +201,7 @@ export default {
     background-color: #1c7900;
     padding: 16px;
     border-radius: 10px;
+    color: #fff;
 }
 
 .recipe_image 
@@ -180,5 +215,24 @@ text-align: center;
     max-width: 400px;
     height: auto;
     border-radius: 10px;
+}
+
+.portion_control 
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+.slider 
+{
+    width: 50%;
+    margin-top: 5px;
+    background-color: rgb(255, 255, 255);
+}
+
+.portion_control:hover
+{
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 </style>
