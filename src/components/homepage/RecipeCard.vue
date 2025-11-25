@@ -52,7 +52,7 @@ export default {
 <style scoped>
 .recipe-card {
   background-color: #c3c3c3;
-  display: inline-block;
+  display: inline-grid;
   color: black;
   text-decoration: none;
 }
@@ -100,6 +100,7 @@ hr {
 
 .recipe-bottom-container {
   text-align: center;
+  margin-top: auto;
 }
 
 .recipe-bottom-text {
@@ -111,7 +112,8 @@ hr {
 
 @media (min-width: 526px) {
   .recipe-card {
-    min-height: 15em;
+    min-height: 25em;
+		max-width: inherit;
   }
 
   .recipe-image-container {
@@ -121,10 +123,10 @@ hr {
 
 @media (min-width: 768px) {
   .recipe-card {
-    display: inline-grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
     width: 100%;
+    min-height: unset;
   }
 
   .recipe-card:hover {
@@ -132,10 +134,10 @@ hr {
   }
 
   .recipe-image-container {
-    aspect-ratio: 16/10;
-		max-height: unset;
-    min-width: 12em;
-    max-width: 20em;
+    aspect-ratio: 16/11;
+    max-height: unset;
+		width: 38vw;
+		max-width: 22em;
     align-self: center;
     padding: 1.25em;
     grid-row-start: 1;
@@ -171,12 +173,11 @@ hr {
 
 @media (min-width: 1400px) {
   .recipe-card {
-    min-height: 17em;
+    max-height: 17em;
   }
 
-	 .recipe-image-container {
-		max-height: 100%;
+  .recipe-image-container {
+    width: 20vw;
   }
-
 }
 </style>
