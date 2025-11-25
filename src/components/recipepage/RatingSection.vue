@@ -208,11 +208,13 @@ export default {
   width: fit-content;
   margin: 0;
   text-align: center;
+	color: white;
 }
 
 .thank-you-message {
   width: fit-content;
   margin: 0;
+	color: white;
 }
 
 @keyframes starClickAnimation {
