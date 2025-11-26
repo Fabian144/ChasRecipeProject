@@ -86,7 +86,7 @@ export default {
   margin-top: 0.25em;
   display: flex;
   flex-direction: row;
-  width: 8em;
+  max-width: fit-content;
 }
 
 .recipe-info-container {
