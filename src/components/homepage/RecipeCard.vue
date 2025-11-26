@@ -54,7 +54,6 @@ export default {
   background-color: #c3c3c3;
   display: inline-grid;
   color: black;
-  text-decoration: none;
 }
 
 .recipe-card:active {
@@ -79,6 +78,7 @@ export default {
   font-size: 1.6em;
   margin: 0;
   width: fit-content;
+  word-break: break-word;
 }
 
 .recipe-star-container {
