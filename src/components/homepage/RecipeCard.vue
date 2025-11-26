@@ -54,6 +54,7 @@ export default {
   background-color: #c3c3c3;
   display: inline-grid;
   color: black;
+	width: 100%;
 }
 
 .recipe-card:active {
