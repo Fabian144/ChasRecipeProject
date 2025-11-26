@@ -18,7 +18,7 @@
 
   <div v-else>
     <RatingSection :recipe-id="recipeId" />
-  <CommentSection />
+    <CommentSection />
   </div>
 </template>
 
@@ -73,9 +73,11 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
+  color: white;
 }
 
 .error-message > a {
   font-size: 1.25em;
+  color: white;
 }
 </style>
