@@ -34,7 +34,7 @@ export default {
 
   data() {
     return {
-      currentRecipe: Array,
+      currentRecipe: [],
       error: false,
       loading: true,
     };
