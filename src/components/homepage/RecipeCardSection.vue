@@ -41,12 +41,11 @@ export default {
 
 <style scoped>
 .recipe-cards-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 0.75em;
   margin: 0 0.75em 0.75em;
   width: 100%;
-  align-items: center;
 }
 
 .recipe-cards-container > a:focus-visible {
