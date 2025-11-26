@@ -55,15 +55,16 @@ export default {
 
 @media (min-width: 526px) {
   .recipe-cards-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (min-width: 768px) {
   .recipe-cards-container {
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .recipe-cards-container > a {
@@ -73,7 +74,8 @@ export default {
 
 @media (min-width: 1400px) {
   .recipe-cards-container {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
 </style>
