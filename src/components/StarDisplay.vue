@@ -37,8 +37,8 @@ export default {
 </script>
 
 <style scoped>
-.fa-star {
-  width: 100%;
+svg {
   height: 100%;
+  width: 2em;
 }
 </style>
