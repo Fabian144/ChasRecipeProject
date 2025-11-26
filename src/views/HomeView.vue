@@ -32,7 +32,7 @@ export default {
 
   data() {
     return {
-      recipes: Array,
+      recipes: [],
       error: false,
       loading: true,
     };
