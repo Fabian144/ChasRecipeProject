@@ -11,9 +11,9 @@
 
       <div
         class="recipe-star-container"
-        :aria-label="`Receptet har ett omdöme på ${Math.round(recipeRating)} av 5 stjärnor`"
+        :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
       >
-        <StarDisplay :rating-value="recipeRating" />
+        <StarDisplay :value-to-display="recipeAverageRating" />
       </div>
 
       <p class="recipe-description">
@@ -34,17 +34,15 @@
 import StarDisplay from '../StarDisplay.vue';
 
 export default {
+  components: { StarDisplay },
+
   props: {
     recipeImage: String,
     recipeName: String,
     recipeDescription: String,
     recipeIngredients: Array,
     recipeCookingTime: Number,
-    recipeRating: Number,
-  },
-
-  components: {
-    StarDisplay,
+    recipeAverageRating: Number,
   },
 };
 </script>
@@ -67,7 +65,7 @@ export default {
   margin: 0;
   padding: 0.5em 0.5em 0;
   max-height: 17em;
-	height: 60vw;
+  height: 60vw;
 }
 
 .recipe-image {
@@ -120,12 +118,12 @@ hr {
   .recipe-card {
     min-height: 28em;
     width: 100%;
-		grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 
   .recipe-image-container {
     max-height: 12em;
-		height: unset;
+    height: unset;
   }
 }
 
