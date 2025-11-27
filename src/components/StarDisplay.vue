@@ -39,6 +39,12 @@ export default {
 <style scoped>
 svg {
   height: 100%;
-  width: 2em;
+  width: 1.6em;
+}
+
+@media (min-width: 1600px) {
+	svg {
+		width: 1.8em;
+	}
 }
 </style>
