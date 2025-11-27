@@ -1,12 +1,11 @@
 <template>
-  <div v-if="error" class="error-message">
-    <h1>
-      Recepten kunde inte laddas in eller hittas inte <br />
-      Status: {{ error }}
-    </h1>
-  </div>
+  <FetchError
+    v-if="errorMessage"
+    :error-message="errorMessage"
+    :error-status="errorStatus"
+  ></FetchError>
 
-	<LoadingIcon v-if="loading"></LoadingIcon>
+  <LoadingIcon v-if="loading"></LoadingIcon>
 
   <div v-else>
     <main class="recipe-card-section">
@@ -17,22 +16,25 @@
 
 <script>
 import LoadingIcon from '../components/LoadingIcon.vue';
+import FetchError from '../components/FetchError.vue';
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
+    LoadingIcon,
+    FetchError,
     RecipeCardSection,
-		LoadingIcon
   },
 
   data() {
     return {
       recipes: [],
-      error: false,
       loading: true,
+      errorMessage: false,
+      errorStatus: false,
     };
   },
-	
+
   async mounted() {
     try {
       const response = await fetch(
@@ -40,7 +42,8 @@ export default {
       );
       if (!response.ok) {
         this.loading = false;
-        this.error = `${response.status}`;
+        this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+        this.errorStatus = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
@@ -56,14 +59,5 @@ export default {
 .recipe-card-section {
   display: flex;
   height: 100dvh;
-}
-
-.error-message {
-  height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
 }
 </style>
