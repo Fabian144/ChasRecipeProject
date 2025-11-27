@@ -1,17 +1,17 @@
 <template>
+  <LoadingIcon v-if="loading"></LoadingIcon>
+
   <FetchError
-    v-if="errorMessage"
+    v-else-if="errorMessage"
     :error-message="errorMessage"
     :error-status="errorStatus"
   ></FetchError>
 
-  <LoadingIcon v-if="loading"></LoadingIcon>
-
-  <div v-else>
+  <template v-else>
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="recipes" />
     </main>
-  </div>
+  </template>
 </template>
 
 <script>
@@ -41,15 +41,15 @@ export default {
         'REMOVED/REMOVED/recipes',
       );
       if (!response.ok) {
-        this.loading = false;
         this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
         this.errorStatus = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
-      this.loading = false;
     } catch (error) {
       console.error('Fetch failed:', error);
+    } finally {
+      this.loading = false;
     }
   },
 };
