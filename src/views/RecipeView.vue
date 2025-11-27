@@ -7,14 +7,7 @@
     <a href="/">Tillbaka till startsidan</a>
   </div>
 
-  <div class="loading-container" v-if="loading">
-    <img
-      src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png"
-      alt="Julgran"
-      class="loading-icon"
-    />
-    <p class="loading-text">Laddar...</p>
-  </div>
+  <LoadingIcon v-if="loading"></LoadingIcon>
 
   <div v-else>
     <RatingSection :recipe-id="recipeId" />
@@ -23,6 +16,7 @@
 </template>
 
 <script>
+import LoadingIcon from '../components/LoadingIcon.vue';
 import RatingSection from '../components/recipepage/RatingSection.vue';
 import CommentSection from '../components/recipepage/commentSection.vue';
 
@@ -30,6 +24,7 @@ export default {
   components: {
     CommentSection,
     RatingSection,
+    LoadingIcon,
   },
 
   data() {
