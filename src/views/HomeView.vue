@@ -6,14 +6,7 @@
     </h1>
   </div>
 
-  <div class="loading-container" v-if="loading">
-    <img
-      src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png"
-      alt="Julgran"
-      class="loading-icon"
-    />
-    <p class="loading-text">Laddar...</p>
-  </div>
+	<LoadingIcon v-if="loading"></LoadingIcon>
 
   <div v-else>
     <main class="recipe-card-section">
@@ -23,11 +16,13 @@
 </template>
 
 <script>
+import LoadingIcon from '../components/LoadingIcon.vue';
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
     RecipeCardSection,
+		LoadingIcon
   },
 
   data() {
@@ -37,11 +32,7 @@ export default {
       loading: true,
     };
   },
-
-  components: {
-    RecipeCardSection,
-  },
-
+	
   async mounted() {
     try {
       const response = await fetch(
