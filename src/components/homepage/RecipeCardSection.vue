@@ -12,7 +12,7 @@
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
         :recipe-cooking-time="recipe.timeInMins"
-        :recipe-rating="recipe.ratings.length > 0 ? calculateAverageRating(recipe.ratings) : 0"
+        :recipe-average-rating="recipe.ratings.length > 0 ? calculateAverage(recipe.ratings) : 0"
       />
     </router-link>
   </div>
@@ -29,10 +29,10 @@ export default {
   props: ['recipes'],
 
   methods: {
-    calculateAverageRating(ratings) {
+    calculateAverage(value) {
       return (
-        ratings.reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
-        ratings.length
+        value.reduce((accumulator, currentValue) => accumulator + currentValue) /
+        value.length
       );
     },
   },

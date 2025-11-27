@@ -1,7 +1,7 @@
 <template>
   <font-awesome-icon
-    v-for="starIcon in starIcons"
-    :icon="starIcon.value <= Math.round(ratingValue) ? filledStar : emptyStar"
+    v-for="starIcon in 5"
+    :icon="starIcon <= Math.round(valueToDisplay) ? filledStar : emptyStar"
   />
 </template>
 
@@ -21,14 +21,13 @@ export default {
   },
 
   props: {
-    ratingValue: {
+    valueToDisplay: {
       type: Number,
     },
   },
 
   data() {
     return {
-      starIcons: [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }],
       filledStar: 'fa-solid fa-star',
       emptyStar: 'fa-regular fa-star',
     };
