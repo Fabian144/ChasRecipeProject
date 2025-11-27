@@ -1,20 +1,11 @@
 <template>
-  <div v-if="error" class="error-message">
-    <h1>
-      Receptet kunde inte laddas in eller hittas inte <br />
-      Status: {{ error }}
-    </h1>
-    <a href="/">Tillbaka till startsidan</a>
-  </div>
+  <FetchError
+    v-if="errorMessage"
+    :error-message="errorMessage"
+    :error-status="errorStatus"
+  ></FetchError>
 
-  <div class="loading-container" v-if="loading">
-    <img
-      src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png"
-      alt="Julgran"
-      class="loading-icon"
-    />
-    <p class="loading-text">Laddar...</p>
-  </div>
+  <LoadingIcon v-if="loading"></LoadingIcon>
 
   <div v-else>
     <RatingSection :recipe-id="recipeId" />
@@ -23,11 +14,15 @@
 </template>
 
 <script>
+import LoadingIcon from '../components/LoadingIcon.vue';
+import FetchError from '../components/FetchError.vue';
 import RatingSection from '../components/recipepage/RatingSection.vue';
 import CommentSection from '../components/recipepage/commentSection.vue';
 
 export default {
   components: {
+    LoadingIcon,
+    FetchError,
     CommentSection,
     RatingSection,
   },
@@ -35,8 +30,9 @@ export default {
   data() {
     return {
       currentRecipe: [],
-      error: false,
       loading: true,
+      errorMessage: false,
+      errorStatus: false,
     };
   },
 
@@ -53,7 +49,8 @@ export default {
       );
       if (!response.ok) {
         this.loading = false;
-        this.error = `${response.status}`;
+        this.errorMessage = 'Receptet kunde inte laddas in eller hittas inte';
+        this.errorStatus = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.currentRecipe = await response.json();
