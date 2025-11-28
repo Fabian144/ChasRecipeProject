@@ -30,8 +30,8 @@ export default {
     return {
       recipes: [],
       loading: true,
-      errorMessage: false,
-      errorStatus: false,
+      errorMessage: '',
+      errorStatus: '',
     };
   },
 
@@ -41,12 +41,12 @@ export default {
         'https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes',
       );
       if (!response.ok) {
-        this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
-        this.errorStatus = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
     } catch (error) {
+      this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+      this.errorStatus = `${error.message}`;
       console.error('Fetch failed:', error);
     } finally {
       this.loading = false;

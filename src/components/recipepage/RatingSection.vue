@@ -10,8 +10,8 @@
         "
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
-        :class="[starIcon.class, starIcon.icon ]"
-        :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
+        :class="[starIcon.class, starIcon.icon]"
+        :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
         :disabled="ratingFetchPassed"
       >
         <font-awesome-icon :icon="starIcon.icon" />
@@ -54,16 +54,16 @@ export default {
   data() {
     return {
       starIcons: [
-        { voteValue: 1, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 2, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 3, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 4, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 5, icon: 'fa-regular fa-star', class: String },
+        { value: 1, icon: 'fa-regular fa-star', class: String },
+        { value: 2, icon: 'fa-regular fa-star', class: String },
+        { value: 3, icon: 'fa-regular fa-star', class: String },
+        { value: 4, icon: 'fa-regular fa-star', class: String },
+        { value: 5, icon: 'fa-regular fa-star', class: String },
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
       chosenRating: 0,
-      fetchError: false,
+      fetchError: '',
       ratingFetchPassed: false,
       sendingRating: false,
     };
@@ -78,7 +78,7 @@ export default {
   methods: {
     hoveringOverStar(hoveredStar) {
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.voteValue <= hoveredStar.voteValue) {
+        if (starIcon.value <= hoveredStar.value) {
           starIcon.icon = this.filledStar;
         } else {
           starIcon.icon = this.emptyStar;
@@ -88,7 +88,7 @@ export default {
 
     hoveringOutOfStar() {
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.voteValue > this.chosenRating) {
+        if (starIcon.value > this.chosenRating) {
           starIcon.icon = this.emptyStar;
         } else {
           starIcon.icon = this.filledStar;
@@ -98,13 +98,13 @@ export default {
 
     changeChosenRating(clickedStar) {
       this.fetchError = false;
-      if (clickedStar.voteValue === this.chosenRating) {
+      if (clickedStar.value === this.chosenRating) {
         this.chosenRating = 0;
         this.starIcons.forEach((starIcon) => {
           starIcon.icon = this.emptyStar;
         });
       } else {
-        this.chosenRating = clickedStar.voteValue;
+        this.chosenRating = clickedStar.value;
       }
     },
 
@@ -114,9 +114,9 @@ export default {
     },
 
     async fetchRatings() {
+      this.fetchError = false;
+      this.sendingRating = true;
       try {
-        this.fetchError = false;
-        this.sendingRating = true;
         const response = await fetch(
           `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
           {
@@ -126,11 +126,11 @@ export default {
           },
         );
         if (!response.ok) {
-          this.fetchError = `${response.status}`;
           throw new Error(`Status: ${response.status}`);
         }
         this.ratingFetchPassed = true;
       } catch (error) {
+        this.fetchError = `${error.message}`;
         console.error('Fetch failed:', error);
       } finally {
         this.sendingRating = false;
@@ -152,7 +152,7 @@ export default {
 .rating-section-container h3 {
   font-size: 2em;
   margin-bottom: 0.5em;
-	color: #ffffff;
+  color: #ffffff;
 }
 
 .star-container {
@@ -206,13 +206,13 @@ export default {
   width: fit-content;
   margin: 0;
   text-align: center;
-	color: white;
+  color: white;
 }
 
 .thank-you-message {
   width: fit-content;
   margin: 0;
-	color: white;
+  color: white;
 }
 
 @keyframes starClickAnimation {
