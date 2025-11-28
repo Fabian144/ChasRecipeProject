@@ -1,11 +1,11 @@
 <template>
   <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <FetchError
+  <FetchRecipesError
     v-else-if="errorMessage"
     :error-message="errorMessage"
     :error-status="errorStatus"
-  ></FetchError>
+  ></FetchRecipesError>
 
   <template v-else>
     <main class="recipe-card-section">
@@ -16,13 +16,13 @@
 
 <script>
 import LoadingIcon from '../components/LoadingIcon.vue';
-import FetchError from '../components/FetchError.vue';
+import FetchRecipesError from '../components/FetchRecipesError.vue';
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
     LoadingIcon,
-    FetchError,
+    FetchRecipesError,
     RecipeCardSection,
   },
 
@@ -30,8 +30,8 @@ export default {
     return {
       recipes: [],
       loading: true,
-      errorMessage: false,
-      errorStatus: false,
+      errorMessage: '',
+      errorStatus: '',
     };
   },
 
@@ -41,12 +41,12 @@ export default {
         'https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes',
       );
       if (!response.ok) {
-        this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
-        this.errorStatus = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
     } catch (error) {
+      this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+      this.errorStatus = `${error.message}`;
       console.error('Fetch failed:', error);
     } finally {
       this.loading = false;

@@ -1,15 +1,13 @@
 <template>
   <div class="error-message">
-    <h1>
-      <p>{{ errorMessage }}</p>
-      <p>Status: {{ errorStatus }}</p>
-    </h1>
+    <p>{{ errorMessage }}</p>
+    <p>{{ errorStatus }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: { errorMessage: String, errorStatus: Number },
+  props: { errorMessage: String, errorStatus: String },
 };
 </script>
 
@@ -17,9 +15,14 @@ export default {
 .error-message {
   height: 100dvh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  text-align: center;
+  align-items: center;
   color: white;
+  font-size: 2em;
+}
+
+.error-message > p {
+	margin: 0;
 }
 </style>

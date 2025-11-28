@@ -10,9 +10,9 @@
         "
         @mouseover="hoveringOverStar(starIcon)"
         @mouseleave="hoveringOutOfStar"
-        :class="[starIcon.class, starIcon.icon ]"
-        :aria-label="`Ge ett omdöme på ${starIcon.voteValue} av 5 stjärnor`"
-        :disabled="ratingFetchPassed"
+        :class="[starIcon.class, starIcon.icon]"
+        :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
+        :disabled="ratingPosted || postingRating"
       >
         <font-awesome-icon :icon="starIcon.icon" />
       </button>
@@ -21,20 +21,20 @@
     <button
       v-if="chosenRating"
       class="send-rating-button"
-      @click="fetchRatings"
-      :disabled="ratingFetchPassed"
+      @click="postingRating = true"
+      :disabled="ratingPosted || postingRating"
     >
-      {{ sendingRating ? 'Skickar...' : 'Skicka' }}
+      {{ postingRating ? 'Skickar...' : 'Skicka' }}
     </button>
 
-    <div v-if="fetchError" class="rating-error-message">
+    <div v-if="fetchErrorStatus" class="rating-error-message">
       <p>
         Misslyckades att skicka omdöme, försök igen <br />
-        Status: {{ fetchError }}
+        {{ fetchErrorStatus }}
       </p>
     </div>
 
-    <div v-if="ratingFetchPassed" class="thank-you-message">
+    <div v-if="ratingPosted" class="thank-you-message">
       <p>Tack för ditt omdöme!</p>
     </div>
   </div>
@@ -43,7 +43,6 @@
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -51,36 +50,69 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 library.add(fas, far, faStar);
 
 export default {
+  components: { FontAwesomeIcon },
+
   data() {
     return {
       starIcons: [
-        { voteValue: 1, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 2, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 3, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 4, icon: 'fa-regular fa-star', class: String },
-        { voteValue: 5, icon: 'fa-regular fa-star', class: String },
+        { value: 1, icon: 'fa-regular fa-star', class: String },
+        { value: 2, icon: 'fa-regular fa-star', class: String },
+        { value: 3, icon: 'fa-regular fa-star', class: String },
+        { value: 4, icon: 'fa-regular fa-star', class: String },
+        { value: 5, icon: 'fa-regular fa-star', class: String },
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
       chosenRating: 0,
-      fetchError: false,
-      ratingFetchPassed: false,
-      sendingRating: false,
+      fetchErrorStatus: '',
+      postingRating: false,
+      ratingPosted: false,
     };
   },
 
-  components: { FontAwesomeIcon },
-
   props: {
-    recipeId: {
-      type: String,
+    recipeId: String,
+  },
+
+  watch: {
+    chosenRating() {
+      if (this.chosenRating === 0) {
+        this.starIcons.forEach((starIcon) => {
+          starIcon.icon = this.emptyStar;
+        });
+      }
+    },
+
+    async postingRating() {
+      if (this.postingRating) {
+        this.fetchErrorStatus = '';
+        try {
+          const response = await fetch(
+            `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
+            {
+              method: 'POST',
+              headers: { 'Content-type': 'application/json' },
+              body: JSON.stringify(this.chosenRating),
+            },
+          );
+          if (!response.ok) {
+            throw new Error(`Status: ${response.status}`);
+          }
+          this.ratingPosted = true;
+        } catch (error) {
+          this.fetchErrorStatus = `${error.message}`;
+          console.error('Fetch failed:', error);
+        } finally {
+          this.postingRating = false;
+        }
+      }
     },
   },
 
   methods: {
     hoveringOverStar(hoveredStar) {
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.voteValue <= hoveredStar.voteValue) {
+        if (starIcon.value <= hoveredStar.value) {
           starIcon.icon = this.filledStar;
         } else {
           starIcon.icon = this.emptyStar;
@@ -90,7 +122,7 @@ export default {
 
     hoveringOutOfStar() {
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.voteValue > this.chosenRating) {
+        if (starIcon.value > this.chosenRating) {
           starIcon.icon = this.emptyStar;
         } else {
           starIcon.icon = this.filledStar;
@@ -99,44 +131,17 @@ export default {
     },
 
     changeChosenRating(clickedStar) {
-      this.fetchError = false;
-      if (clickedStar.voteValue === this.chosenRating) {
+      this.fetchErrorStatus = '';
+      if (clickedStar.value === this.chosenRating) {
         this.chosenRating = 0;
-        this.starIcons.forEach((starIcon) => {
-          starIcon.icon = this.emptyStar;
-        });
       } else {
-        this.chosenRating = clickedStar.voteValue;
+        this.chosenRating = clickedStar.value;
       }
     },
 
     animateClickedStar(clickedStar) {
       this.chosenRating ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
       setTimeout(() => (clickedStar.class = String), 250);
-    },
-
-    async fetchRatings() {
-      try {
-        this.fetchError = false;
-        this.sendingRating = true;
-        const response = await fetch(
-          `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}/ratings`,
-          {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(this.chosenRating),
-          },
-        );
-        if (!response.ok) {
-          this.fetchError = `${response.status}`;
-          throw new Error(`Status: ${response.status}`);
-        }
-        this.ratingFetchPassed = true;
-      } catch (error) {
-        console.error('Fetch failed:', error);
-      } finally {
-        this.sendingRating = false;
-      }
     },
   },
 };
@@ -154,7 +159,7 @@ export default {
 .rating-section-container h3 {
   font-size: 2em;
   margin-bottom: 0.5em;
-	color: #ffffff;
+  color: #ffffff;
 }
 
 .star-container {
@@ -208,13 +213,13 @@ export default {
   width: fit-content;
   margin: 0;
   text-align: center;
-	color: white;
+  color: white;
 }
 
 .thank-you-message {
   width: fit-content;
   margin: 0;
-	color: white;
+  color: white;
 }
 
 @keyframes starClickAnimation {
