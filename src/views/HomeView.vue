@@ -30,8 +30,8 @@ export default {
     return {
       recipes: [],
       loading: true,
-      errorMessage: false,
-      errorStatus: false,
+      errorMessage: '',
+      errorStatus: '',
     };
   },
 
@@ -41,12 +41,12 @@ export default {
         'REMOVED/REMOVED/recipes',
       );
       if (!response.ok) {
-        this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
-        this.errorStatus = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
     } catch (error) {
+      this.errorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+      this.errorStatus = `${error.message}`;
       console.error('Fetch failed:', error);
     } finally {
       this.loading = false;

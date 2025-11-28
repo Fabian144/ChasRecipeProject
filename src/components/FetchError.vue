@@ -2,14 +2,14 @@
   <div class="error-message">
     <h1>
       <p>{{ errorMessage }}</p>
-      <p>Status: {{ errorStatus }}</p>
+      <p>{{ errorStatus }}</p>
     </h1>
   </div>
 </template>
 
 <script>
 export default {
-  props: { errorMessage: String, errorStatus: Number },
+  props: { errorMessage: String, errorStatus: String },
 };
 </script>
 
