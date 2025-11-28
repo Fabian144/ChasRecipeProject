@@ -1,9 +1,7 @@
 <template>
   <div class="error-message">
-    <h1>
-      <p>{{ errorMessage }}</p>
-      <p>{{ errorStatus }}</p>
-    </h1>
+    <p>{{ errorMessage }}</p>
+    <p>{{ errorStatus }}</p>
   </div>
 </template>
 
@@ -17,9 +15,14 @@ export default {
 .error-message {
   height: 100dvh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  text-align: center;
+  align-items: center;
   color: white;
+  font-size: 2em;
+}
+
+.error-message > p {
+	margin: 0;
 }
 </style>
