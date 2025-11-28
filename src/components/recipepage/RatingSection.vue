@@ -64,9 +64,9 @@ export default {
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
       chosenRating: 0,
-      fetchErrorStatus: '',
       postingRating: false,
       ratingPosted: false,
+      fetchErrorStatus: '',
     };
   },
 
