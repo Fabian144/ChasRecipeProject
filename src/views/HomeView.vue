@@ -1,11 +1,11 @@
 <template>
   <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <FetchError
+  <FetchRecipesError
     v-else-if="errorMessage"
     :error-message="errorMessage"
     :error-status="errorStatus"
-  ></FetchError>
+  ></FetchRecipesError>
 
   <template v-else>
     <main class="recipe-card-section">
@@ -16,13 +16,13 @@
 
 <script>
 import LoadingIcon from '../components/LoadingIcon.vue';
-import FetchError from '../components/FetchError.vue';
+import FetchRecipesError from '../components/FetchRecipesError.vue';
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
     LoadingIcon,
-    FetchError,
+    FetchRecipesError,
     RecipeCardSection,
   },
 
