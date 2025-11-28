@@ -72,9 +72,7 @@ export default {
   components: { FontAwesomeIcon },
 
   props: {
-    recipeId: {
-      type: String,
-    },
+    recipeId: String,
   },
 
   methods: {
