@@ -1,7 +1,7 @@
 <template>
   <font-awesome-icon
     v-for="starIcon in 5"
-    :icon="starIcon <= Math.round(valueToDisplay) ? filledStar : emptyStar"
+    :icon="starIcon <= roundedValueToDisplay ? filledStar : emptyStar"
   />
 </template>
 
@@ -32,6 +32,12 @@ export default {
       emptyStar: 'fa-regular fa-star',
     };
   },
+
+  computed: {
+    roundedValueToDisplay() {
+      return Math.round(this.valueToDisplay);
+    },
+  },
 };
 </script>
 
@@ -42,8 +48,8 @@ svg {
 }
 
 @media (min-width: 1600px) {
-	svg {
-		width: 1.8em;
-	}
+  svg {
+    width: 1.8em;
+  }
 }
 </style>
