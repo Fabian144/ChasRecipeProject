@@ -54,11 +54,11 @@ export default {
   data() {
     return {
       starIcons: [
-        { value: 1, icon: 'fa-regular fa-star', class: '', clicked: false },
-        { value: 2, icon: 'fa-regular fa-star', class: '', clicked: false },
-        { value: 3, icon: 'fa-regular fa-star', class: '', clicked: false },
-        { value: 4, icon: 'fa-regular fa-star', class: '', clicked: false },
-        { value: 5, icon: 'fa-regular fa-star', class: '', clicked: false },
+        { value: 1, icon: 'fa-regular fa-star', class: ''},
+        { value: 2, icon: 'fa-regular fa-star', class: ''},
+        { value: 3, icon: 'fa-regular fa-star', class: ''},
+        { value: 4, icon: 'fa-regular fa-star', class: ''},
+        { value: 5, icon: 'fa-regular fa-star', class: ''},
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
