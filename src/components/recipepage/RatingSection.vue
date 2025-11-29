@@ -5,11 +5,10 @@
     <div class="star-container">
       <button
         v-for="starIcon in starIcons"
-        @click="
-          (hoveringOverStar(starIcon), changeChosenRating(starIcon), animateClickedStar(starIcon))
-        "
-        @mouseover="hoveringOverStar(starIcon)"
-        @mouseleave="hoveringOutOfStar"
+        @click="(animateClickedStar(starIcon), changeChosenRating(starIcon))"
+        @mouseover="fillStars(starIcon)"
+        @mouseleave="emptyStars"
+				@touchstart="touchStar(starIcon)"
         :class="[starIcon.class, starIcon.icon]"
         :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
         :disabled="ratingPosted || postingRating"
@@ -55,11 +54,11 @@ export default {
   data() {
     return {
       starIcons: [
-        { value: 1, icon: 'fa-regular fa-star', class: String },
-        { value: 2, icon: 'fa-regular fa-star', class: String },
-        { value: 3, icon: 'fa-regular fa-star', class: String },
-        { value: 4, icon: 'fa-regular fa-star', class: String },
-        { value: 5, icon: 'fa-regular fa-star', class: String },
+        { value: 1, icon: 'fa-regular fa-star', class: ''},
+        { value: 2, icon: 'fa-regular fa-star', class: ''},
+        { value: 3, icon: 'fa-regular fa-star', class: ''},
+        { value: 4, icon: 'fa-regular fa-star', class: ''},
+        { value: 5, icon: 'fa-regular fa-star', class: ''},
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
@@ -67,6 +66,7 @@ export default {
       postingRating: false,
       ratingPosted: false,
       fetchErrorStatus: '',
+      touchDevice: false,
     };
   },
 
@@ -74,15 +74,12 @@ export default {
     recipeId: String,
   },
 
-  watch: {
-    chosenRating() {
-      if (this.chosenRating === 0) {
-        this.starIcons.forEach((starIcon) => {
-          starIcon.icon = this.emptyStar;
-        });
-      }
-    },
+  mounted() {
+    this.touchDevice =
+      'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+  },
 
+  watch: {
     async postingRating() {
       if (this.postingRating) {
         this.fetchErrorStatus = '';
@@ -110,7 +107,8 @@ export default {
   },
 
   methods: {
-    hoveringOverStar(hoveredStar) {
+    fillStars(hoveredStar) {
+      if (this.touchDevice) return;
       this.starIcons.forEach((starIcon) => {
         if (starIcon.value <= hoveredStar.value) {
           starIcon.icon = this.filledStar;
@@ -120,12 +118,25 @@ export default {
       });
     },
 
-    hoveringOutOfStar() {
+    emptyStars() {
+      if (this.touchDevice) return;
       this.starIcons.forEach((starIcon) => {
         if (starIcon.value > this.chosenRating) {
           starIcon.icon = this.emptyStar;
         } else {
           starIcon.icon = this.filledStar;
+        }
+      });
+    },
+
+    touchStar(clickedStar) {
+      this.starIcons.forEach((starIcon) => {
+        if (clickedStar.value === this.chosenRating) {
+          starIcon.icon = this.emptyStar;
+        } else if (starIcon.value <= clickedStar.value) {
+          starIcon.icon = this.filledStar;
+        } else {
+          starIcon.icon = this.emptyStar;
         }
       });
     },
@@ -140,8 +151,8 @@ export default {
     },
 
     animateClickedStar(clickedStar) {
-      this.chosenRating ? (clickedStar.class = 'clicked') : (clickedStar.class = String);
-      setTimeout(() => (clickedStar.class = String), 250);
+      clickedStar.class = 'clicked';
+      setTimeout(() => (clickedStar.class = ''), 250);
     },
   },
 };
