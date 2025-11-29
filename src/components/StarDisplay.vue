@@ -1,8 +1,5 @@
 <template>
-  <font-awesome-icon
-    v-for="starIcon in 5"
-    :icon="starIcon <= roundedValueToDisplay ? filledStar : emptyStar"
-  />
+  <font-awesome-icon v-for="starIcon in stars" :icon="starIcon" />
 </template>
 
 <script>
@@ -26,16 +23,15 @@ export default {
     },
   },
 
-  data() {
-    return {
-      filledStar: 'fa-solid fa-star',
-      emptyStar: 'fa-regular fa-star',
-    };
-  },
-
   computed: {
     roundedValueToDisplay() {
       return Math.round(this.valueToDisplay);
+    },
+
+    stars() {
+      return Array.from({ length: 5 }, (_, index) => {
+        return index < this.roundedValueToDisplay ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      });
     },
   },
 };
