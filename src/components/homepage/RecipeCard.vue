@@ -85,7 +85,7 @@ export default {
   margin-top: 0.25em;
   display: flex;
   flex-direction: row;
-  max-width: fit-content;
+	width: 1.8em;
 }
 
 .recipe-info-container {
@@ -191,6 +191,10 @@ hr {
   .recipe-heading {
     font-size: 1.9em;
   }
+
+	.recipe-star-container {
+		width: 1.8em;
+	}
 
   .recipe-description {
     font-size: 1.1em;
