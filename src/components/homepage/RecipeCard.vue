@@ -184,26 +184,4 @@ hr {
     width: 20vw;
   }
 }
-
-@media (min-width: 1600px) {
-  .recipe-card {
-    min-height: 16em;
-  }
-
-  .recipe-heading {
-    font-size: 1.9em;
-  }
-
-  .recipe-rating-container {
-    width: 1.8em;
-  }
-
-  .recipe-description {
-    font-size: 1.1em;
-  }
-
-  .bottom-section-text {
-    font-size: 1.1em;
-  }
-}
 </style>
