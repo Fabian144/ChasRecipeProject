@@ -13,6 +13,7 @@
         :recipe-ingredients="recipe.ingredients"
         :recipe-cooking-time="recipe.timeInMins"
         :recipe-average-rating="calculateAverage(recipe.ratings)"
+        :amount-of-ratings="recipe.ratings.length"
       />
     </router-link>
   </div>
@@ -34,7 +35,8 @@ export default {
     calculateAverage(ratingsArray) {
       if (ratingsArray.length > 0) {
         return (
-          ratingsArray.reduce((accumulator, currentValue) => accumulator + currentValue) / ratingsArray.length
+          ratingsArray.reduce((accumulator, currentValue) => accumulator + currentValue) /
+          ratingsArray.length
         );
       } else {
         return 0;

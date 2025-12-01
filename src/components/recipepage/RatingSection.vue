@@ -5,10 +5,10 @@
     <div class="star-container">
       <button
         v-for="starIcon in starIcons"
-        @click="(animateClickedStar(starIcon), changeChosenRating(starIcon))"
-        @mouseover="fillStars(starIcon)"
-        @mouseleave="emptyStars"
-				@touchstart="touchStar(starIcon)"
+        @click="(animateClickedStar(starIcon), updateChosenRating(starIcon))"
+        @mouseover="fillCorrectStars(starIcon)"
+        @mouseleave="emptyCorrectStars"
+        @touchstart="fillCorrectStarsMobile(starIcon)"
         :class="[starIcon.class, starIcon.icon]"
         :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
         :disabled="ratingPosted || postingRating"
@@ -20,10 +20,10 @@
     <button
       v-if="chosenRating"
       class="send-rating-button"
-      @click="postingRating = true"
+      @click="postRating"
       :disabled="ratingPosted || postingRating"
     >
-      {{ postingRating ? 'Skickar...' : 'Skicka' }}
+      {{ postingRating ? 'Skickar...' : 'Skicka' }} {{ chosenRating }}
     </button>
 
     <div v-if="fetchErrorStatus" class="rating-error-message">
@@ -54,11 +54,11 @@ export default {
   data() {
     return {
       starIcons: [
-        { value: 1, icon: 'fa-regular fa-star', class: ''},
-        { value: 2, icon: 'fa-regular fa-star', class: ''},
-        { value: 3, icon: 'fa-regular fa-star', class: ''},
-        { value: 4, icon: 'fa-regular fa-star', class: ''},
-        { value: 5, icon: 'fa-regular fa-star', class: ''},
+        { value: 1, icon: 'fa-regular fa-star', class: '' },
+        { value: 2, icon: 'fa-regular fa-star', class: '' },
+        { value: 3, icon: 'fa-regular fa-star', class: '' },
+        { value: 4, icon: 'fa-regular fa-star', class: '' },
+        { value: 5, icon: 'fa-regular fa-star', class: '' },
       ],
       emptyStar: 'fa-regular fa-star',
       filledStar: 'fa-solid fa-star',
@@ -79,35 +79,8 @@ export default {
       'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
   },
 
-  watch: {
-    async postingRating() {
-      if (this.postingRating) {
-        this.fetchErrorStatus = '';
-        try {
-          const response = await fetch(
-            `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
-            {
-              method: 'POST',
-              headers: { 'Content-type': 'application/json' },
-              body: JSON.stringify(this.chosenRating),
-            },
-          );
-          if (!response.ok) {
-            throw new Error(`Status: ${response.status}`);
-          }
-          this.ratingPosted = true;
-        } catch (error) {
-          this.fetchErrorStatus = `${error.message}`;
-          console.error('Fetch failed:', error);
-        } finally {
-          this.postingRating = false;
-        }
-      }
-    },
-  },
-
   methods: {
-    fillStars(hoveredStar) {
+    fillCorrectStars(hoveredStar) {
       if (this.touchDevice) return;
       this.starIcons.forEach((starIcon) => {
         if (starIcon.value <= hoveredStar.value) {
@@ -118,7 +91,7 @@ export default {
       });
     },
 
-    emptyStars() {
+    emptyCorrectStars() {
       if (this.touchDevice) return;
       this.starIcons.forEach((starIcon) => {
         if (starIcon.value > this.chosenRating) {
@@ -129,11 +102,11 @@ export default {
       });
     },
 
-    touchStar(clickedStar) {
+    fillCorrectStarsMobile(touchedStar) {
       this.starIcons.forEach((starIcon) => {
-        if (clickedStar.value === this.chosenRating) {
+        if (touchedStar.value === this.chosenRating) {
           starIcon.icon = this.emptyStar;
-        } else if (starIcon.value <= clickedStar.value) {
+        } else if (starIcon.value <= touchedStar.value) {
           starIcon.icon = this.filledStar;
         } else {
           starIcon.icon = this.emptyStar;
@@ -141,7 +114,12 @@ export default {
       });
     },
 
-    changeChosenRating(clickedStar) {
+    animateClickedStar(clickedStar) {
+      clickedStar.class = 'clicked';
+      setTimeout(() => (clickedStar.class = ''), 250);
+    },
+
+    updateChosenRating(clickedStar) {
       this.fetchErrorStatus = '';
       if (clickedStar.value === this.chosenRating) {
         this.chosenRating = 0;
@@ -150,9 +128,28 @@ export default {
       }
     },
 
-    animateClickedStar(clickedStar) {
-      clickedStar.class = 'clicked';
-      setTimeout(() => (clickedStar.class = ''), 250);
+    async postRating() {
+      this.postingRating = true;
+      this.fetchErrorStatus = '';
+      try {
+        const response = await fetch(
+          `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
+          {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(this.chosenRating),
+          },
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.ratingPosted = true;
+      } catch (error) {
+        this.fetchErrorStatus = `${error.message}`;
+        console.error('Fetch failed:', error);
+      } finally {
+        this.postingRating = false;
+      }
     },
   },
 };
