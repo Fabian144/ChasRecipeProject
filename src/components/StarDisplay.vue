@@ -40,6 +40,6 @@ export default {
 <style scoped>
 svg {
   height: 100%;
-  width: unset;
+  width: 100%;
 }
 </style>

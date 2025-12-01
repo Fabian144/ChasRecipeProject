@@ -13,8 +13,10 @@
         class="recipe-rating-container"
         :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
       >
-        <StarDisplay :value-to-display="recipeAverageRating" />
-        <div v-if="amountOfRatings">({{ amountOfRatings }})</div>
+        <div class="recipe-star-container">
+          <StarDisplay :value-to-display="recipeAverageRating" />
+        </div>
+        <div>({{ amountOfRatings }})</div>
       </div>
 
       <p class="recipe-description">
@@ -55,6 +57,7 @@ export default {
   display: inline-grid;
   color: black;
   width: 100%;
+	height: 100%;
 }
 
 .recipe-card:active {
@@ -87,7 +90,14 @@ export default {
   margin-top: 0.25em;
   display: flex;
   flex-direction: row;
-  width: 1.8em;
+  gap: 0.1em;
+}
+
+.recipe-star-container {
+  display: flex;
+  flex-direction: row;
+  width: 8.5em;
+  height: 1.5em;
 }
 
 .recipe-info-container {
@@ -177,11 +187,18 @@ hr {
 
 @media (min-width: 1400px) {
   .recipe-card {
-    min-height: 15em;
+    min-height: 16em;
   }
 
   .recipe-image-container {
-    width: 20vw;
+    width: 21vw;
+  }
+}
+
+@media (min-width: 1600px) {
+  .recipe-star-container {
+    width: 9em;
+    height: 1.6em;
   }
 }
 </style>
