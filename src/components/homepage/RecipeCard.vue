@@ -10,7 +10,7 @@
       </h2>
 
       <div
-        class="recipe-star-container"
+        class="recipe-rating-container"
         :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
       >
         <StarDisplay :value-to-display="recipeAverageRating" />
@@ -21,9 +21,9 @@
       </p>
     </div>
 
-    <div class="recipe-bottom-container">
+    <div class="card-bottom-container">
       <hr />
-      <p class="recipe-bottom-text">
+      <p class="bottom-section-text">
         {{ recipeIngredients.length }} INGREDIENSER | {{ recipeCookingTime }} MINUTER
       </p>
     </div>
@@ -81,7 +81,7 @@ export default {
   word-break: break-word;
 }
 
-.recipe-star-container {
+.recipe-rating-container {
   margin-top: 0.25em;
   display: flex;
   flex-direction: row;
@@ -102,12 +102,12 @@ hr {
   margin: 0 1.25em;
 }
 
-.recipe-bottom-container {
+.card-bottom-container {
   text-align: center;
   margin-top: auto;
 }
 
-.recipe-bottom-text {
+.bottom-section-text {
   align-self: center;
   width: fit-content;
   margin: 1em auto;
@@ -166,7 +166,7 @@ hr {
     margin: 0;
   }
 
-  .recipe-bottom-container {
+  .card-bottom-container {
     grid-column-start: 2;
     grid-column-end: 4;
     padding-right: 1em;
@@ -192,7 +192,7 @@ hr {
     font-size: 1.9em;
   }
 
-	.recipe-star-container {
+	.recipe-rating-container {
 		width: 1.8em;
 	}
 
@@ -200,7 +200,7 @@ hr {
     font-size: 1.1em;
   }
 
-  .recipe-bottom-text {
+  .bottom-section-text {
     font-size: 1.1em;
   }
 }
