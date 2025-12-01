@@ -14,6 +14,7 @@
         :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
       >
         <StarDisplay :value-to-display="recipeAverageRating" />
+        <div v-if="amountOfRatings">({{ amountOfRatings }})</div>
       </div>
 
       <p class="recipe-description">
@@ -43,6 +44,7 @@ export default {
     recipeIngredients: Array,
     recipeCookingTime: Number,
     recipeAverageRating: Number,
+    amountOfRatings: Number,
   },
 };
 </script>
@@ -85,7 +87,7 @@ export default {
   margin-top: 0.25em;
   display: flex;
   flex-direction: row;
-	width: 1.8em;
+  width: 1.8em;
 }
 
 .recipe-info-container {
@@ -192,9 +194,9 @@ hr {
     font-size: 1.9em;
   }
 
-	.recipe-rating-container {
-		width: 1.8em;
-	}
+  .recipe-rating-container {
+    width: 1.8em;
+  }
 
   .recipe-description {
     font-size: 1.1em;
