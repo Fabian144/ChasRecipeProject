@@ -8,7 +8,7 @@
   ></GetMethodError>
 
   <template v-else>
-		<Header></Header>
+    <Header></Header>
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="recipes" />
     </main>
@@ -25,7 +25,7 @@ export default {
   components: {
     LoadingIcon,
     GetMethodError,
-		Header,
+    Header,
     RecipeCardSection,
   },
 

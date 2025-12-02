@@ -16,7 +16,10 @@
         <li class="recipe-star-container">
           <StarDisplay :value-to-display="recipeAverageRating" />
         </li>
-        <li :aria-label="`Receptet har ${Math.round(recipeAverageRating)} röster`">
+        <li
+          class="recipe-rating-amount"
+          :aria-label="`Receptet har ${Math.round(recipeAverageRating)} röster`"
+        >
           ({{ amountOfRatings }})
         </li>
       </ul>
@@ -55,11 +58,13 @@ export default {
 
 <style scoped>
 .recipe-card {
-  background-color: #c3c3c3;
   display: inline-grid;
-  color: black;
   width: 100%;
   height: 100%;
+  color: rgb(255, 255, 255);
+  background-color: rgba(68, 133, 56, 0.9);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
 }
 
 .recipe-card:active {
@@ -76,7 +81,8 @@ export default {
 }
 
 .recipe-image {
-  border: solid black 4px;
+  border: solid rgb(0, 0, 0) 3px;
+  border-radius: 5px;
   width: 100%;
   object-fit: cover;
 }
@@ -89,12 +95,13 @@ export default {
 }
 
 .recipe-rating-container {
-	list-style: none;
-	padding: 0;
+  list-style: none;
+  padding: 0;
   margin: 0.25em 0 0;
   display: flex;
   flex-direction: row;
   gap: 0.1em;
+  color: #e4dc00;
 }
 
 .recipe-star-container {
@@ -110,12 +117,9 @@ export default {
   padding: 0.75em 1.25em 0;
 }
 
-.recipe-description {
-  font-size: 1em;
-}
-
 hr {
   margin: 0 1.25em;
+  border: rgb(255, 255, 255) 1px solid;
 }
 
 .card-bottom-container {
@@ -159,7 +163,7 @@ hr {
     aspect-ratio: 16/11;
     max-height: unset;
     width: 38vw;
-    max-width: 20em;
+    max-width: 20.5em;
     align-self: center;
     padding: 1em;
     grid-row-start: 1;
