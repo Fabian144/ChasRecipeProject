@@ -23,7 +23,7 @@
       @click="postRating"
       :disabled="ratingPosted || postingRating"
     >
-      {{ postingRating ? 'Skickar...' : 'Skicka' }} {{ chosenRating }}
+      {{ postingRating ? 'Skickar...' : 'Skicka' }}
     </button>
 
     <div v-if="fetchErrorStatus" class="rating-error-message">
