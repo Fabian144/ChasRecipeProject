@@ -16,6 +16,7 @@
   </div>
 
   <div v-else>
+    <SidebarPanel />
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="recipes" />
     </main>
@@ -23,11 +24,14 @@
 </template>
 
 <script>
+import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
+
 
 export default {
   components: {
     RecipeCardSection,
+    SidebarPanel,
   },
 
   data() {
@@ -36,10 +40,6 @@ export default {
       error: false,
       loading: true,
     };
-  },
-
-  components: {
-    RecipeCardSection,
   },
 
   async mounted() {
