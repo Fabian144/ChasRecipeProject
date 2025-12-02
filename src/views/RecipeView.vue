@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import LoadingIcon from '../components/LoadingIcon.vue';
-import GetMethodError from '../components/GetMethodError.vue';
-import RatingSection from '../components/recipepage/RatingSection.vue';
-import CommentSection from '../components/recipepage/commentSection.vue';
+import LoadingIcon from '@/components/LoadingIcon.vue';
+import GetMethodError from '@/components/GetMethodError.vue';
+import RatingSection from '@/components/recipepage/RatingSection.vue';
+import CommentSection from '@/components/recipepage/commentSection.vue';
 
 export default {
   components: {
