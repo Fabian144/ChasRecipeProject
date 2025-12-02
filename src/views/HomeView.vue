@@ -8,13 +8,7 @@
   ></GetMethodError>
 
   <template v-else>
-    <header>
-      <h1>JULRECEPT FÖR ALLA</h1>
-      <p class="heading-description">
-        Klassiska och moderna recept för julfrukosten, <br> julbordet och allting däremellan
-      </p>
-    </header>
-
+		<Header></Header>
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="recipes" />
     </main>
@@ -24,12 +18,14 @@
 <script>
 import LoadingIcon from '../components/LoadingIcon.vue';
 import GetMethodError from '../components/GetMethodError.vue';
+import Header from '../components/homepage/Header.vue';
 import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
     LoadingIcon,
     GetMethodError,
+		Header,
     RecipeCardSection,
   },
 
@@ -63,54 +59,6 @@ export default {
 </script>
 
 <style scoped>
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 1em;
-  height: 9em;
-}
-
-h1 {
-  color: white;
-  margin: 0;
-  width: fit-content;
-  font-size: 1.8em;
-}
-
-.heading-description {
-  color: white;
-  margin: 0.35em 0 0;
-  width: fit-content;
-  font-size: 1em;
-}
-
-@media (min-width: 526px) {
-  header {
-    height: 9em;
-  }
-
-  h1 {
-    font-size: 2.3em;
-  }
-
-  .heading-description {
-    font-size: 1.2em;
-  }
-}
-
-@media (min-width: 992px) {
-  h1 {
-    font-size: 2.5em;
-  }
-
-  .heading-description {
-    font-size: 1.3em;
-  }
-}
-
 .recipe-card-section {
   display: flex;
   height: 100dvh;
