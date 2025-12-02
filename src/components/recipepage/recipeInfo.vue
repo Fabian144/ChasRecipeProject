@@ -1,8 +1,10 @@
 <script>
-
-// import { getRecipes } from '../../modules/fetchRecipeData.js'; <---- defunct/meningslös 
+import PortionSlider from './PortionSlider.vue';
 
 export default {
+  components: {
+    PortionSlider
+  },
   data() 
   {
     return {
@@ -111,20 +113,12 @@ export default {
             
           </li>
           <div class="ingredients_header">
-          <div class="portion_control">
-            <label for="portion-slider">
-              {{ portionMultiplier }} Portioner
-            </label>
-            <input 
-              type="range" 
-              v-model.number="portionMultiplier"
-              min="1" 
-              max="20" 
-              step="1"
-              class="slider">
-              <!---v-model.number parse till int/number--->
+            <PortionSlider v-model="portionMultiplier" /> 
+            <!-- 
+            utgångg och ingång till portionSlider.vue 
+            Kommer att revideras. Se PortionSlider.vue för mer info.
+            -->
           </div>
-        </div>
         </ul>
       </div>
     </div>
@@ -215,24 +209,5 @@ text-align: center;
     max-width: 400px;
     height: auto;
     border-radius: 10px;
-}
-
-.portion_control 
-{
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px;
-}
-.slider 
-{
-    width: 50%;
-    margin-top: 5px;
-    background-color: rgb(255, 255, 255);
-}
-
-.portion_control:hover
-{
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
 }
 </style>
