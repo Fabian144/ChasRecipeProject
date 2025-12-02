@@ -197,8 +197,8 @@ hr {
 
 @media (min-width: 1600px) {
   .recipe-star-container {
-    width: 9em;
-    height: 1.6em;
+    width: 8.5em;
+    height: 1.5em;
   }
 }
 </style>
