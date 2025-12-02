@@ -101,6 +101,16 @@ h1 {
   }
 }
 
+@media (min-width: 992px) {
+  h1 {
+    font-size: 2.5em;
+  }
+
+  .heading-description {
+    font-size: 1.3em;
+  }
+}
+
 .recipe-card-section {
   display: flex;
   height: 100dvh;
