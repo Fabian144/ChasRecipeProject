@@ -9,15 +9,17 @@
         {{ recipeName }}
       </h2>
 
-      <div
+      <ul
         class="recipe-rating-container"
         :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
       >
-        <div class="recipe-star-container">
+        <li class="recipe-star-container">
           <StarDisplay :value-to-display="recipeAverageRating" />
-        </div>
-        <div>({{ amountOfRatings }})</div>
-      </div>
+        </li>
+        <li :aria-label="`Receptet har ${Math.round(recipeAverageRating)} röster`">
+          ({{ amountOfRatings }})
+        </li>
+      </ul>
 
       <p class="recipe-description">
         {{ recipeDescription }}
@@ -87,7 +89,9 @@ export default {
 }
 
 .recipe-rating-container {
-  margin-top: 0.25em;
+	list-style: none;
+	padding: 0;
+  margin: 0.25em 0 0;
   display: flex;
   flex-direction: row;
   gap: 0.1em;
