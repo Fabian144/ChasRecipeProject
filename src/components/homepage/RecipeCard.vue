@@ -64,6 +64,7 @@ export default {
   color: rgb(255, 255, 255);
   background-color: rgba(68, 133, 56, 0.9);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
 }
 
 .recipe-card:active {
@@ -81,6 +82,7 @@ export default {
 
 .recipe-image {
   border: solid rgb(0, 0, 0) 3px;
+  border-radius: 5px;
   width: 100%;
   object-fit: cover;
 }
@@ -161,7 +163,7 @@ hr {
     aspect-ratio: 16/11;
     max-height: unset;
     width: 38vw;
-    max-width: 20em;
+    max-width: 20.5em;
     align-self: center;
     padding: 1em;
     grid-row-start: 1;
