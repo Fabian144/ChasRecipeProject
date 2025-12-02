@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import LoadingIcon from '../components/LoadingIcon.vue';
-import GetMethodError from '../components/GetMethodError.vue';
-import Header from '../components/homepage/Header.vue';
-import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
+import LoadingIcon from '@/components/LoadingIcon.vue';
+import GetMethodError from '@/components/GetMethodError.vue';
+import Header from '@/components/homepage/Header.vue';
+import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
