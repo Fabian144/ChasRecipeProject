@@ -57,7 +57,7 @@ export default {
   display: inline-grid;
   color: black;
   width: 100%;
-	height: 100%;
+  height: 100%;
 }
 
 .recipe-card:active {
@@ -96,8 +96,8 @@ export default {
 .recipe-star-container {
   display: flex;
   flex-direction: row;
-  width: 8.5em;
-  height: 1.5em;
+  width: 7.5em;
+  height: 1.3em;
 }
 
 .recipe-info-container {
@@ -195,10 +195,18 @@ hr {
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1800px) {
+  .recipe-heading {
+    font-size: 1.8em;
+  }
+
   .recipe-star-container {
-    width: 8.5em;
-    height: 1.5em;
+    width: 8em;
+    height: 1.4em;
+  }
+
+  .recipe-description {
+    font-size: 1.1em;
   }
 }
 </style>
