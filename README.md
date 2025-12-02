@@ -4,7 +4,7 @@ This is a group project made in 2025 by **Chas Academy Front-End Development/UX 
 
 ## The goal 🎯
 
-The goal of the project was to create a dynamic and accessible website using **Vue.js** and a **REST API**, where the user can browse for recipes as well as leave a rating and comment on each recipe
+The goal of the project was to create a dynamic and accessible website using **Vue.js** and a **REST API**, where the user can browse for recipes as well as leave a rating and comment on each recipe.
 
 ### Features 🔍
 ---
@@ -17,7 +17,7 @@ The goal of the project was to create a dynamic and accessible website using **V
 
 - **Comment section** on the recipe pages for the ability to leave a comment on each recipe
 
-- **Rating display** on each  recipe card that displays the recipe's average rating
+- **Recipe cards** with an image of the recipe and the recipe's name, description, average rating and additional information
 
 ## Live demo 💻
 Visit the website here: https://fabian144.github.io/ChasRecipeProject/
