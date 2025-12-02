@@ -8,7 +8,6 @@
   ></GetMethodError>
 
   <template v-else>
-    <nav></nav>
     <Header></Header>
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="recipes" />
@@ -60,11 +59,6 @@ export default {
 </script>
 
 <style scoped>
-nav {
-  height: 100dvh;
-  width: 250px;
-  float: left;
-}
 .recipe-card-section {
   display: flex;
   height: 100dvh;
