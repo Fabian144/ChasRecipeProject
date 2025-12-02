@@ -39,5 +39,6 @@ nav {
   float: left;
   height: 100dvh;
   width: 200px;
+  background-color: red;
 }
 </style>
