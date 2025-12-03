@@ -9,21 +9,29 @@
         {{ recipeName }}
       </h2>
 
-      <div
-        class="recipe-star-container"
-        :aria-label="`Receptet har ett omdöme på ${Math.round(recipeRating)} av 5 stjärnor`"
+      <ul
+        class="recipe-rating-container"
+        :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
       >
-        <StarDisplay :rating-value="recipeRating" />
-      </div>
+        <li class="recipe-star-container">
+          <StarDisplay :value-to-display="recipeAverageRating" />
+        </li>
+        <li
+          class="recipe-rating-amount"
+          :aria-label="`Receptet har ${Math.round(recipeAverageRating)} röster`"
+        >
+          ({{ amountOfRatings }})
+        </li>
+      </ul>
 
       <p class="recipe-description">
         {{ recipeDescription }}
       </p>
     </div>
 
-    <div class="recipe-bottom-container">
+    <div class="card-bottom-container">
       <hr />
-      <p class="recipe-bottom-text">
+      <p class="bottom-section-text">
         {{ recipeIngredients.length }} INGREDIENSER | {{ recipeCookingTime }} MINUTER
       </p>
     </div>
@@ -34,27 +42,29 @@
 import StarDisplay from '../StarDisplay.vue';
 
 export default {
+  components: { StarDisplay },
+
   props: {
     recipeImage: String,
     recipeName: String,
     recipeDescription: String,
     recipeIngredients: Array,
     recipeCookingTime: Number,
-    recipeRating: Number,
-  },
-
-  components: {
-    StarDisplay,
+    recipeAverageRating: Number,
+    amountOfRatings: Number,
   },
 };
 </script>
 
 <style scoped>
 .recipe-card {
-  background-color: #c3c3c3;
   display: inline-grid;
-  color: black;
-  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  color: rgb(255, 255, 255);
+  background-color: rgba(68, 133, 56, 0.9);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
 }
 
 .recipe-card:active {
@@ -67,10 +77,12 @@ export default {
   margin: 0;
   padding: 0.5em 0.5em 0;
   max-height: 17em;
+  height: 60vw;
 }
 
 .recipe-image {
-  border: solid black 4px;
+  border: solid rgb(0, 0, 0) 3px;
+  border-radius: 5px;
   width: 100%;
   object-fit: cover;
 }
@@ -79,13 +91,24 @@ export default {
   font-size: 1.6em;
   margin: 0;
   width: fit-content;
+  word-break: break-word;
+}
+
+.recipe-rating-container {
+  list-style: none;
+  padding: 0;
+  margin: 0.25em 0 0;
+  display: flex;
+  flex-direction: row;
+  gap: 0.1em;
+  color: #e4dc00;
 }
 
 .recipe-star-container {
-  margin-top: 0.25em;
   display: flex;
   flex-direction: row;
-  width: 8em;
+  width: 7.5em;
+  height: 1.3em;
 }
 
 .recipe-info-container {
@@ -94,20 +117,17 @@ export default {
   padding: 0.75em 1.25em 0;
 }
 
-.recipe-description {
-  font-size: 0.9em;
-}
-
 hr {
   margin: 0 1.25em;
+  border: rgb(255, 255, 255) 1px solid;
 }
 
-.recipe-bottom-container {
+.card-bottom-container {
   text-align: center;
   margin-top: auto;
 }
 
-.recipe-bottom-text {
+.bottom-section-text {
   align-self: center;
   width: fit-content;
   margin: 1em auto;
@@ -116,12 +136,14 @@ hr {
 
 @media (min-width: 526px) {
   .recipe-card {
-    min-height: 25em;
+    min-height: 28em;
     width: 100%;
+    grid-template-rows: 1fr 1fr;
   }
 
   .recipe-image-container {
     max-height: 12em;
+    height: unset;
   }
 }
 
@@ -141,9 +163,9 @@ hr {
     aspect-ratio: 16/11;
     max-height: unset;
     width: 38vw;
-    max-width: 20em;
+    max-width: 20.5em;
     align-self: center;
-    padding: 1.25em;
+    padding: 1em;
     grid-row-start: 1;
     grid-row-end: 3;
   }
@@ -164,7 +186,7 @@ hr {
     margin: 0;
   }
 
-  .recipe-bottom-container {
+  .card-bottom-container {
     grid-column-start: 2;
     grid-column-end: 4;
     padding-right: 1em;
@@ -173,29 +195,26 @@ hr {
 
 @media (min-width: 1400px) {
   .recipe-card {
-    min-height: 15em;
+    min-height: 16em;
   }
 
   .recipe-image-container {
-    width: 20vw;
+    width: 21vw;
   }
 }
 
-@media (min-width: 1600px) {
-  .recipe-card {
-    min-height: 17em;
-  }
-
+@media (min-width: 1800px) {
   .recipe-heading {
-    font-size: 1.9em;
+    font-size: 1.8em;
   }
 
   .recipe-star-container {
-    width: 9em;
+    width: 8em;
+    height: 1.4em;
   }
 
   .recipe-description {
-    font-size: 1em;
+    font-size: 1.1em;
   }
 }
 </style>

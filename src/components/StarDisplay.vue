@@ -1,8 +1,5 @@
 <template>
-  <font-awesome-icon
-    v-for="starIcon in starIcons"
-    :icon="starIcon.value <= Math.round(ratingValue) ? filledStar : emptyStar"
-  />
+  <font-awesome-icon v-for="starIcon in stars" :icon="starIcon" />
 </template>
 
 <script>
@@ -21,24 +18,28 @@ export default {
   },
 
   props: {
-    ratingValue: {
+    valueToDisplay: {
       type: Number,
     },
   },
 
-  data() {
-    return {
-      starIcons: [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }],
-      filledStar: 'fa-solid fa-star',
-      emptyStar: 'fa-regular fa-star',
-    };
+  computed: {
+    roundedValueToDisplay() {
+      return Math.round(this.valueToDisplay);
+    },
+
+    stars() {
+      return Array.from({ length: 5 }, (_, index) => {
+        return index < this.roundedValueToDisplay ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
-.fa-star {
-  width: 100%;
+svg {
   height: 100%;
+  width: 100%;
 }
 </style>

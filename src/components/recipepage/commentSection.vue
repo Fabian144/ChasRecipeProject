@@ -50,13 +50,6 @@
         <div class="flex justify-between items-center mb-1">
           <strong class="text-gray-800">{{ c.name }}</strong>
           <small class="text-gray-500 text-xs">{{ c.date }}</small>
-          <div
-            v-if="!fetchError && chosenRating > 0"
-            class="chosen-star-container"
-            :aria-label="`Du har gett receptet ett omdöme på ${chosenRating} av 5 stjärnor`"
-          >
-            <StarDisplay :rating-value="chosenRating" />
-          </div>
         </div>
         <p class="text-gray-700">{{ c.text }}</p>
       </li>

@@ -12,7 +12,8 @@
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
         :recipe-cooking-time="recipe.timeInMins"
-        :recipe-rating="recipe.ratings.length > 0 ? calculateAverageRating(recipe.ratings) : 0"
+        :recipe-average-rating="calculateAverage(recipe.ratings)"
+        :amount-of-ratings="recipe.ratings.length"
       />
     </router-link>
   </div>
@@ -26,14 +27,20 @@ export default {
     RecipeCard,
   },
 
-  props: ['recipes'],
+  props: {
+    recipes: Array,
+  },
 
   methods: {
-    calculateAverageRating(ratings) {
-      return (
-        ratings.reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
-        ratings.length
-      );
+    calculateAverage(ratingsArray) {
+      if (ratingsArray.length > 0) {
+        return (
+          ratingsArray.reduce((accumulator, currentValue) => accumulator + currentValue) /
+          ratingsArray.length
+        );
+      } else {
+        return 0;
+      }
     },
   },
 };
@@ -41,12 +48,11 @@ export default {
 
 <style scoped>
 .recipe-cards-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 0.75em;
   margin: 0 0.75em 0.75em;
   width: 100%;
-  align-items: center;
 }
 
 .recipe-cards-container > a:focus-visible {
