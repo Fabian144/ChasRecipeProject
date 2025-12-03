@@ -1,5 +1,6 @@
 <template>
   <nav>
+    <h2>Kategorier</h2>
     <ul>
       <li v-for="category in categories"><router-link :key="category.id"
           :to="{ name: 'category', params: { categoryId: category.id } }"> {{ category.name }}</router-link></li>
@@ -35,12 +36,17 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  text-align: center;
+  color: white;
+}
+
 nav {
   float: left;
   height: 100dvh;
   width: 200px;
-  background-color: rgba(211, 0, 0, 0.95);
-  
+  background-color: rgba(211, 0, 0, 0.90);
+
 }
 
 ul {
@@ -51,16 +57,14 @@ ul {
 
 li a {
   display: block;
-  padding: 5px 15px;  
+  padding: 5px 15px;
   color: white;
   text-decoration: none;
   font-size: 18px;
-  
+
 }
 
 li a:hover {
-  background-color: darkred
+  background-color: darkred;
 }
-
-
 </style>
