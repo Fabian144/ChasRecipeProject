@@ -1,9 +1,11 @@
 <template>
-  <nav>
+  <button class="hamburger" v-if="!isOpen" @click="toggleMenu">☰</button>
+  <nav :class="{ open: isOpen }">
     <h2>Kategorier</h2>
     <ul>
       <li v-for="category in categories"><router-link :key="category.id"
-          :to="{ name: 'category', params: { categoryId: category.id } }"> {{ category.name }}</router-link></li>
+          :to="{ name: 'category', params: { categoryId: category.id } }" @click="closeMenu"> {{ category.name
+          }}</router-link></li>
     </ul>
 
   </nav>
@@ -14,6 +16,16 @@ export default {
   data() {
     return {
       categories: [],
+      isOpen: false,
+    }
+  },
+
+  methods: {
+    toggleMenu() {
+      this.isOpen = !this.isOpen;
+    },
+    closeMenu() {
+      this.isOpen = false;
     }
   },
 
@@ -49,6 +61,7 @@ nav {
 
 }
 
+
 ul {
   list-style: none;
   padding: 0;
@@ -66,5 +79,46 @@ li a {
 
 li a:hover {
   background-color: darkred;
+}
+
+
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    background: rgba(0, 0, 0, 0.9);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 0;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100dvh;
+    transform: translateX(-100%);
+    z-index: 1500;
+  }
+
+  nav.open {
+    transform: translateX(0);
+  }
+
 }
 </style>
