@@ -39,6 +39,28 @@ nav {
   float: left;
   height: 100dvh;
   width: 200px;
-  background-color: red;
+  background-color: rgba(211, 0, 0, 0.95);
+  
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li a {
+  display: block;
+  padding: 5px 15px;  
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  
+}
+
+li a:hover {
+  background-color: darkred
+}
+
+
 </style>
