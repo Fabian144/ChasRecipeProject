@@ -89,6 +89,7 @@ li a:hover {
 @media (max-width: 768px) {
 
   .hamburger {
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,7 +101,6 @@ li a:hover {
     border-radius: 6px;
     color: white;
     padding: 0;
-    position: fixed;
     top: 10px;
     left: 10px;
     cursor: pointer;
@@ -113,7 +113,7 @@ li a:hover {
     width: 220px;
     height: 100dvh;
     transform: translateX(-100%);
-    z-index: 1500;
+    z-index: 2;
   }
 
   nav.open {
