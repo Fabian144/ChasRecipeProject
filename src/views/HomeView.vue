@@ -38,22 +38,28 @@ export default {
     };
   },
 
-  async mounted() {
-    try {
-      const response = await fetch(
-        'https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes',
-      );
-      if (!response.ok) {
-        throw new Error(`Status: ${response.status}`);
+  methods: {
+    async fetchAllRecipes() {
+      try {
+        const response = await fetch(
+          'https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes',
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.recipes = await response.json();
+      } catch (error) {
+        this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+        this.fetchErrorStatus = `${error.message}`;
+        console.error('Fetch failed:', error);
+      } finally {
+        this.loading = false;
       }
-      this.recipes = await response.json();
-    } catch (error) {
-      this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
-      this.fetchErrorStatus = `${error.message}`;
-      console.error('Fetch failed:', error);
-    } finally {
-      this.loading = false;
-    }
+    },
+  },
+
+  async mounted() {
+    this.fetchAllRecipes();
   },
 };
 </script>
