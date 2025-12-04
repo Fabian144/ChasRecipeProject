@@ -14,6 +14,7 @@ let routes = [
     name: 'RouteError',
     component: RouteError,
   },
+  { path: '/category/:categoryId', name: 'category', component: HomeView }
 ];
 
 const router = createRouter({
