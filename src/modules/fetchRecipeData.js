@@ -9,8 +9,7 @@ async function fetchData(url) {
   }
 }
 
-const data = await fetchData(`../src/data/recept.json`);
-
-const recipes = data.recipes;
-
-export default recipes;
+export async function getRecipes() {
+	const data = await fetchData(`/src/data/recept.json`); //blev tvungen att ändra path.
+	return data.recipes;
+}

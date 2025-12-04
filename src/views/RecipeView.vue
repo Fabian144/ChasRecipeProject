@@ -7,6 +7,15 @@
     :error-status="fetchErrorStatus"
   ></GetMethodError>
 
+  <recipeInfo/>
+  <RatingSection :recipe-id="recipeId" @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
+  <CommentSection />
+</template>
+
+<script>
+import RatingSection from '../components/recipepage/RatingSection.vue';
+import CommentSection from '../components/recipepage/commentSection.vue';
+import recipeInfo from '../components/recipepage/recipeInfo.vue';
   <template v-else>
     <RatingSection :recipe-id="recipeId" />
     <CommentSection />
@@ -25,6 +34,7 @@ export default {
     GetMethodError,
     CommentSection,
     RatingSection,
+    recipeInfo,
   },
 
   data() {
