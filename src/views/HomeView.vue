@@ -79,6 +79,5 @@ export default {
 <style scoped>
 .recipe-card-section {
   display: flex;
-  height: 100dvh;
 }
 </style>
