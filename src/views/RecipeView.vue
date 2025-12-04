@@ -20,8 +20,14 @@ import GetMethodError from '@/components/GetMethodError.vue';
 import RatingSection from '@/components/recipepage/RatingSection.vue';
 import CommentSection from '@/components/recipepage/commentSection.vue';
 import recipeInfo from '@/components/recipepage/recipeInfo.vue';
+import { useRecipeStore } from '@/stores/allRecipes';
 
 export default {
+  setup() {
+    const store = useRecipeStore();
+    return { store };
+  },
+
   components: {
     LoadingIcon,
     GetMethodError,
@@ -33,7 +39,7 @@ export default {
   data() {
     return {
       currentRecipe: {},
-      loading: true,
+      loading: false,
       fetchErrorMessage: '',
       fetchErrorStatus: '',
     };
@@ -43,10 +49,15 @@ export default {
     recipeId() {
       return this.$route.params.recipeId;
     },
+
+    currentRecipeByFilter() {
+      return this.store.recipes.filter((recipe) => recipe.id === this.recipeId)[0];
+    },
   },
 
   methods: {
     async fetchRecipe() {
+      this.loading = true;
       try {
         const response = await fetch(
           `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}`,
@@ -63,10 +74,18 @@ export default {
         this.loading = false;
       }
     },
+
+    setCurrentRecipe() {
+      this.currentRecipe = this.currentRecipeByFilter;
+    },
   },
 
   async mounted() {
-    this.fetchRecipe();
+    if (this.store.recipes.length === 0) {
+      this.fetchRecipe();
+    } else {
+      this.setCurrentRecipe();
+    }
   },
 };
 </script>

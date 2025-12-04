@@ -10,7 +10,7 @@
   <template v-else>
     <Header></Header>
     <main class="recipe-card-section">
-      <RecipeCardSection :recipes="recipes" />
+      <RecipeCardSection :recipes="store.recipes" />
     </main>
   </template>
 </template>
@@ -20,8 +20,14 @@ import LoadingIcon from '@/components/LoadingIcon.vue';
 import GetMethodError from '@/components/GetMethodError.vue';
 import Header from '@/components/homepage/Header.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
+import { useRecipeStore } from '@/stores/allRecipes';
 
 export default {
+  setup() {
+    const store = useRecipeStore();
+    return { store };
+  },
+
   components: {
     LoadingIcon,
     GetMethodError,
@@ -31,8 +37,7 @@ export default {
 
   data() {
     return {
-      recipes: [],
-      loading: true,
+      loading: false,
       fetchErrorMessage: '',
       fetchErrorStatus: '',
     };
@@ -40,6 +45,7 @@ export default {
 
   methods: {
     async fetchAllRecipes() {
+      this.loading = true;
       try {
         const response = await fetch(
           'https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes',
@@ -47,7 +53,7 @@ export default {
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
-        this.recipes = await response.json();
+        this.store.recipes = await response.json();
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
         this.fetchErrorStatus = `${error.message}`;
@@ -59,7 +65,9 @@ export default {
   },
 
   async mounted() {
-    this.fetchAllRecipes();
+    if (this.store.recipes.length === 0) {
+      this.fetchAllRecipes();
+    }
   },
 };
 </script>
