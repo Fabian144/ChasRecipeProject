@@ -99,7 +99,7 @@ height: 100%;
 {
   position: absolute;
   z-index: 2;
-  margin-top: 300px;
+  margin-top: 380px;
   padding: 16px 40px;
   font-size: 21px;
   font-weight: bold;
