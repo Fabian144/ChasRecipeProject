@@ -1,38 +1,41 @@
 <template>
-  <div v-if="error" class="error-message">
-    <h1>
-      Recepten kunde inte laddas in eller hittas inte <br />
-      Status: {{ error }}
-    </h1>
-  </div>
+  <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <div class="loading-container" v-if="loading">
-    <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
-  </div>
+  <GetMethodError
+    v-else-if="fetchErrorMessage"
+    :error-message="fetchErrorMessage"
+    :error-status="fetchErrorStatus"
+  ></GetMethodError>
 
-  <main v-else class="recipe-card-section">
-    <RecipeCardSection :recipes="recipes" />
-  </main>
+  <template v-else>
+    <Header></Header>
+    <main class="recipe-card-section">
+      <RecipeCardSection :recipes="recipes" />
+    </main>
+  </template>
 </template>
 
 <script>
-import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
+import LoadingIcon from '@/components/LoadingIcon.vue';
+import GetMethodError from '@/components/GetMethodError.vue';
+import Header from '@/components/homepage/Header.vue';
+import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
 
 export default {
   components: {
+    LoadingIcon,
+    GetMethodError,
+    Header,
     RecipeCardSection,
   },
 
   data() {
     return {
-      recipes: Array,
-      error: false,
+      recipes: [],
       loading: true,
+      fetchErrorMessage: '',
+      fetchErrorStatus: '',
     };
-  },
-
-  components: {
-    RecipeCardSection,
   },
 
   async mounted() {
@@ -41,14 +44,15 @@ export default {
         'https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes',
       );
       if (!response.ok) {
-        this.loading = false;
-        this.error = `${response.status}`;
         throw new Error(`Status: ${response.status}`);
       }
       this.recipes = await response.json();
-      this.loading = false;
     } catch (error) {
+      this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+      this.fetchErrorStatus = `${error.message}`;
       console.error('Fetch failed:', error);
+    } finally {
+      this.loading = false;
     }
   },
 };
@@ -58,13 +62,5 @@ export default {
 .recipe-card-section {
   display: flex;
   height: 100dvh;
-}
-
-.error-message {
-  height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 </style>

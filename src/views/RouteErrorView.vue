@@ -12,11 +12,13 @@
   height: 100dvh;
   display: flex;
   flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
 }
 
 a {
-	font-size: 1.25em;
+  font-size: 1.25em;
+  color: white;
 }
 </style>
