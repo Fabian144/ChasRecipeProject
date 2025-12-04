@@ -142,7 +142,7 @@ hr {
   }
 
   .recipe-image-container {
-    max-height: 12em;
+    max-height: 13em;
     height: unset;
   }
 }
@@ -162,8 +162,8 @@ hr {
   .recipe-image-container {
     aspect-ratio: 16/11;
     max-height: unset;
-    width: 38vw;
-    max-width: 20.5em;
+    width: 37vw;
+    max-width: 20em;
     align-self: center;
     padding: 1em;
     grid-row-start: 1;
