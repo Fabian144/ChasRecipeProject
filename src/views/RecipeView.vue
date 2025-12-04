@@ -45,22 +45,28 @@ export default {
     },
   },
 
-  async mounted() {
-    try {
-      const response = await fetch(
-        `REMOVED/REMOVED/recipes/${this.recipeId}`,
-      );
-      if (!response.ok) {
-        throw new Error(`Status: ${response.status}`);
+  methods: {
+    async fetchRecipe() {
+      try {
+        const response = await fetch(
+          `REMOVED/REMOVED/recipes/${this.recipeId}`,
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.currentRecipe = await response.json();
+      } catch (error) {
+        this.fetchErrorMessage = 'Receptet kunde inte laddas in eller hittas inte';
+        this.fetchErrorStatus = `${error.message}`;
+        console.error('Fetch failed:', error);
+      } finally {
+        this.loading = false;
       }
-      this.currentRecipe = await response.json();
-    } catch (error) {
-      this.fetchErrorMessage = 'Receptet kunde inte laddas in eller hittas inte';
-      this.fetchErrorStatus = `${error.message}`;
-      console.error('Fetch failed:', error);
-    } finally {
-      this.loading = false;
-    }
+    },
+  },
+
+  async mounted() {
+    this.fetchRecipe();
   },
 };
 </script>
