@@ -84,4 +84,16 @@ export default {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+@media (min-width: 2600px) {
+  .recipe-cards-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 3200px) {
+  .recipe-cards-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
 </style>
