@@ -49,10 +49,6 @@ export default {
     recipeId() {
       return this.$route.params.recipeId;
     },
-
-    currentRecipeByFilter() {
-      return this.store.recipes.filter((recipe) => recipe.id === this.recipeId)[0];
-    },
   },
 
   methods: {
@@ -81,11 +77,7 @@ export default {
   },
 
   async mounted() {
-    if (this.store.recipes.length === 0) {
-      this.fetchRecipe();
-    } else {
-      this.setCurrentRecipe();
-    }
+    this.fetchRecipe();
   },
 };
 </script>
