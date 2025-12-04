@@ -4,6 +4,7 @@ const LandingPage = () => import('../components/homepage/LandingPage.vue');
 const HomeView = () => import('../views/HomeView.vue');
 const RecipeView = () => import('../views/RecipeView.vue');
 const RouteError = () => import('../views/RouteErrorView.vue');
+const CategoryView = () => import('../views/CategoryView.vue');
 
 let routes = [
   { path: '/', component: LandingPage },
@@ -14,7 +15,7 @@ let routes = [
     name: 'RouteError',
     component: RouteError,
   },
-  { path: '/category/:categoryId', name: 'category', component: HomeView }
+  { path: '/category/:categoryId', name: 'category', component: CategoryView }
 ];
 
 const router = createRouter({
