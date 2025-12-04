@@ -32,11 +32,11 @@ export default {
   },
 
   methods: {
-    calculateAverage(ratingsArray) {
-      if (ratingsArray.length > 0) {
+    calculateAverage(arrayWithAllRatings) {
+      if (arrayWithAllRatings.length > 0) {
         return (
-          ratingsArray.reduce((accumulator, currentValue) => accumulator + currentValue) /
-          ratingsArray.length
+          arrayWithAllRatings.reduce((accumulator, currentValue) => accumulator + currentValue) /
+          arrayWithAllRatings.length
         );
       } else {
         return 0;
