@@ -9,6 +9,7 @@
 
   <template v-else>
     <Header></Header>
+    <SidebarPanel />
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="store.recipes" />
     </main>
@@ -19,8 +20,10 @@
 import LoadingIcon from '@/components/LoadingIcon.vue';
 import GetMethodError from '@/components/GetMethodError.vue';
 import Header from '@/components/homepage/Header.vue';
+import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
 import { useRecipeStore } from '@/stores/allRecipes';
+
 
 export default {
   setup() {
@@ -33,6 +36,7 @@ export default {
     GetMethodError,
     Header,
     RecipeCardSection,
+    SidebarPanel,
   },
 
   data() {
