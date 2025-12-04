@@ -7,16 +7,8 @@
     :error-status="fetchErrorStatus"
   ></GetMethodError>
 
-  <recipeInfo/>
-  <RatingSection :recipe-id="recipeId" @chosenRatingChanged="(theRating) => (chosenRating = theRating)" />
-  <CommentSection />
-</template>
-
-<script>
-import RatingSection from '../components/recipepage/RatingSection.vue';
-import CommentSection from '../components/recipepage/commentSection.vue';
-import recipeInfo from '../components/recipepage/recipeInfo.vue';
   <template v-else>
+    <recipeInfo />
     <RatingSection :recipe-id="recipeId" />
     <CommentSection />
   </template>
@@ -27,6 +19,7 @@ import LoadingIcon from '@/components/LoadingIcon.vue';
 import GetMethodError from '@/components/GetMethodError.vue';
 import RatingSection from '@/components/recipepage/RatingSection.vue';
 import CommentSection from '@/components/recipepage/commentSection.vue';
+import recipeInfo from '@/components/recipepage/recipeInfo.vue';
 
 export default {
   components: {
@@ -39,7 +32,7 @@ export default {
 
   data() {
     return {
-      currentRecipe: [],
+      currentRecipe: {},
       loading: true,
       fetchErrorMessage: '',
       fetchErrorStatus: '',
