@@ -1,199 +1,262 @@
 <template>
-  <div class="comment-section max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-md">
-    <h3 class="text-2xl font-semibold mb-4 text-gray-800">Kommentarer</h3>
+    <div class="comment-section">
+        <h3 class="title">Kommentarer</h3>
 
-    <!-- Formulär -->
-    <form v-if="!commentSent" @submit.prevent="submitComment" class="space-y-3">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Ditt namn</label>
-        <input
-          v-model="name"
-          type="text"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-400"
-          placeholder="Skriv ditt namn"
-          :disabled="isSending"
-        />
-      </div>
+        <!-- Formulär -->
+        <form v-if="!commentSent" @submit.prevent="submitComment" class="form">
+            <div class="form-group">
+                <label>Ditt namn</label>
+                <input v-model="name" type="text" placeholder="Skriv ditt namn" :disabled="isSending" />
+            </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Din kommentar</label>
-        <textarea
-          v-model="comment"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 h-24 focus:ring focus:ring-blue-200 focus:border-blue-400"
-          placeholder="Skriv din kommentar"
-          :disabled="isSending"
-        ></textarea>
-      </div>
+            <div class="form-group">
+                <label>Din kommentar</label>
+                <textarea v-model="comment" placeholder="Skriv din kommentar" :disabled="isSending"></textarea>
+            </div>
 
-      <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
+            <p v-if="error" class="error-message">{{ error }}</p>
 
-      <button
-        type="submit"
-        :disabled="isSending"
-        class="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
-        @click=""
-      >
-        {{ isSending ? 'Skickar...' : 'Skicka' }}
-      </button>
-    </form>
+            <button type="submit" :disabled="isSending">
+                {{ isSending ? 'Skickar...' : 'Skicka' }}
+            </button>
+        </form>
 
-    <!-- Tack-meddelande -->
-    <p v-else class="text-green-600 font-semibold text-center my-3">Tack för din kommentar!</p>
+        <!-- Tack-meddelande -->
+        <p v-else class="success-message">Tack för din kommentar!</p>
 
-    <!-- Kommentarlista -->
-    <ul v-if="commentSent" class="mt-6 space-y-4">
-      <li
-        v-for="c in comments"
-        :key="c.id"
-        class="border border-gray-200 rounded-xl p-3 bg-gray-50"
-      >
-        <div class="flex justify-between items-center mb-1">
-          <strong class="text-gray-800">{{ c.name }}</strong>
-          <small class="text-gray-500 text-xs">{{ c.date }}</small>
-        </div>
-        <p class="text-gray-700">{{ c.text }}</p>
-      </li>
-    </ul>
-  </div>
+        <!-- Kommentarlista -->
+        <ul v-if="comments.length" class="comment-list">
+            <li v-for="c in comments" :key="c.id" class="comment-item">
+                <div class="comment-header">
+                    <strong>{{ c.name }}</strong>
+                    <small>{{ formatDate(c.createdAt) }}</small>
+                </div>
+                <p>{{ c.comment }}</p>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'CommentSection',
-
-  props: {
-    initialComments: {
-      type: Array,
-      default: () => [],
+    name: "CommentSection",
+    props: {
+        recipeId: { type: String, required: true },
     },
-  },
-
-  data() {
-    return {
-      name: '',
-      comment: '',
-      error: '',
-      isSending: false,
-      commentSent: false,
-      comments: [...this.initialComments], // startar med kommentarer från recept JSON
-    };
-  },
-
-  methods: {
-    submitComment() {
-      if (!this.name.trim() || !this.comment.trim()) {
-        this.error = 'Du måste fylla i både namn och kommentar.';
-        return;
-      }
-
-      this.fetchError = false;
-      this.error = '';
-      this.isSending = true;
-
-      setTimeout(() => {
-        this.comments.unshift({
-          id: Date.now(),
-          name: this.name,
-          text: this.comment,
-          date: new Date().toLocaleDateString('sv-SE'),
-        });
-        this.name = '';
-        this.comment = '';
-        this.commentSent = true;
-      }, 1000);
+    data() {
+        return {
+            teamId: "c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f",
+            name: "",
+            comment: "",
+            error: "",
+            isSending: false,
+            commentSent: false,
+            comments: [],  // Array som håller alla kommentarer som hämtas från backend
+        };
     },
-  },
+    mounted() {
+        this.fetchComments(); // När komponenten laddas hämtas alla kommentarer direkt
+    },
+    methods: {
+        async fetchComments() {
+            try {
+                const response = await fetch( 
+                    `https://recipes.bocs.se/api/v1/${this.teamId}/recipes/${this.recipeId}/comments`
+                ); 
+                if (!response.ok) throw new Error(`Status: ${response.status}`);
+
+                const text = await response.text();
+                this.comments = JSON.parse(text);
+            } catch (err) {
+                // console.error("Kunde inte hämta kommentarer:", err);
+                this.error = "Kunde inte hämta kommentarer";
+            }
+        },
+        // Skickar en ny kommentar till backend
+        async submitComment() {
+
+            // Kontrollera att användaren fyllt i namn och kommentar
+            if (!this.name.trim() || !this.comment.trim()) {
+                this.error = "Du måste fylla i både namn och kommentar.";
+                return;
+            }
+
+            this.error = "";
+            this.isSending = true;
+
+            try {
+                const response = await fetch(
+                    `https://recipes.bocs.se/api/v1/${this.teamId}/recipes/${this.recipeId}/comments`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name: this.name, comment: this.comment }),
+                    }
+                );
+
+                if (!response.ok) throw new Error(`Status: ${response.status}`);
+
+                const text = await response.text();
+                const newComment = JSON.parse(text);
+
+
+                // Lägg till den nya kommentaren överst i listan
+                this.comments.unshift(newComment);
+                // Rensa inputfält och visa tack-meddelande
+                this.name = "";
+                this.comment = "";
+                this.commentSent = true;
+
+                setTimeout(() => (this.commentSent = false), 3000);
+            } catch (err) {
+                console.error("POST failed:", err);
+                this.error = "Kunde inte skicka kommentaren: " + err.message;
+            } finally {
+                this.isSending = false;
+            }
+        },
+
+        formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString("sv-SE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            });
+        },
+    },
 };
 </script>
 
 <style scoped>
 .comment-section {
-  background: #c46363;
-  border-radius: 12px;
-  padding: 30px;
-  max-width: 700px;
-  margin: 40px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #e6f4ea;
+    /* ljusgrön bakgrund */
+    border-radius: 12px;
+    padding: 25px;
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
-.comment-section h4 {
-  font-size: 20px;
-  color: #2d6a4f;
-  margin-bottom: 20px;
-  font-weight: 600;
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2e7d32;
+    /* mörkgrön */
 }
 
-input,
-textarea {
-  width: 100%;
-  padding: 12px 8px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #cfd8dc;
-  font-size: 14px;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease;
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
-input:focus,
-textarea:focus {
-  border-color: #2d6a4f;
-  box-shadow: 0 0 5px rgba(45, 106, 79, 0.2);
-  outline: none;
+.form-group {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2e7d32;
+    /* grön */
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 4px rgba(46, 125, 50, 0.3);
+    outline: none;
 }
 
 button {
-  background-color: #2d6a4f;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 15px;
-  display: block;
-  margin: 0 auto;
-  transition:
-    background 0.3s ease,
-    transform 0.2s ease;
+    padding: 10px 20px;
+    background-color: #b71c1c;
+    /* röd knapp */
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 button:hover {
-  background-color: #37966f;
-  transform: scale(1.05);
+    background-color: #d32f2f;
 }
 
-#commentList {
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-.comment {
-  background-color: #f1f8f5;
-  padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.error-message {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 5px;
 }
 
-.comment strong {
-  display: block;
-  font-size: 16px;
-  color: #14532d;
-  margin-bottom: 5px;
+.success-message {
+    color: #2e7d32;
+    font-weight: bold;
+    margin: 10px 0;
 }
 
-.comment p {
-  font-size: 14px;
-  color: #333333;
-  line-height: 1.5;
+.comment-list {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
 }
 
-.comment span {
-  font-size: 12px;
-  color: #6b7280;
-  float: right;
-  margin-top: 5px;
+.comment-item {
+    background: #fff;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
 }
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-header strong {
+    color: #2e7d32;
+}
+
+.comment-header small {
+    color: #555;
+}
+
+/* .delete-btn {
+    background: transparent;
+    border: none;
+    color: #b71c1c;
+    cursor: pointer;
+    font-size: 12px;
+} */
 </style>
+
+
