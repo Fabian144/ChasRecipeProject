@@ -49,6 +49,13 @@ h1 {
   }
 }
 
+@media (min-width: 768px) {
+  header {
+  margin-left: 210px;
+
+  }
+}
+
 @media (min-width: 992px) {
   h1 {
     font-size: 2.5em;
