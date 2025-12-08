@@ -8,13 +8,13 @@ const RouteError = () => import('../views/RouteErrorView.vue');
 let routes = [
   { path: '/', component: LandingPage },
   { path: '/recipes', component: HomeView },
+  { path: '/recipes/category/:categoryId', name: 'category', component: HomeView },
   { path: '/recipe/:recipeId', name: 'theRecipe', component: RecipeView },
   {
     path: '/:pathMatch(.*)*',
     name: 'RouteError',
     component: RouteError,
   },
-  { path: '/category/:categoryId', name: 'category', component: HomeView }
 ];
 
 const router = createRouter({
