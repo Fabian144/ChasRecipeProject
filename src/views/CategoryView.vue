@@ -5,8 +5,8 @@
     </GetMethodError>
 
     <template v-else>
+        <SidebarPanel></SidebarPanel>
         <Header></Header>
-        <SidebarPanel ></SidebarPanel>
         <main class="recipe-card-section">
             <RecipeCardSection :recipes="filteredRecipes" />
         </main>
