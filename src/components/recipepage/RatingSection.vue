@@ -1,13 +1,13 @@
 <template>
   <section v-if="ratingPosted" class="rating-section-container">
-    <h3>Tack för ditt betyg!</h3>
+    <h2>Tack för ditt betyg!</h2>
     <div class="sent-rating-container">
       <StarDisplay :value-to-display="chosenRating"></StarDisplay>
     </div>
   </section>
 
   <section v-else class="rating-section-container">
-    <h3>Ge ditt betyg!</h3>
+    <h2>Ge ditt betyg!</h2>
 
     <div class="star-container">
       <button
@@ -181,7 +181,7 @@ export default {
   margin: auto;
 }
 
-h3 {
+h2 {
   font-size: 2em;
   margin: 0.5em auto;
   color: #ffffff;
