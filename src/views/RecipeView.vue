@@ -1,16 +1,13 @@
 <template>
   <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <GetMethodError
-    v-else-if="fetchErrorMessage"
-    :error-message="fetchErrorMessage"
-    :error-status="fetchErrorStatus"
-  ></GetMethodError>
+  <GetMethodError v-else-if="fetchErrorMessage" :error-message="fetchErrorMessage" :error-status="fetchErrorStatus">
+  </GetMethodError>
 
   <template v-else>
     <recipeInfo />
     <RatingSection :recipe-id="recipeId" />
-    <CommentSection />
+    <CommentSection :recipeId="recipeId" />
   </template>
 </template>
 

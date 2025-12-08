@@ -8,7 +8,7 @@
     <SidebarPanel />
     <Header></Header>
  
-    <main class="recipe-card-section">
+    <main>
       <RecipeCardSection :recipes="store.recipes" />
     </main>
   </template>
@@ -76,8 +76,7 @@ export default {
 </script>
 
 <style scoped>
-.recipe-card-section {
+main {
   display: flex;
-  height: 100dvh;
 }
 </style>

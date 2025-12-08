@@ -9,13 +9,13 @@ const CategoryView = () => import('../views/CategoryView.vue');
 let routes = [
   { path: '/', component: LandingPage },
   { path: '/recipes', component: HomeView },
+  { path: '/recipes/category/:categoryId', name: 'category', component: HomeView },
   { path: '/recipe/:recipeId', name: 'theRecipe', component: RecipeView },
   {
     path: '/:pathMatch(.*)*',
     name: 'RouteError',
     component: RouteError,
   },
-  { path: '/category/:categoryId', name: 'category', component: CategoryView }
 ];
 
 const router = createRouter({
