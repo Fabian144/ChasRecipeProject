@@ -1,6 +1,6 @@
 <template>
   <button class="hamburger" v-if="!isOpen" @click="toggleMenu">☰</button>
-  <nav :class="{ open: isOpen }">
+  <aside :class="{ open: isOpen }">
     <h2>Kategorier</h2>
     <ul>
       <li v-for="category in store.categories"><router-link :key="category.id"
@@ -8,7 +8,7 @@
           }}</router-link></li>
     </ul>
 
-  </nav>
+  </aside>
 </template>
 
 <script>
@@ -69,12 +69,12 @@ h2 {
   color: white;
 }
 
-nav {
+aside {
   float: left;
   height: 100dvh;
   width: 200px;
   background-color: rgba(211, 0, 0, 0.90);
-
+  position: fixed;
 }
 
 
@@ -122,7 +122,7 @@ li a:hover {
     cursor: pointer;
   }
 
-  nav {
+  aside {
     position: fixed;
     top: 0;
     left: 0;
@@ -132,7 +132,7 @@ li a:hover {
     z-index: 2;
   }
 
-  nav.open {
+  aside.open {
     transform: translateX(0);
   }
 

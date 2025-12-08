@@ -7,7 +7,7 @@
     <template v-else>
         <SidebarPanel></SidebarPanel>
         <Header></Header>
-        <main class="recipe-card-section">
+        <main>
             <RecipeCardSection :recipes="filteredRecipes" />
         </main>
     </template>
@@ -108,8 +108,15 @@ export default {
 </script>
 
 <style scoped>
-.recipe-card-section {
+main {
     display: flex;
-    height: 100dvh;
+    margin: 0;
+
+}
+
+@media (min-width: 768px) {
+    main {
+        margin-left: 210px;
+    }
 }
 </style>
