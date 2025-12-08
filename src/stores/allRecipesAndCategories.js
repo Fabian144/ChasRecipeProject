@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
 
-export const useRecipeStore = defineStore('recipeStore', {
+export const useRecipeAndCategoryStore = defineStore('recipeAndCategoryStore', {
   state: () => {
     return {
       recipes: [],
+      categories: [],
     };
   },
 });

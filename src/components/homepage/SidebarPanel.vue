@@ -3,7 +3,7 @@
   <nav :class="{ open: isOpen }">
     <h2>Kategorier</h2>
     <ul>
-      <li v-for="category in categories"><router-link :key="category.id"
+      <li v-for="category in store.categories"><router-link :key="category.id"
           :to="{ name: 'category', params: { categoryId: category.id } }" @click="closeMenu"> {{ category.name
           }}</router-link></li>
     </ul>
@@ -12,7 +12,15 @@
 </template>
 
 <script>
+import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
+
 export default {
+  setup() {
+    const store = useRecipeAndCategoryStore()
+    return {
+      store
+    }
+  },
   data() {
     return {
       categories: [],
@@ -20,29 +28,37 @@ export default {
     }
   },
 
+
   methods: {
     toggleMenu() {
       this.isOpen = !this.isOpen;
     },
     closeMenu() {
       this.isOpen = false;
-    }
+    },
+    async fetchAllCategories() {
+      try {
+        const response = await fetch(
+          `REMOVED/REMOVED/categories`,
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.store.categories = await response.json();
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    },
+
+
   },
 
-  async mounted() {
-    try {
-      const response = await fetch(
-        `REMOVED/REMOVED/categories`,
-      );
-      if (!response.ok) {
-        throw new Error(`Status: ${response.status}`);
-      }
-      this.categories = await response.json();
-      console.log(this.categories);
-    } catch (error) {
-      console.error('Fetch failed:', error);
+  mounted() {
+    if (this.store.categories.length === 0) {
+      this.fetchAllCategories();
     }
-  },
+  }
+
 
 }
 </script>

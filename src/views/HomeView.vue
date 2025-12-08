@@ -1,15 +1,13 @@
 <template>
   <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <GetMethodError
-    v-else-if="fetchErrorMessage"
-    :error-message="fetchErrorMessage"
-    :error-status="fetchErrorStatus"
-  ></GetMethodError>
+  <GetMethodError v-else-if="fetchErrorMessage" :error-message="fetchErrorMessage" :error-status="fetchErrorStatus">
+  </GetMethodError>
 
   <template v-else>
-    <Header></Header>
     <SidebarPanel />
+    <Header></Header>
+ 
     <main class="recipe-card-section">
       <RecipeCardSection :recipes="store.recipes" />
     </main>
@@ -22,12 +20,12 @@ import GetMethodError from '@/components/GetMethodError.vue';
 import Header from '@/components/homepage/Header.vue';
 import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
-import { useRecipeStore } from '@/stores/allRecipes';
+import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
 
 
 export default {
   setup() {
-    const store = useRecipeStore();
+    const store = useRecipeAndCategoryStore();
     return { store };
   },
 
@@ -67,6 +65,7 @@ export default {
       }
     },
   },
+
 
   async mounted() {
     if (this.store.recipes.length === 0) {
