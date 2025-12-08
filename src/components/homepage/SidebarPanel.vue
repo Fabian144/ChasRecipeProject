@@ -75,6 +75,7 @@ aside {
   width: 200px;
   background-color: rgba(211, 0, 0, 0.90);
   position: fixed;
+  top: 0;
 }
 
 

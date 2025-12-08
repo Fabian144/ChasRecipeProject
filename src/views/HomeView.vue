@@ -7,7 +7,6 @@
   <template v-else>
     <SidebarPanel />
     <Header></Header>
-
     <main>
       <RecipeCardSection :recipes="store.recipes" />
     </main>

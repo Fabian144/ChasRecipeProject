@@ -51,12 +51,12 @@ export default {
         },
 
         currentCategory() {
-            return this.store.categories.filter((category) => category.id === this.categoryIdParameter)[0]
+            return this.store.categories.find((category) => category.id === this.categoryIdParameter)
 
         },
 
         filteredRecipes() {
-            return this.store.recipes.filter((recipe) => this.checkCorrectedCategories(recipe.categories))
+            return this.store.recipes.filter((recipe) => this.checkCorrectCategory(recipe))
 
         }
     },
@@ -83,19 +83,13 @@ export default {
             }
         },
 
-        checkCorrectedCategories(categoryNames) {
-            return categoryNames.filter(categoryName => this.correctCategories(categoryName))[0] === this.currentCategory.name
+        checkCorrectCategory(recipe) {
+            return recipe.categories.find(categoryName => this.correctCategory(categoryName)) === this.currentCategory.name
         },
 
-        correctCategories(categoryName) {
+        correctCategory(categoryName) {
             return categoryName === this.currentCategory.name
         },
-
-        onFetchedCategories(categories) {
-            this.store.categories = categories;
-        },
-
-
     },
 
     async mounted() {
