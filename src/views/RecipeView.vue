@@ -17,14 +17,8 @@ import GetMethodError from '@/components/GetMethodError.vue';
 import RatingSection from '@/components/recipepage/RatingSection.vue';
 import CommentSection from '@/components/recipepage/commentSection.vue';
 import recipeInfo from '@/components/recipepage/recipeInfo.vue';
-import { useRecipeStore } from '@/stores/allRecipesAndCategories';
 
 export default {
-  setup() {
-    const store = useRecipeStore();
-    return { store };
-  },
-
   components: {
     LoadingIcon,
     GetMethodError,
@@ -66,10 +60,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    setCurrentRecipe() {
-      this.currentRecipe = this.currentRecipeByFilter;
     },
   },
 
