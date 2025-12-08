@@ -10,7 +10,7 @@
   <template v-else>
     <Header></Header>
     <SidebarPanel />
-    <main class="recipe-card-section">
+    <main>
       <RecipeCardSection :recipes="store.recipes" />
     </main>
   </template>
@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.recipe-card-section {
+main {
   display: flex;
 }
 </style>
