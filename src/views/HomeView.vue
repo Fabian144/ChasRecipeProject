@@ -1,54 +1,76 @@
 <template>
-  <div v-if="error" class="error-message">
-    <h1>
-      Recepten kunde inte laddas in eller hittas inte <br />
-      Status: {{ error }}
-    </h1>
-  </div>
+  <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <div class="loading-container" v-if="loading">
-    <img src="../images/e50c7e38-b24e-4fbd-a400-516909b77df5.png" alt="Julgran" class="loading" />
-  </div>
+  <GetMethodError
+    v-else-if="fetchErrorMessage"
+    :error-message="fetchErrorMessage"
+    :error-status="fetchErrorStatus"
+  ></GetMethodError>
 
-  <main v-else class="recipe-card-section">
-    <RecipeCardSection :recipes="recipes" />
-  </main>
+  <template v-else>
+    <Header></Header>
+    <SidebarPanel />
+    <main class="recipe-card-section">
+      <RecipeCardSection :recipes="store.recipes" />
+    </main>
+  </template>
 </template>
 
 <script>
-import RecipeCardSection from '../components/homepage/RecipeCardSection.vue';
+import LoadingIcon from '@/components/LoadingIcon.vue';
+import GetMethodError from '@/components/GetMethodError.vue';
+import Header from '@/components/homepage/Header.vue';
+import SidebarPanel from '../components/homepage/SidebarPanel.vue';
+import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
+import { useRecipeStore } from '@/stores/allRecipes';
+
 
 export default {
+  setup() {
+    const store = useRecipeStore();
+    return { store };
+  },
+
   components: {
+    LoadingIcon,
+    GetMethodError,
+    Header,
     RecipeCardSection,
+    SidebarPanel,
   },
 
   data() {
     return {
-      recipes: Array,
-      error: false,
-      loading: true,
+      loading: false,
+      fetchErrorMessage: '',
+      fetchErrorStatus: '',
     };
   },
 
-  components: {
-    RecipeCardSection,
+  methods: {
+    async fetchAllRecipes() {
+      this.loading = true;
+      try {
+        const response = await fetch(
+          'REMOVED/REMOVED/recipes',
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.store.recipes = await response.json();
+      } catch (error) {
+        this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+        this.fetchErrorStatus = `${error.message}`;
+        console.error('Fetch failed:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 
   async mounted() {
-    try {
-      const response = await fetch(
-        'REMOVED/REMOVED/recipes',
-      );
-      if (!response.ok) {
-        this.loading = false;
-        this.error = `${response.status}`;
-        throw new Error(`Status: ${response.status}`);
-      }
-      this.recipes = await response.json();
-      this.loading = false;
-    } catch (error) {
-      console.error('Fetch failed:', error);
+    if (this.store.recipes.length === 0) {
+      this.fetchAllRecipes();
     }
   },
 };
@@ -57,14 +79,5 @@ export default {
 <style scoped>
 .recipe-card-section {
   display: flex;
-  height: 100dvh;
-}
-
-.error-message {
-  height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 </style>
