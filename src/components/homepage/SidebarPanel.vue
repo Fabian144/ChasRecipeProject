@@ -32,7 +32,6 @@ export default {
   },
   data() {
     return {
-      categories: [],
       isOpen: false,
     };
   },
