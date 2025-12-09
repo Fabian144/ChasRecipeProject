@@ -32,11 +32,11 @@ export default {
   },
 
   methods: {
-    calculateAverage(ratingsArray) {
-      if (ratingsArray.length > 0) {
+    calculateAverage(arrayWithAllRatings) {
+      if (arrayWithAllRatings.length > 0) {
         return (
-          ratingsArray.reduce((accumulator, currentValue) => accumulator + currentValue) /
-          ratingsArray.length
+          arrayWithAllRatings.reduce((accumulator, currentValue) => accumulator + currentValue) /
+          arrayWithAllRatings.length
         );
       } else {
         return 0;
@@ -82,6 +82,18 @@ export default {
   .recipe-cards-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 2600px) {
+  .recipe-cards-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 3200px) {
+  .recipe-cards-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 </style>
