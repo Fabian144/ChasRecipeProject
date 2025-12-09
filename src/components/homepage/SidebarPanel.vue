@@ -4,12 +4,19 @@
   <aside :class="{ open: isOpen }">
     <h2>Kategorier</h2>
     <ul>
-      <li><router-link :to="'/recipes'">Alla ({{ store.recipes.length }})</router-link></li>
-      <li v-for="category in store.categories"><router-link :key="category.id"
-          :to="{ name: 'category', params: { categoryId: category.id } }" @click="closeMenu"> {{ category.name
-          }} ({{ getCategoryRecipeAmount(category.name) }})</router-link></li>
+      <li>
+        <router-link :to="'/recipes'">Alla ({{ store.recipes.length }})</router-link>
+      </li>
+      <li v-for="category in store.categories">
+        <router-link
+          :key="category.id"
+          :to="{ name: 'category', params: { categoryId: category.id } }"
+          @click="closeMenu"
+        >
+          {{ category.name }} ({{ getCategoryRecipeAmount(category.name) }})</router-link
+        >
+      </li>
     </ul>
-
   </aside>
 </template>
 
@@ -18,20 +25,16 @@ import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
 
 export default {
   setup() {
-    const store = useRecipeAndCategoryStore()
+    const store = useRecipeAndCategoryStore();
     return {
-      store
-    }
+      store,
+    };
   },
   data() {
     return {
       categories: [],
       isOpen: false,
-    }
-  },
-
-  props: {
-    allInstancesOfAllCategories: Array
+    };
   },
 
   methods: {
@@ -56,21 +59,18 @@ export default {
       }
     },
     getCategoryRecipeAmount(categoryName) {
-      return this.allInstancesOfAllCategories.filter(categoryInstance => categoryInstance === categoryName).length
-    }
-    
-
-
+      return this.allInstancesOfAllCategories.filter(
+        (categoryInstance) => categoryInstance === categoryName,
+      ).length;
+    },
   },
 
   mounted() {
     if (this.store.categories.length === 0) {
       this.fetchAllCategories();
     }
-  }
-
-
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -84,11 +84,10 @@ aside {
   float: left;
   height: 100dvh;
   width: 200px;
-  background-color: rgba(211, 0, 0, 0.90);
+  background-color: rgba(211, 0, 0, 0.9);
   position: fixed;
   top: 0;
 }
-
 
 ul {
   list-style: none;
@@ -102,13 +101,11 @@ li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
-
 }
 
 li a:hover {
   background-color: darkred;
 }
-
 
 .hamburger {
   display: none;
@@ -129,7 +126,6 @@ li a:hover {
 }
 
 @media (max-width: 768px) {
-
   .hamburger {
     position: fixed;
     display: flex;
@@ -180,6 +176,5 @@ li a:hover {
   aside.open {
     transform: translateX(0);
   }
-
 }
 </style>
