@@ -32,9 +32,12 @@ export default {
   },
   data() {
     return {
-      categories: [],
       isOpen: false,
     };
+  },
+
+  props: {
+    allInstancesOfAllCategories: Array,
   },
 
   methods: {
