@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-const LandingPage = () => import('../components/homepage/LandingPage.vue');
+const LandingPage = () => import('../views/LandingPageView.vue');
 const HomeView = () => import('../views/HomeView.vue');
 const RecipeView = () => import('../views/RecipeView.vue');
 const RouteError = () => import('../views/RouteErrorView.vue');
@@ -14,6 +14,7 @@ let routes = [
     name: 'RouteError',
     component: RouteError,
   },
+  { path: '/category/:categoryId', name: 'category', component: HomeView }
 ];
 
 const router = createRouter({

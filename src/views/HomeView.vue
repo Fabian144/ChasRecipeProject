@@ -9,8 +9,9 @@
 
   <template v-else>
     <Header></Header>
+    <SidebarPanel />
     <main class="recipe-card-section">
-      <RecipeCardSection :recipes="recipes" />
+      <RecipeCardSection :recipes="store.recipes" />
     </main>
   </template>
 </template>
@@ -19,40 +20,57 @@
 import LoadingIcon from '@/components/LoadingIcon.vue';
 import GetMethodError from '@/components/GetMethodError.vue';
 import Header from '@/components/homepage/Header.vue';
+import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
+import { useRecipeStore } from '@/stores/allRecipes';
+
 
 export default {
+  setup() {
+    const store = useRecipeStore();
+    return { store };
+  },
+
   components: {
     LoadingIcon,
     GetMethodError,
     Header,
     RecipeCardSection,
+    SidebarPanel,
   },
 
   data() {
     return {
-      recipes: [],
-      loading: true,
+      loading: false,
       fetchErrorMessage: '',
       fetchErrorStatus: '',
     };
   },
 
-  async mounted() {
-    try {
-      const response = await fetch(
-        'REMOVED/REMOVED/recipes',
-      );
-      if (!response.ok) {
-        throw new Error(`Status: ${response.status}`);
+  methods: {
+    async fetchAllRecipes() {
+      this.loading = true;
+      try {
+        const response = await fetch(
+          'REMOVED/REMOVED/recipes',
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.store.recipes = await response.json();
+      } catch (error) {
+        this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
+        this.fetchErrorStatus = `${error.message}`;
+        console.error('Fetch failed:', error);
+      } finally {
+        this.loading = false;
       }
-      this.recipes = await response.json();
-    } catch (error) {
-      this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
-      this.fetchErrorStatus = `${error.message}`;
-      console.error('Fetch failed:', error);
-    } finally {
-      this.loading = false;
+    },
+  },
+
+  async mounted() {
+    if (this.store.recipes.length === 0) {
+      this.fetchAllRecipes();
     }
   },
 };
@@ -61,6 +79,5 @@ export default {
 <style scoped>
 .recipe-card-section {
   display: flex;
-  height: 100dvh;
 }
 </style>

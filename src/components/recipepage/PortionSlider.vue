@@ -1,25 +1,13 @@
-
-
-
-
-
-<!--TODO: Revidera denna komponent.
-  För tillfället: Osignerad. Delvis framtagen med AI.
-  Måste granskas och förstås innan jag kan stå för den. 
-  Känns i stunden som att det måste finnas en enklare lösning en denna.
-  Labbar vidare...
-  -->
-
-
-
-
-
 <template>
   <div class="portion_control">
     <label for="portion-slider">
-      <span>Portioner: {{ modelValue }}</span>
+      <span>
+
+        Portioner: {{ modelValue }}
+
+      </span>
+
     </label>
-    <!-- Slider som är bunden till modelValue (ingång) -->
     <input 
       type="range" 
       id="portion-slider"
@@ -60,9 +48,9 @@ export default {
   background-color: rgb(255, 255, 255);
 }
 
-.portion_control:hover
+.slider:hover
 {
-  transform: scale(1.1);
+  transform: scale(1.08);
   transition: transform 0.3s ease;
 }
 
