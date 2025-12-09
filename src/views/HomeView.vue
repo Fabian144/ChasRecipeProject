@@ -1,13 +1,17 @@
 <template>
   <LoadingIcon v-if="loading"></LoadingIcon>
 
-  <GetMethodError v-else-if="fetchErrorMessage" :error-message="fetchErrorMessage" :error-status="fetchErrorStatus">
+  <GetMethodError
+    v-else-if="fetchErrorMessage"
+    :error-message="fetchErrorMessage"
+    :error-status="fetchErrorStatus"
+  >
   </GetMethodError>
 
   <template v-else>
     <SidebarPanel />
     <Header></Header>
- 
+		
     <main>
       <RecipeCardSection :recipes="store.recipes" />
     </main>
@@ -21,7 +25,6 @@ import Header from '@/components/homepage/Header.vue';
 import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
-
 
 export default {
   setup() {
@@ -56,6 +59,7 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
+        this.fetchAllRecipesIndividually();
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
         this.fetchErrorStatus = `${error.message}`;
@@ -63,6 +67,25 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+
+    fetchAllRecipesIndividually() {
+      this.store.recipes.forEach((recipe) => {
+        setTimeout(async () => {
+          try {
+            const response = await fetch(
+              `REMOVED/REMOVED/recipes/${recipe.id}`,
+            );
+            if (!response.ok) {
+              throw new Error(`Status: ${response.status}`);
+            }
+            const newRecipe = await response.json();
+            recipe.ingredients = newRecipe.ingredients;
+          } catch (error) {
+            console.error('Fetch failed:', error);
+          }
+        }, 1000);
+      });
     },
   },
 
