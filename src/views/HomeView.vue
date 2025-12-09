@@ -9,8 +9,8 @@
   </GetMethodError>
 
   <template v-else>
+    <Header @added-search="(term) => (searchTerm = term)"></Header>
     <SidebarPanel :all-instances-of-all-categories="allInstancesOfAllCategories" />
-    <Header @added-search="(term) => searchTerm = term"></Header>
     <main>
       <RecipeCardSection :recipes="filteredRecipes" />
     </main>
@@ -50,10 +50,12 @@ export default {
   },
 
   computed: {
+    recipesInSearch() {
+      return this.recipesInCategory.filter((recipe) => this.checkSearchTermMatch(recipe));
+    },
+
     filteredRecipes() {
-      if (this.searchTerm) {
-        return this.store.recipes.filter((recipe) => this.checkSearchTermMatch(recipe))
-      } else { return this.store.recipes }
+      return this.searchTerm ? this.recipesInSearch : this.store.recipes;
     },
   },
 
@@ -68,7 +70,7 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
-        this.saveAllCategoryInstances()
+        this.saveAllCategoryInstances();
         this.fetchAllRecipesIndividually();
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
@@ -78,15 +80,14 @@ export default {
         this.loading = false;
       }
     },
-    checkSearchTermMatch(recipe) {
-      return recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || recipe.timeInMins === Number(this.searchTerm)
 
-    },
     saveAllCategoryInstances() {
-      this.store.recipes.forEach(recipe => {
-        recipe.categories.forEach(category => { this.allInstancesOfAllCategories.push(category) })
-      })
-    }
+      this.store.recipes.forEach((recipe) => {
+        recipe.categories.forEach((category) => {
+          this.allInstancesOfAllCategories.push(category);
+        });
+      });
+    },
 
     fetchAllRecipesIndividually() {
       this.store.recipes.forEach((recipe) => {
@@ -106,12 +107,21 @@ export default {
         }, 1000);
       });
     },
+
+    checkSearchTermMatch(recipe) {
+      return (
+        recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        recipe.timeInMins === Number(this.searchTerm)
+      );
+    },
   },
 
   async mounted() {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();
-    } else {this.saveAllCategoryInstances()}
+    } else {
+      this.saveAllCategoryInstances();
+    }
   },
 };
 </script>
@@ -125,7 +135,6 @@ main {
 @media (min-width: 768px) {
   main {
     margin-left: 210px;
-
   }
 }
 </style>
