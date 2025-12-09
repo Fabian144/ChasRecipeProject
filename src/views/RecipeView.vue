@@ -1,7 +1,14 @@
 <template>
+  <LoadingIcon v-if="loading"></LoadingIcon>
+
+  <GetMethodError v-else-if="fetchErrorMessage" :error-message="fetchErrorMessage" :error-status="fetchErrorStatus">
+  </GetMethodError>
+
+  <template v-else>
     <recipeInfo />
     <RatingSection :recipe-id="recipeId" />
     <CommentSection :recipeId="recipeId" />
+  </template>
 </template>
 
 <script>
@@ -16,12 +23,45 @@ export default {
     recipeInfo,
   },
 
+  data() {
+    return {
+      currentRecipe: {},
+      loading: false,
+      fetchErrorMessage: '',
+      fetchErrorStatus: '',
+    };
+  },
+
   computed: {
     recipeId() {
       return this.$route.params.recipeId;
     },
   },
 
+  methods: {
+    async fetchRecipe() {
+      this.loading = true;
+      try {
+        const response = await fetch(
+          `https://recipes.bocs.se/api/v1/c8d9e0f1-a2b3-4c5d-6e7f-8a9b0c1d2e3f/recipes/${this.recipeId}`,
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        this.currentRecipe = await response.json();
+      } catch (error) {
+        this.fetchErrorMessage = 'Receptet kunde inte laddas in eller hittas inte';
+        this.fetchErrorStatus = `${error.message}`;
+        console.error('Fetch failed:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+
+  async mounted() {
+    this.fetchRecipe();
+  },
 };
 </script>
 
