@@ -203,7 +203,7 @@ h2 {
   padding: 0;
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  color: #e4dc00;
+  color: #f1e900;
 }
 
 .star-container > button:hover {
@@ -252,10 +252,6 @@ h2 {
 @media (max-width: 526px) {
   h2 {
     font-size: 2em;
-  }
-
-  .star-container {
-    gap: 0;
   }
 
   .star-container > button {
