@@ -2,6 +2,7 @@
   <button class="hamburger" v-if="!isOpen" @click="toggleMenu">☰</button>
   <button class="closeBurger" v-if="isOpen" @click="closeMenu">✕</button>
   <aside :class="{ open: isOpen }">
+    <img src="../../images/Julrecept för Alla Logo Image.png" alt="Logotyp för Julrecept för Alla">
     <h2>Kategorier</h2>
     <ul>
       <li>
@@ -77,10 +78,17 @@ export default {
 </script>
 
 <style scoped>
+img {
+  height: 7em;
+  width: 7em;
+  display: block;
+  margin: 1rem auto 0;
+}
+
 h2 {
   text-align: center;
   color: white;
-  padding-top: 40px;
+  margin: 0.75rem 0 0.5rem;
 }
 
 aside {
