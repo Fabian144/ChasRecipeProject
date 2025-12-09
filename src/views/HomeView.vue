@@ -66,7 +66,6 @@ export default {
     },
   },
 
-
   async mounted() {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();

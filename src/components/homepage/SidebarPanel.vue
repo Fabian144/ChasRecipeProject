@@ -28,7 +28,6 @@ export default {
     }
   },
 
-
   methods: {
     toggleMenu() {
       this.isOpen = !this.isOpen;

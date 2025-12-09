@@ -5,50 +5,34 @@ export default {
       showLogoEntry: true
     }
   },
-  methods: {
-    homeButtonRoute() {
+  methods: 
+  {
+    homeButtonRoute() 
+    {
       this.$router.push('/recipes');
     },
-    /*onLogoEntryEnded() {
-      this.showLogoEntry = false;
-    }*/
   }
 }
 </script>
 
+
 <template>
-    
+    <!-- video sizes optimized (15 MB -> 9 MB total) -->
+
+    <!-- ...background video... -->
   <div class="landingPageContainer">
     <video class="background-video" autoplay loop muted playsinline>
       <source src="@/Videos/Background Loop.webm" type="video/webm">
     </video>
     
+    <!-- ...logo reveal... -->
     <div class="extraDarkOverlay"></div>
-    
-    <!-- 
-    (defunct halvkeff iteration med död frame/hack efter intro videon spelat klart)
-    
-    <video v-if="showLogoEntry == true" class="loopingLogo" autoplay muted playsinline 
-    
-    @ended="onLogoEntryEnded"> onLogoEntryEnded(); 
-    --->
-
-    <!-- 
-    <source src="@/Videos/Logo Entry.webm" type="video/webm"> 
-    </video>
-    
-    <video v-else preload="auto" class="loopingLogo" autoplay loop muted playsinline>
-      <source src="@/Videos/Logo Static Loop.webm" type="video/webm">
-    </video> 
-    -->
-
     <video v-show="showLogoEntry == true" class="logoIntroAndLoop" autoplay muted playsinline 
-    
     @ended="showLogoEntry = false">
+    <source src="@/Videos/Logo Entry.webm" type="video/webm">
 
-      <source src="@/Videos/Logo Entry.webm" type="video/webm">
+    <!-- ...logo loop... -->
     </video>
-
     <video v-show="showLogoEntry == false" class="logoIntroAndLoop" autoplay loop muted playsinline>
       <source src="@/Videos/Logo Static Loop.webm" type="video/webm">
     </video>
@@ -57,6 +41,7 @@ export default {
   </div>
 
 </template>
+
 
 <style scoped>
 .landingPageContainer 
@@ -99,7 +84,7 @@ height: 100%;
 {
   position: absolute;
   z-index: 2;
-  margin-top: 300px;
+  margin-top: 380px;
   padding: 16px 40px;
   font-size: 21px;
   font-weight: bold;
@@ -112,7 +97,7 @@ height: 100%;
 
 .homeButton
 {
-    opacity: 0;
+  opacity: 0;
   animation: homeButtonKeyFrames 1.2s ease forwards; 
   animation-delay: 1.5s;
 }
@@ -131,6 +116,22 @@ height: 100%;
 .homeButton:hover {
   scale: 1.05;
   background: #a01828;
+}
+
+@media (max-width: 600px) 
+{
+  .logoIntroAndLoop 
+  {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .homeButton 
+  {
+    margin-top: 250px;
+    padding: 12px 30px;
+    font-size: 18px;
+  }
 }
 
 </style>

@@ -12,16 +12,12 @@
 </template>
 
 <script>
-import LoadingIcon from '@/components/LoadingIcon.vue';
-import GetMethodError from '@/components/GetMethodError.vue';
 import RatingSection from '@/components/recipepage/RatingSection.vue';
 import CommentSection from '@/components/recipepage/commentSection.vue';
 import recipeInfo from '@/components/recipepage/recipeInfo.vue';
 
 export default {
-  components: {
-    LoadingIcon,
-    GetMethodError,
+   components: {
     CommentSection,
     RatingSection,
     recipeInfo,
