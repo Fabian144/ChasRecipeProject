@@ -1,14 +1,16 @@
 <template>
   <button class="hamburger" v-if="!isOpen" @click="toggleMenu">☰</button>
-  <nav :class="{ open: isOpen }">
+  <button class="closeBurger" v-if="isOpen" @click="closeMenu">✕</button>
+  <aside :class="{ open: isOpen }">
     <h2>Kategorier</h2>
     <ul>
+      <li><router-link :to="'/recipes'">Alla ({{ store.recipes.length }})</router-link></li>
       <li v-for="category in store.categories"><router-link :key="category.id"
           :to="{ name: 'category', params: { categoryId: category.id } }" @click="closeMenu"> {{ category.name
-          }}</router-link></li>
+          }} ({{ getCategoryRecipeAmount(category.name) }})</router-link></li>
     </ul>
 
-  </nav>
+  </aside>
 </template>
 
 <script>
@@ -28,6 +30,10 @@ export default {
     }
   },
 
+  props: {
+    allInstancesOfAllCategories: Array
+  },
+
   methods: {
     toggleMenu() {
       this.isOpen = !this.isOpen;
@@ -35,6 +41,7 @@ export default {
     closeMenu() {
       this.isOpen = false;
     },
+
     async fetchAllCategories() {
       try {
         const response = await fetch(
@@ -48,6 +55,10 @@ export default {
         console.error('Fetch failed:', error);
       }
     },
+    getCategoryRecipeAmount(categoryName) {
+      return this.allInstancesOfAllCategories.filter(categoryInstance => categoryInstance === categoryName).length
+    }
+    
 
 
   },
@@ -66,14 +77,16 @@ export default {
 h2 {
   text-align: center;
   color: white;
+  padding-top: 40px;
 }
 
-nav {
+aside {
   float: left;
   height: 100dvh;
   width: 200px;
   background-color: rgba(211, 0, 0, 0.90);
-
+  position: fixed;
+  top: 0;
 }
 
 
@@ -101,6 +114,20 @@ li a:hover {
   display: none;
 }
 
+.closeBurger {
+  display: none;
+}
+
+/* :deep(.router-link-active) {
+  background-color: rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+} */
+
+:deep(.router-link-exact-active) {
+  background-color: darkred;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
 
   .hamburger {
@@ -121,7 +148,26 @@ li a:hover {
     cursor: pointer;
   }
 
-  nav {
+  .closeBurger {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    background: rgba(0, 0, 0, 0.9);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 0;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  aside {
     position: fixed;
     top: 0;
     left: 0;
@@ -131,7 +177,7 @@ li a:hover {
     z-index: 2;
   }
 
-  nav.open {
+  aside.open {
     transform: translateX(0);
   }
 

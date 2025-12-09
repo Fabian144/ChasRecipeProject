@@ -4,13 +4,13 @@
 	<GetMethodError v-else-if="fetchErrorMessage" :error-message="fetchErrorMessage" :error-status="fetchErrorStatus">
 	</GetMethodError>
 
-	<template v-else>
-		<SidebarPanel></SidebarPanel>
-		<Header></Header>
-		<main class="recipe-card-section">
-			<RecipeCardSection :recipes="filteredRecipes" />
-		</main>
-	</template>
+    <template v-else>
+        <SidebarPanel :all-instances-of-all-categories="allInstancesOfAllCategories"></SidebarPanel>
+        <Header @added-search="(term) => searchTerm = term"></Header>
+        <main>
+            <RecipeCardSection :recipes="searchTerm ? recipesInSearch : recipesInCategory" />
+        </main>
+    </template>
 </template>
 
 <script>
@@ -36,11 +36,13 @@ export default {
 		SidebarPanel,
 	},
 
-	data() {
-		return {
-			loading: false,
-			fetchErrorMessage: '',
-			fetchErrorStatus: '',
+    data() {
+        return {
+            loading: false,
+            fetchErrorMessage: '',
+            fetchErrorStatus: '',
+            searchTerm: '',
+            allInstancesOfAllCategories: [],
 
 		};
 	},
@@ -50,16 +52,24 @@ export default {
 			return this.$route.params.categoryId
 		},
 
-		currentCategory() {
-			return this.store.categories.filter((category) => category.id === this.categoryIdParameter)[0]
+        currentCategory() {
+            return this.store.categories.find((category) => category.id === this.categoryIdParameter)
 
 		},
 
-		filteredRecipes() {
-			return this.store.recipes.filter((recipe) => this.checkCorrectedCategories(recipe.categories))
+        recipesInSearch() {
 
-		}
-	},
+            return this.recipesInCategory.filter((recipe) => this.checkSearchTermMatch(recipe))
+
+
+        },
+
+        recipesInCategory() {
+            return this.store.recipes.filter((recipe) => this.checkCorrectCategory(recipe))
+
+        }
+
+    },
 
 
 
@@ -74,6 +84,7 @@ export default {
 					throw new Error(`Status: ${response.status}`);
 				}
 				this.store.recipes = await response.json();
+                this.saveAllCategoryInstances()
 				this.fetchAllRecipesIndividually();
 			} catch (error) {
 				this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
@@ -103,33 +114,43 @@ export default {
 			});
 		},
 
-		checkCorrectedCategories(categoryNames) {
-			return categoryNames.filter(categoryName => this.correctCategories(categoryName))[0] === this.currentCategory.name
-		},
+        checkCorrectCategory(recipe) {
+            return recipe.categories.find(categoryName => this.correctCategory(categoryName)) === this.currentCategory.name
+        },
 
-		correctCategories(categoryName) {
-			return categoryName === this.currentCategory.name
-		},
+        correctCategory(categoryName) {
+            return categoryName === this.currentCategory.name
+        },
 
-		onFetchedCategories(categories) {
-			this.store.categories = categories;
-		},
+        checkSearchTermMatch(recipe) {
+            return recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || recipe.timeInMins === Number(this.searchTerm)
+        },
+        saveAllCategoryInstances() {
+            this.store.recipes.forEach(recipe => {
+                recipe.categories.forEach(category => { this.allInstancesOfAllCategories.push(category) })
+            })
+        }
+    },
 
-
-	},
-
-	async mounted() {
-		if (this.store.recipes.length === 0) {
-			this.fetchAllRecipes();
-		}
+    async mounted() {
+        if (this.store.recipes.length === 0) {
+            this.fetchAllRecipes();
+        } else {this.saveAllCategoryInstances()}
 
 	},
 };
 </script>
 
 <style scoped>
-.recipe-card-section {
-	display: flex;
-	height: 100dvh;
+main {
+    display: flex;
+    margin: 0;
+
+}
+
+@media (min-width: 768px) {
+    main {
+        margin-left: 210px;
+    }
 }
 </style>
