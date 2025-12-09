@@ -7,7 +7,7 @@
   </section>
 
   <section v-else class="rating-section-container">
-    <h2>Ge ditt betyg!</h2>
+    <h2>Ge receptet ett betyg!</h2>
 
     <div class="star-container">
       <button
@@ -178,22 +178,24 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
+  margin: 2em auto 0;
 }
 
 h2 {
-  font-size: 2em;
-  margin: 0.5em auto;
+  font-size: 2.25em;
+  margin: 0.25em;
   color: #ffffff;
   width: fit-content;
 }
 
 .star-container {
-  background-color: #cfffd5;
-  padding: 0.75em;
+  background-color: rgba(64, 124, 51, 0.9);
+  padding: 0.7em 1.1em;
+  margin-top: 0.5em;
   display: flex;
-  gap: 0.5em;
+  gap: 0.1em;
   width: fit-content;
+  border-radius: 10px;
 }
 
 .star-container > button {
@@ -201,14 +203,11 @@ h2 {
   padding: 0;
   background-color: rgba(0, 0, 0, 0);
   border: none;
+  color: #f1e900;
 }
 
 .star-container > button:hover {
   cursor: pointer;
-}
-
-.star-container > button:focus-visible {
-  outline: solid black 2px;
 }
 
 .star-container > button.clicked {
@@ -217,18 +216,18 @@ h2 {
 }
 
 .send-rating-button {
-  margin-top: 1em;
-  font-size: 1em;
-  padding: 0.5em 0.7em;
+  margin-top: 0.75em;
+  font-size: 0.9em;
+  padding: 0.6em 1em;
   cursor: pointer;
-  background-color: #000;
+  background-color: #b71c1c;
   border: none;
   color: white;
   border-radius: 100px;
 }
 
 .send-rating-button:hover {
-  box-shadow: black 0 0 5px 0;
+ 	background-color: #b83030;
 }
 
 .send-rating-button:disabled {
@@ -245,9 +244,19 @@ h2 {
 .sent-rating-container {
   display: flex;
   flex-direction: row;
-  width: 10em;
-  height: 1.6em;
-	color: #e4dc00;
+  width: 10.5em;
+  height: 1.8em;
+  color: #e4dc00;
+}
+
+@media (max-width: 526px) {
+  h2 {
+    font-size: 2em;
+  }
+
+  .star-container > button {
+    font-size: 1.9em;
+  }
 }
 
 @keyframes starClickAnimation {

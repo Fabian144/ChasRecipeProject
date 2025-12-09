@@ -41,7 +41,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75em;
-  margin: 0 0.75em 0.75em;
+  margin: 0.25em 1.2em 0 1em;
   width: 100%;
 }
 
@@ -61,8 +61,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 0 0.75em 0 0;
-
+		gap: 1em;
   }
 
   .recipe-cards-container>a {
@@ -74,6 +73,7 @@ export default {
   .recipe-cards-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
+		gap: 0.75em;
   }
 }
 

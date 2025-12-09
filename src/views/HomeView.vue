@@ -129,12 +129,11 @@ export default {
 <style scoped>
 main {
   display: flex;
-  margin: 0;
 }
 
 @media (min-width: 768px) {
   main {
-    margin-left: 210px;
+    margin-left: 12.5em;
   }
 }
 </style>
