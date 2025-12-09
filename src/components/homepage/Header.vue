@@ -32,58 +32,54 @@ header {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: 1em;
-  height: 9em;
+  padding: 1em;
 }
 
 h1 {
   color: white;
-  margin: 0;
+  margin: 0.5rem 0 0;
   width: fit-content;
-  font-size: 1.8em;
+  font-size: 10vw;
 }
 
 .heading-description {
   color: white;
-  margin: 0.35em 0 0;
+  margin: 0.25em 0 1.25rem;
   width: fit-content;
-  font-size: 1em;
+  font-size: 4vw;
 }
 
 input {
   width: 100%;
-  margin: 1em 0 0;
-  height: 2em;
+  height: 2.25em;
   border-radius: 5px;
 }
 
 @media (min-width: 526px) {
-  header {
-    height: 9em;
-  }
-
   h1 {
-    font-size: 2.3em;
+    font-size: 2.5em;
+    margin: 1rem 0 0;
   }
 
   .heading-description {
-    font-size: 1.2em;
+    font-size: 1.3em;
+    margin: 0.25em 0 1.75rem;
   }
 }
 
 @media (min-width: 768px) {
   header {
-    margin-left: 210px;
+    margin-left: 200px;
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1400px) {
   h1 {
-    font-size: 2.5em;
+    font-size: 2.6em;
   }
 
   .heading-description {
-    font-size: 1.3em;
+    font-size: 1.4em;
   }
 }
 </style>

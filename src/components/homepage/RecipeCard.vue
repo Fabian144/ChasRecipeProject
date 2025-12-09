@@ -173,7 +173,7 @@ hr {
   .recipe-image-container {
     aspect-ratio: 16/11;
     max-height: unset;
-    width: 37vw;
+    width: 32vw;
     max-width: 20em;
     align-self: center;
     padding: 1em;
