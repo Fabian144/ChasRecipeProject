@@ -15,7 +15,6 @@ coverage
 *.local
 
 # Editor directories and files
-.vscode/*
 !.vscode/extensions.json
 .idea
 *.suo
@@ -34,3 +33,4 @@ coverage
 
 # Vitest
 __screenshots__/
+config.bat

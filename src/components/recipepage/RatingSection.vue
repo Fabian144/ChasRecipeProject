@@ -1,6 +1,13 @@
 <template>
-  <div class="rating-section-container">
-    <h3>Ge ditt betyg!</h3>
+  <section v-if="ratingPosted" class="rating-section-container">
+    <h2>Tack för ditt betyg!</h2>
+    <div class="sent-rating-container">
+      <StarDisplay :value-to-display="chosenRating"></StarDisplay>
+    </div>
+  </section>
+
+  <section v-else class="rating-section-container">
+    <h2>Ge ditt betyg!</h2>
 
     <div class="star-container">
       <button
@@ -11,7 +18,7 @@
         @touchstart="fillCorrectStarsMobile(starIcon)"
         :class="[starIcon.class, starIcon.icon]"
         :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
-        :disabled="ratingPosted || postingRating"
+        :disabled="postingRating"
       >
         <font-awesome-icon :icon="starIcon.icon" />
       </button>
@@ -21,22 +28,16 @@
       v-if="chosenRating"
       class="send-rating-button"
       @click="postRating"
-      :disabled="ratingPosted || postingRating"
+      :disabled="postingRating"
     >
       {{ postingRating ? 'Skickar...' : 'Skicka' }}
     </button>
 
-    <div v-if="fetchErrorStatus" class="rating-error-message">
-      <p>
-        Misslyckades att skicka omdöme, försök igen <br />
-        {{ fetchErrorStatus }}
-      </p>
-    </div>
-
-    <div v-if="ratingPosted" class="thank-you-message">
-      <p>Tack för ditt omdöme!</p>
-    </div>
-  </div>
+    <p v-if="fetchErrorStatus" class="rating-error-message">
+      Misslyckades att skicka omdöme, försök igen <br />
+      {{ fetchErrorStatus }}
+    </p>
+  </section>
 </template>
 
 <script>
@@ -45,11 +46,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import StarDisplay from '../StarDisplay.vue';
 
 library.add(fas, far, faStar);
 
 export default {
-  components: { FontAwesomeIcon },
+  components: { FontAwesomeIcon, StarDisplay },
 
   data() {
     return {
@@ -74,9 +76,15 @@ export default {
     recipeId: String,
   },
 
-  mounted() {
+  created() {
     this.touchDevice =
       'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+
+    const localStorageData = JSON.parse(localStorage.getItem(`ratingFor${this.recipeId}`));
+    if (localStorageData) {
+      this.ratingPosted = localStorageData.ratingPosted;
+      this.chosenRating = Number(localStorageData.chosenRating);
+    }
   },
 
   methods: {
@@ -152,6 +160,15 @@ export default {
       }
     },
   },
+
+  watch: {
+    ratingPosted() {
+      localStorage.setItem(
+        `ratingFor${this.recipeId}`,
+        JSON.stringify({ ratingPosted: this.ratingPosted, chosenRating: this.chosenRating }),
+      );
+    },
+  },
 };
 </script>
 
@@ -164,10 +181,11 @@ export default {
   margin: auto;
 }
 
-.rating-section-container h3 {
+h2 {
   font-size: 2em;
-  margin-bottom: 0.5em;
+  margin: 0.5em auto;
   color: #ffffff;
+  width: fit-content;
 }
 
 .star-container {
@@ -219,15 +237,17 @@ export default {
 
 .rating-error-message {
   width: fit-content;
-  margin: 0;
+  margin: 1em 0 0;
   text-align: center;
   color: white;
 }
 
-.thank-you-message {
-  width: fit-content;
-  margin: 0;
-  color: white;
+.sent-rating-container {
+  display: flex;
+  flex-direction: row;
+  width: 10em;
+  height: 1.6em;
+	color: #e4dc00;
 }
 
 @keyframes starClickAnimation {
