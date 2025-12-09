@@ -5,10 +5,10 @@
   </GetMethodError>
 
   <template v-else>
-    <SidebarPanel />
-    <Header></Header>
+    <SidebarPanel :all-instances-of-all-categories="allInstancesOfAllCategories" />
+    <Header @added-search="(term) => searchTerm = term"></Header>
     <main>
-      <RecipeCardSection :recipes="store.recipes" />
+      <RecipeCardSection :recipes="filteredRecipes" />
     </main>
   </template>
 </template>
@@ -41,7 +41,17 @@ export default {
       loading: false,
       fetchErrorMessage: '',
       fetchErrorStatus: '',
+      searchTerm: '',
+      allInstancesOfAllCategories: [],
     };
+  },
+
+  computed: {
+    filteredRecipes() {
+      if (this.searchTerm) {
+        return this.store.recipes.filter((recipe) => this.checkSearchTermMatch(recipe))
+      } else { return this.store.recipes }
+    },
   },
 
   methods: {
@@ -55,6 +65,7 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
+        this.saveAllCategoryInstances()
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
         this.fetchErrorStatus = `${error.message}`;
@@ -63,13 +74,22 @@ export default {
         this.loading = false;
       }
     },
+    checkSearchTermMatch(recipe) {
+      return recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || recipe.timeInMins === Number(this.searchTerm)
+
+    },
+    saveAllCategoryInstances() {
+      this.store.recipes.forEach(recipe => {
+        recipe.categories.forEach(category => { this.allInstancesOfAllCategories.push(category) })
+      })
+    }
   },
 
 
   async mounted() {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();
-    }
+    } else {this.saveAllCategoryInstances()}
   },
 };
 </script>

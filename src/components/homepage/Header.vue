@@ -5,10 +5,29 @@
       Klassiska och moderna recept för julfrukosten, <br />
       julbordet och allting däremellan
     </p>
+    <input type="text" placeholder="Sök efter recept..." v-model="searchTerm">
   </header>
 </template>
 
-<script></script>
+<script>
+  export default {
+    data() {
+      return {
+        searchTerm: ''
+      }
+    },
+    watch: {
+      searchTerm(){
+        if (this.searchTerm) {
+          this.$emit ('addedSearch', this.searchTerm)
+        }
+      },
+    },
+    emits: ['addedSearch'] 
+  }
+
+
+</script>
 
 <style scoped>
 header {
@@ -26,6 +45,7 @@ h1 {
   margin: 0;
   width: fit-content;
   font-size: 1.8em;
+  
 }
 
 .heading-description {
@@ -33,6 +53,13 @@ h1 {
   margin: 0.35em 0 0;
   width: fit-content;
   font-size: 1em;
+}
+
+input {
+  width: 100%;
+  margin: 1em 0 0;
+  height: 2em;
+  border-radius: 5px;
 }
 
 @media (min-width: 526px) {

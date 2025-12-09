@@ -5,10 +5,10 @@
     </GetMethodError>
 
     <template v-else>
-        <SidebarPanel></SidebarPanel>
-        <Header></Header>
+        <SidebarPanel :all-instances-of-all-categories="allInstancesOfAllCategories"></SidebarPanel>
+        <Header @added-search="(term) => searchTerm = term"></Header>
         <main>
-            <RecipeCardSection :recipes="filteredRecipes" />
+            <RecipeCardSection :recipes="searchTerm ? recipesInSearch : recipesInCategory" />
         </main>
     </template>
 </template>
@@ -41,6 +41,8 @@ export default {
             loading: false,
             fetchErrorMessage: '',
             fetchErrorStatus: '',
+            searchTerm: '',
+            allInstancesOfAllCategories: [],
 
         };
     },
@@ -55,10 +57,18 @@ export default {
 
         },
 
-        filteredRecipes() {
+        recipesInSearch() {
+
+            return this.recipesInCategory.filter((recipe) => this.checkSearchTermMatch(recipe))
+
+
+        },
+
+        recipesInCategory() {
             return this.store.recipes.filter((recipe) => this.checkCorrectCategory(recipe))
 
         }
+
     },
 
 
@@ -74,6 +84,7 @@ export default {
                     throw new Error(`Status: ${response.status}`);
                 }
                 this.store.recipes = await response.json();
+                this.saveAllCategoryInstances()
             } catch (error) {
                 this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
                 this.fetchErrorStatus = `${error.message}`;
@@ -90,12 +101,21 @@ export default {
         correctCategory(categoryName) {
             return categoryName === this.currentCategory.name
         },
+
+        checkSearchTermMatch(recipe) {
+            return recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || recipe.timeInMins === Number(this.searchTerm)
+        },
+        saveAllCategoryInstances() {
+            this.store.recipes.forEach(recipe => {
+                recipe.categories.forEach(category => { this.allInstancesOfAllCategories.push(category) })
+            })
+        }
     },
 
     async mounted() {
         if (this.store.recipes.length === 0) {
             this.fetchAllRecipes();
-        }
+        } else {this.saveAllCategoryInstances()}
 
     },
 };

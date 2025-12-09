@@ -1,11 +1,13 @@
 <template>
   <button class="hamburger" v-if="!isOpen" @click="toggleMenu">☰</button>
+  <button class="closeBurger" v-if="isOpen" @click="closeMenu">✕</button>
   <aside :class="{ open: isOpen }">
     <h2>Kategorier</h2>
     <ul>
+      <li><router-link :to="'/recipes'">Alla ({{ store.recipes.length }})</router-link></li>
       <li v-for="category in store.categories"><router-link :key="category.id"
           :to="{ name: 'category', params: { categoryId: category.id } }" @click="closeMenu"> {{ category.name
-          }}</router-link></li>
+          }} ({{ getCategoryRecipeAmount(category.name) }})</router-link></li>
     </ul>
 
   </aside>
@@ -28,6 +30,9 @@ export default {
     }
   },
 
+  props: {
+    allInstancesOfAllCategories: Array
+  },
 
   methods: {
     toggleMenu() {
@@ -36,6 +41,7 @@ export default {
     closeMenu() {
       this.isOpen = false;
     },
+
     async fetchAllCategories() {
       try {
         const response = await fetch(
@@ -49,6 +55,10 @@ export default {
         console.error('Fetch failed:', error);
       }
     },
+    getCategoryRecipeAmount(categoryName) {
+      return this.allInstancesOfAllCategories.filter(categoryInstance => categoryInstance === categoryName).length
+    }
+    
 
 
   },
@@ -67,6 +77,7 @@ export default {
 h2 {
   text-align: center;
   color: white;
+  padding-top: 40px;
 }
 
 aside {
@@ -103,6 +114,20 @@ li a:hover {
   display: none;
 }
 
+.closeBurger {
+  display: none;
+}
+
+/* :deep(.router-link-active) {
+  background-color: rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+} */
+
+:deep(.router-link-exact-active) {
+  background-color: darkred;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
 
   .hamburger {
@@ -121,6 +146,25 @@ li a:hover {
     top: 10px;
     left: 10px;
     cursor: pointer;
+  }
+
+  .closeBurger {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    background: rgba(0, 0, 0, 0.9);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 0;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 3;
   }
 
   aside {
