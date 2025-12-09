@@ -18,9 +18,7 @@ export default {
   },
   watch: {
     searchTerm() {
-      if (this.searchTerm) {
-        this.$emit('addedSearch', this.searchTerm);
-      }
+      this.$emit('addedSearch', this.searchTerm);
     },
   },
   emits: ['addedSearch'],

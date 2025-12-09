@@ -51,7 +51,7 @@ export default {
 
   computed: {
     recipesInSearch() {
-      return this.recipesInCategory.filter((recipe) => this.checkSearchTermMatch(recipe));
+      return this.store.recipes.filter((recipe) => this.checkSearchTermMatch(recipe));
     },
 
     filteredRecipes() {
