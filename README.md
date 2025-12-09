@@ -1,4 +1,4 @@
-# Chas Academy Front-End with frameworks project: Recipe Website - Team C
+# Chas Academy Front-End with frameworks project: Recipe Website
 
 This is a group project made in 2025 by **Chas Academy Front-End Development/UX Design** students, as part of the **Front-end Development with frameworks course**.
 
@@ -6,8 +6,7 @@ This is a group project made in 2025 by **Chas Academy Front-End Development/UX 
 
 The goal of the project was to create a dynamic and accessible website using **Vue.js** and a **REST API**, where the user can browse for recipes as well as leave a rating and a comment on each one.
 
-### Features 🔍
----
+## Features 🔍
 
 - **Category navigation bar** to easily filter recipes by category with a click
 
@@ -22,8 +21,14 @@ The goal of the project was to create a dynamic and accessible website using **V
 ## Live demo 💻
 Visit the website here: https://fabian144.github.io/ChasRecipeProject/
 
+## Run project locally 📥
+```sh
+npm ci
+npm run dev
+```
+
 ## Tools 🔨
-The website was built using:
+This website was built using:
 - **HTML**
 - **CSS**
 - **JavaScript**
@@ -31,7 +36,7 @@ The website was built using:
 - **REST API**
 
 ## Team members 👥️
-The project was carried out by:
+This project was carried out by:
 
 - [Fabian](https://github.com/fabian144)
 - [Leo](https://github.com/LeoEngberg)
