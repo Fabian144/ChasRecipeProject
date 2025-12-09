@@ -129,21 +129,41 @@ export default {
 
 <style scoped>
 .comment-section {
-    background: #e6f4ea;
-    /* ljusgrön bakgrund */
+   
+    /* background-color: #187f42; */
+    background-color: rgba(68, 133, 56, 0.9);
     border-radius: 12px;
     padding: 25px;
     max-width: 600px;
     margin: 40px auto;
     font-family: Arial, sans-serif;
-    text-align: center;
+    text-align: left;
+    
+}
+.comment-list {
+    list-style-type: none;
+    /* tar bort punkterna */
+    padding: 0;
+    /* tar bort extra indrag */
+    margin: 0;
+    /* valfritt */
+}
+.title::before {
+    content: "🎄";
+    margin-right: 10px;
+    font-size: 18px;
 }
 
+.title::after {
+    content: "";
+}
 .title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #2e7d32;
+    color: #f0ece9;
+    text-align: center;
+    margin-bottom: 40px;
     /* mörkgrön */
 }
 
@@ -163,7 +183,7 @@ export default {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #2e7d32;
+    color: #fff;
     /* grön */
 }
 
@@ -172,14 +192,14 @@ export default {
     width: 100%;
     padding: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid #fff;
     font-size: 14px;
     background-color: #fff;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #2e7d32;
+
     box-shadow: 0 0 4px rgba(46, 125, 50, 0.3);
     outline: none;
 }
@@ -250,13 +270,7 @@ button:disabled {
     color: #555;
 }
 
-/* .delete-btn {
-    background: transparent;
-    border: none;
-    color: #b71c1c;
-    cursor: pointer;
-    font-size: 12px;
-} */
+
 </style>
 
 
