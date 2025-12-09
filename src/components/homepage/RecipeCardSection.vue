@@ -12,7 +12,8 @@
         :recipe-description="recipe.description"
         :recipe-ingredients="recipe.ingredients"
         :recipe-cooking-time="recipe.timeInMins"
-        :recipe-rating="recipe.ratings.length > 0 ? calculateAverageRating(recipe.ratings) : 0"
+        :recipe-average-rating="calculateAverage(recipe.ratings)"
+        :amount-of-ratings="recipe.ratings.length"
       />
     </router-link>
   </div>
@@ -26,14 +27,20 @@ export default {
     RecipeCard,
   },
 
-  props: ['recipes'],
+  props: {
+    recipes: Array,
+  },
 
   methods: {
-    calculateAverageRating(ratings) {
-      return (
-        ratings.reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
-        ratings.length
-      );
+    calculateAverage(arrayWithAllRatings) {
+      if (arrayWithAllRatings.length > 0) {
+        return (
+          arrayWithAllRatings.reduce((accumulator, currentValue) => accumulator + currentValue) /
+          arrayWithAllRatings.length
+        );
+      } else {
+        return 0;
+      }
     },
   },
 };
@@ -41,10 +48,10 @@ export default {
 
 <style scoped>
 .recipe-cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  margin: 0 1em 1em;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75em;
+  margin: 0 0.75em 0.75em;
   width: 100%;
 }
 
@@ -52,9 +59,41 @@ export default {
   outline: solid black 2px;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 526px) {
   .recipe-cards-container {
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .recipe-cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .recipe-cards-container > a {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .recipe-cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 2600px) {
+  .recipe-cards-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 3200px) {
+  .recipe-cards-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 </style>

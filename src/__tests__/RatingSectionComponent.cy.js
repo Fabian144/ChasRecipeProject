@@ -1,124 +1,120 @@
-import RatingSection from '../components/recipe page/RatingSection.vue';
+import RatingSection from '../components/recipepage/RatingSection.vue';
 
-describe('Rating Component test', () => {
+describe('Rating system component', () => {
   beforeEach(() => {
-    cy.mount(RatingSection).as('ratingSection');
+    cy.mount(RatingSection);
   });
 
-  it('Fills current and previous stars on hover', () => {
-    cy.get('.star-container svg').eq(2).trigger('mouseover');
+  it('Tests hover effects when no star is clicked', () => {
+    cy.get('.star-container button').as('stars');
 
-    cy.get('@ratingSection').then((wrapper) => {
-      cy.wrap(wrapper.component.starIcons[0].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[1].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[2].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[3].icon).should('equal', 'fa-regular fa-star');
-      cy.wrap(wrapper.component.starIcons[4].icon).should('equal', 'fa-regular fa-star');
+    cy.get('@stars').eq(2).trigger('mouseover');
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 2) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
     });
-  });
 
-  it('Empties stars when hovering off when none have been clicked', () => {
-    cy.get('.star-container svg').eq(2).trigger('mouseover');
-    cy.get('.star-container svg').eq(2).trigger('mouseleave');
-
-    cy.get('@ratingSection').then((wrapper) => {
-      wrapper.component.starIcons.forEach((star) => {
-        expect(star.icon).to.equal('fa-regular fa-star');
-      });
+    cy.get('@stars').eq(2).trigger('mouseleave');
+    cy.get('@stars').each((btn) => {
+      cy.wrap(btn).should('have.class', 'fa-regular');
     });
   });
 
-  it('Updates chosenRating properly when clicking a star', () => {
-    cy.get('.star-container svg').eq(3).click();
+  it('Tests hover effects when a star is clicked', () => {
+    cy.get('.star-container button').as('stars');
 
-    cy.get('@ratingSection').then((wrapper) => {
-      expect(wrapper.component.chosenRating).to.equal(4);
+    cy.get('@stars').eq(3).click();
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 3) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
+    });
+
+    cy.get('@stars').eq(1).trigger('mouseover');
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 1) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
+    });
+
+    cy.get('@stars').eq(1).trigger('mouseleave');
+    cy.get('@stars').each((btn, idx) => {
+      const svg = cy.wrap(btn);
+      if (idx <= 3) svg.should('have.class', 'fa-solid');
+      else svg.should('have.class', 'fa-regular');
+    });
+
+    cy.get('@stars').eq(3).click();
+    cy.get('@stars').each((btn) => {
+      cy.wrap(btn).should('have.class', 'fa-regular');
     });
   });
 
-  it('Keeps current and previous stars filled after clicking', () => {
-    cy.get('.star-container svg').eq(2).click();
-    cy.get('.star-container svg').eq(2).trigger('mouseleave');
+  it('Shows a send button when a star is clicked and removes it when no stars are selected', () => {
+    cy.get('.star-container button').as('stars');
 
-    cy.get('@ratingSection').then((wrapper) => {
-      cy.wrap(wrapper.component.starIcons[0].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[1].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[2].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[3].icon).should('equal', 'fa-regular fa-star');
-      cy.wrap(wrapper.component.starIcons[4].icon).should('equal', 'fa-regular fa-star');
-    });
+    cy.get('.send-rating-button').should('not.exist');
+
+    cy.get('@stars').eq(1).click();
+    cy.get('.send-rating-button').should('be.visible').and('not.be.disabled');
+
+    cy.get('@stars').eq(1).click();
+    cy.get('.send-rating-button').should('not.exist');
   });
 
-  it('Makes sure chosenRating stays the same after hovering over different stars', () => {
-    cy.get('.star-container svg').eq(1).click();
+  it('Succeeds POST when sending rating, shows a thank you message and disables button and stars', () => {
+    cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 200, body: {} }).as('postRating');
 
-    cy.get('.star-container svg').eq(3).trigger('mouseover');
+    cy.get('.star-container button').as('stars').eq(3).click();
+    cy.get('.send-rating-button').should('be.visible').click();
 
-    cy.get('.star-container svg').eq(3).trigger('mouseleave');
+    cy.wait('@postRating');
 
-    cy.get('@ratingSection').then((wrapper) => {
-      expect(wrapper.component.chosenRating).to.equal(2);
-    });
+    cy.get('.thank-you-message').should('be.visible');
+
+    cy.get('.send-rating-button').should('be.disabled');
+    cy.get('.star-container button').each((b) => cy.wrap(b).should('be.disabled'));
   });
 
-  it('Makes sure the hover effect works properly even if a star has been clicked', () => {
-    cy.get('.star-container svg').eq(1).click();
+  it('Fails POST, shows error message and removes it when retry succeeds or when no stars are selected', () => {
+    cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 500, body: {} }).as('postFail');
 
-    cy.get('.star-container svg').eq(3).trigger('mouseover');
-    cy.get('@ratingSection').then((wrapper) => {
-      cy.wrap(wrapper.component.starIcons[0].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[1].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[2].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[3].icon).should('equal', 'fa-solid fa-star');
-    });
+    cy.get('.star-container button').as('stars').eq(2).click(); // choose 3 stars
+    cy.get('.send-rating-button').click();
+    cy.wait('@postFail');
 
-    cy.get('.star-container svg').eq(3).trigger('mouseleave');
+    cy.get('.rating-error-message').should('be.visible').and('contain.text', 'Status: 500');
 
-    cy.get('@ratingSection').then((wrapper) => {
-      cy.wrap(wrapper.component.starIcons[0].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[1].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[2].icon).should('equal', 'fa-regular fa-star');
-      cy.wrap(wrapper.component.starIcons[3].icon).should('equal', 'fa-regular fa-star');
-    });
+    cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 200, body: {} }).as('postOk');
+    cy.get('.send-rating-button').click();
+    cy.wait('@postOk');
 
-    cy.get('.star-container svg').eq(0).trigger('mouseover');
-    cy.get('@ratingSection').then((wrapper) => {
-      cy.wrap(wrapper.component.starIcons[0].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[1].icon).should('equal', 'fa-regular fa-star');
-    });
+    cy.get('.rating-error-message').should('not.exist');
+    cy.get('.thank-you-message').should('be.visible');
+    cy.get('.send-rating-button').should('be.disabled');
+    cy.get('.star-container button').each((b) => cy.wrap(b).should('be.disabled'));
 
-    cy.get('.star-container svg').eq(0).trigger('mouseleave');
+    cy.mount(RatingSection);
 
-    cy.get('@ratingSection').then((wrapper) => {
-      cy.wrap(wrapper.component.starIcons[0].icon).should('equal', 'fa-solid fa-star');
-      cy.wrap(wrapper.component.starIcons[1].icon).should('equal', 'fa-solid fa-star');
-    });
-  });
+    cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 500, body: {} }).as('postFail2');
+    cy.get('.star-container button').as('stars').eq(2).click();
+    cy.get('.send-rating-button').click();
+    cy.wait('@postFail2');
+    cy.get('.rating-error-message').should('be.visible');
 
-  it('Sets chosenRating to 0 when clicking the same star again and empties stars', () => {
-    cy.get('.star-container svg').eq(2).click();
-    cy.get('.star-container svg').eq(2).trigger('mouseleave');
+    cy.get('@stars').eq(2).click();
+    cy.get('.rating-error-message').should('not.exist');
+    cy.get('.send-rating-button').should('not.exist');
 
-    cy.get('.star-container svg').eq(2).click();
-    cy.get('.star-container svg').eq(2).trigger('mouseleave');
-    cy.get('@ratingSection').then((wrapper) => {
-      expect(wrapper.component.chosenRating).to.equal(0);
-      wrapper.component.starIcons.forEach((star) => {
-        expect(star.icon).to.equal('fa-regular fa-star');
-      });
-    });
-  });
+    cy.intercept('POST', '**/recipes/*/ratings', { statusCode: 500, body: {} }).as('postFail2');
+    cy.get('.star-container button').as('stars').eq(2).click();
+    cy.get('.send-rating-button').click();
+    cy.wait('@postFail2');
+    cy.get('.rating-error-message').should('be.visible');
 
-  it('Emits chosenRatingChanged event when rating changes', () => {
-    const onChosenRatingChanged = cy.spy().as('ratingChanged');
-
-    cy.mount(RatingSection, {
-      props: {
-        onChosenRatingChanged,
-      },
-    });
-
-    cy.get('.star-container svg').eq(3).click();
-    cy.get('@ratingChanged').should('have.been.calledWith', 4);
+    cy.get('@stars').eq(2).click();
+    cy.get('.rating-error-message').should('not.exist');
+    cy.get('.send-rating-button').should('not.exist');
   });
 });
