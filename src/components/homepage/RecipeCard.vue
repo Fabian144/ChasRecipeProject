@@ -11,15 +11,12 @@
 
       <ul
         class="recipe-rating-container"
-        :aria-label="`Receptet har ett omdöme på ${Math.round(recipeAverageRating)} av 5 stjärnor`"
+        :aria-label="`Receptet har ett omdöme på ${roundedRecipeAverageRating} av 5 stjärnor`"
       >
         <li class="recipe-star-container">
-          <StarDisplay :value-to-display="recipeAverageRating" />
+          <StarDisplay :value-to-display="roundedRecipeAverageRating" />
         </li>
-        <li
-          class="recipe-rating-amount"
-          :aria-label="`Receptet har ${Math.round(recipeAverageRating)} röster`"
-        >
+        <li class="recipe-rating-amount" :aria-label="`Receptet har ${roundedRecipeAverageRating} röster`">
           ({{ amountOfRatings }})
         </li>
       </ul>
@@ -32,7 +29,7 @@
     <div class="card-bottom-container">
       <hr />
       <p class="bottom-section-text">
-        {{ recipeIngredients.length }} INGREDIENSER | {{ recipeCookingTime }} MINUTER
+        {{ amountOfIngredients }} {{ ingredientsText }} | {{ recipeCookingTime }} MINUTER
       </p>
     </div>
   </article>
@@ -52,6 +49,20 @@ export default {
     recipeCookingTime: Number,
     recipeAverageRating: Number,
     amountOfRatings: Number,
+  },
+
+  computed: {
+    roundedRecipeAverageRating() {
+      return Math.round(this.recipeAverageRating);
+    },
+
+    amountOfIngredients() {
+      return this.recipeIngredients.length;
+    },
+
+    ingredientsText() {
+      return this.recipeIngredients.length > 1 ? 'INGREDIENSER' : 'INGREDIENS';
+    },
   },
 };
 </script>
