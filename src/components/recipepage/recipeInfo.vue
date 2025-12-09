@@ -205,7 +205,7 @@ export default {
   </section>
 </template>
 
-<style>
+<style scoped>
 * 
 {
   box-sizing: border-box;

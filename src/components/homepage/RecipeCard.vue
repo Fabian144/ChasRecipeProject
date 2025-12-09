@@ -16,7 +16,10 @@
         <li class="recipe-star-container">
           <StarDisplay :value-to-display="roundedRecipeAverageRating" />
         </li>
-        <li class="recipe-rating-amount" :aria-label="`Receptet har ${roundedRecipeAverageRating} röster`">
+        <li
+          class="recipe-rating-amount"
+          :aria-label="`Receptet har ${roundedRecipeAverageRating} röster`"
+        >
           ({{ amountOfRatings }})
         </li>
       </ul>
@@ -75,6 +78,7 @@ export default {
   color: rgb(255, 255, 255);
   background-color: rgba(68, 133, 56, 0.9);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 3px 2px 10px rgba(0, 0, 0, 0.8);
   border-radius: 5px;
 }
 

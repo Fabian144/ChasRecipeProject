@@ -41,7 +41,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75em;
-  margin: 0 1em 0 1em;
+  margin: 0.25em 1em 0 1em;
   width: 100%;
 }
 

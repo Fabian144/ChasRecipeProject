@@ -40,6 +40,7 @@ h1 {
   margin: 0.5rem 0 0;
   width: fit-content;
   font-size: 10vw;
+  text-shadow: 2px 2px 5px rgb(0, 0, 0);
 }
 
 .heading-description {
@@ -47,23 +48,31 @@ h1 {
   margin: 0.25em 0 1.25rem;
   width: fit-content;
   font-size: 4vw;
+  text-shadow: 2px 2px 5px rgb(0, 0, 0);
 }
 
 input {
   width: 100%;
-  height: 2.25em;
+  height: 2.75em;
   border-radius: 5px;
+  border: 1px solid black;
+  padding: 0 0 0 0.2em;
+  background-color: rgba(255, 255, 255, 0.68);
+}
+
+input:focus {
+  background-color: rgba(255, 255, 255, 0.87);
 }
 
 @media (min-width: 526px) {
   h1 {
     font-size: 2.5em;
-    margin: 1rem 0 0;
+    margin: 1.25rem 0 0;
   }
 
   .heading-description {
     font-size: 1.3em;
-    margin: 0.25em 0 1.75rem;
+    margin: 0.25em 0 2rem;
   }
 }
 
