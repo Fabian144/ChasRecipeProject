@@ -1,3 +1,6 @@
+const teamId = 'REMOVED';
+const APIUrl = 'REMOVED';
+
 export async function fetchData(url) {
   try {
     const response = await fetch(url);
@@ -7,4 +10,10 @@ export async function fetchData(url) {
   } catch (error) {
     console.error('Fetch failed:', error);
   }
+}
+
+export const fetchAllRecipesGlobal = await fetch(`${APIUrl}/${teamId}/recipes`);
+
+export const fetchRecipeGlobal = async function fetchRecipeGloball(recipeId) {
+  return await fetch(`${APIUrl}/${teamId}/recipes/${recipeId}`);
 }
