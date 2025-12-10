@@ -5,9 +5,9 @@
     </figure>
 
     <div class="recipe-info-container">
-      <h2 class="recipe-heading">
+      <h3 class="recipe-heading">
         {{ recipeName }}
-      </h2>
+      </h3>
 
       <ul
         class="recipe-rating-container"
