@@ -217,7 +217,7 @@ hr {
 
 @media (min-width: 1400px) {
   .recipe-card {
-    min-height: 14em;
+    min-height: 15em;
   }
 
   .recipe-image-container {
