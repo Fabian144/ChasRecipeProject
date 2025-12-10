@@ -148,9 +148,7 @@ export default {
       	}
     	} catch (error) {
       	console.error('Error fetching or parsing JSON:', error);
-    	} finally {
-				this.ratingPosted = false;
-			}
+    	}
 		}
   },
 

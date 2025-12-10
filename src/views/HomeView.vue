@@ -82,6 +82,7 @@ export default {
     },
 
     saveAllCategoryInstances() {
+      this.allInstancesOfAllCategories = [];
       this.store.recipes.forEach((recipe) => {
         recipe.categories.forEach((category) => {
           this.allInstancesOfAllCategories.push(category);
@@ -114,6 +115,29 @@ export default {
         recipe.timeInMins === Number(this.searchTerm)
       );
     },
+
+    async fetchRecipesInBackground() {
+      try {
+        const response = await fetch(
+          'REMOVED/REMOVED/recipes',
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        const data = await response.json();
+        this.updateRecipesIfNew(data);
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    },
+
+    updateRecipesIfNew(newlyFetchedRecipes) {
+      if (this.store.recipes !== newlyFetchedRecipes) {
+        this.store.recipes = newlyFetchedRecipes;
+        this.saveAllCategoryInstances();
+        this.fetchAllRecipesIndividually();
+      }
+    },
   },
 
   async mounted() {
@@ -121,6 +145,7 @@ export default {
       this.fetchAllRecipes();
     } else {
       this.saveAllCategoryInstances();
+      this.fetchRecipesInBackground();
     }
   },
 };
