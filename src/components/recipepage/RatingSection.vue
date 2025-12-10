@@ -12,15 +12,19 @@
     <div class="star-container">
       <button
         v-for="starIcon in starIcons"
-        @click="(animateClickedStar(starIcon), updateChosenRating(starIcon))"
+        @click="
+          (animateClickedStar(starIcon),
+          keepCorrectStarState(starIcon),
+          updateChosenRating(starIcon))
+        "
         @mouseover="fillCorrectStars(starIcon)"
         @mouseleave="emptyCorrectStars"
-        @touchstart="fillCorrectStarsMobile(starIcon)"
+        @touchstart="keepCorrectStarState(starIcon)"
         :class="[starIcon.class, starIcon.icon]"
         :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
         :disabled="postingRating"
       >
-        <font-awesome-icon :icon="starIcon.icon" />
+        <FontAwesomeIcon :icon="starIcon.icon" />
       </button>
     </div>
 
@@ -110,13 +114,14 @@ export default {
       });
     },
 
-    fillCorrectStarsMobile(touchedStar) {
+    keepCorrectStarState(clickedStar) {
       this.starIcons.forEach((starIcon) => {
-        if (touchedStar.value === this.chosenRating) {
-          starIcon.icon = this.emptyStar;
-        } else if (starIcon.value <= touchedStar.value) {
+        if (starIcon.value <= clickedStar.value) {
           starIcon.icon = this.filledStar;
         } else {
+					starIcon.icon = this.emptyStar;
+				}
+        if (clickedStar.value === this.chosenRating) {
           starIcon.icon = this.emptyStar;
         }
       });
@@ -195,7 +200,7 @@ h2 {
   display: flex;
   gap: 0.1em;
   width: fit-content;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .star-container > button {
@@ -227,7 +232,7 @@ h2 {
 }
 
 .send-rating-button:hover {
- 	background-color: #b83030;
+  background-color: #b83030;
 }
 
 .send-rating-button:disabled {

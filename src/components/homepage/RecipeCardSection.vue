@@ -45,10 +45,6 @@ export default {
   width: 100%;
 }
 
-.recipe-cards-container>a:focus-visible {
-  outline: solid black 2px;
-}
-
 @media (min-width: 526px) {
   .recipe-cards-container {
     display: grid;

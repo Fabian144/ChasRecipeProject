@@ -64,7 +64,7 @@ export default {
     },
 
     ingredientsText() {
-      return this.recipeIngredients.length > 1 ? 'INGREDIENSER' : 'INGREDIENS';
+      return this.recipeIngredients.length === 1 ? 'INGREDIENS' : 'INGREDIENSER';
     },
   },
 };
@@ -78,9 +78,10 @@ export default {
   color: rgb(255, 255, 255);
   background-color: rgba(68, 133, 56, 0.9);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0 0 2px 1.5px rgba(0, 0, 0, 0.5) inset;
   border: solid black 3px;
   border-radius: 7px;
+  transition: all 100ms;
 }
 
 .recipe-card:active {
@@ -93,7 +94,7 @@ export default {
   margin: 0;
   max-height: 17em;
   height: 60vw;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 4px 1.5px rgba(0, 0, 0, 0.5);
 }
 
 .recipe-image {
@@ -168,10 +169,11 @@ hr {
     grid-template-rows: 1fr;
     min-height: unset;
     max-width: unset;
+		box-shadow: 0 0 1px 0.5px rgba(0, 0, 0, 0.5) inset;
   }
 
   .recipe-card:hover {
-    box-shadow: 2px 2px 5px black;
+    transform: scale(1.01);
   }
 
   .recipe-image-container {
@@ -182,15 +184,16 @@ hr {
     height: 100%;
     max-height: unset;
     width: 32vw;
-    max-width: 20em;
-		margin-right: 1.25em;
+    max-width: 21em;
+    margin-right: 1.25em;
+		box-shadow: 0 0 6px 1.5px rgba(0, 0, 0, 0.6);
   }
 
   .recipe-image {
     max-width: 100%;
     border-bottom: none;
     border-right: solid black 3px;
-		border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px;
   }
 
   .recipe-heading {
