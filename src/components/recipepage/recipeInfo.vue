@@ -130,10 +130,39 @@ export default {
 
       let result = totalRatingSum / totalVotes; //medelvärdet räknas ut
       return result;
-    }
-    
+    },
 
-  }
+
+		async updateRecipe() {
+			try {
+      	const recipeId = this.$route.params.recipeId;
+      	const url = `REMOVED/REMOVED/recipes/${recipeId}`;
+
+      	this.fetchedRecipe = await fetchData(url); //from fetchRecipeData.js
+
+      	if (this.fetchedRecipe != null) {
+        	this.setRecipeState(this.fetchedRecipe);
+        	this.fetchedRecipeChecker();
+      	} else {
+        	this.$router.push({ name: 'RouteError' });
+      	}
+    	} catch (error) {
+      	console.error('Error fetching or parsing JSON:', error);
+    	}
+		}
+  },
+
+	watch: {
+		ratingPosted() {
+			if (this.ratingPosted) {
+				this.updateRecipe()
+			}
+		}
+	},
+
+	props: {
+		ratingPosted: Boolean
+	}
 }
 </script>
 

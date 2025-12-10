@@ -119,8 +119,8 @@ export default {
         if (starIcon.value <= clickedStar.value) {
           starIcon.icon = this.filledStar;
         } else {
-					starIcon.icon = this.emptyStar;
-				}
+          starIcon.icon = this.emptyStar;
+        }
         if (clickedStar.value === this.chosenRating) {
           starIcon.icon = this.emptyStar;
         }
@@ -157,6 +157,7 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.ratingPosted = true;
+        this.$emit('ratingPosted', this.ratingPosted);
       } catch (error) {
         this.fetchErrorStatus = `${error.message}`;
         console.error('Fetch failed:', error);
@@ -174,6 +175,8 @@ export default {
       );
     },
   },
+
+  emits: ['ratingPosted'],
 };
 </script>
 

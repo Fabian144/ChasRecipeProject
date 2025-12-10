@@ -169,7 +169,7 @@ hr {
     grid-template-rows: 1fr;
     min-height: unset;
     max-width: unset;
-		box-shadow: 0 0 1px 0.5px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 0 1px 0.5px rgba(0, 0, 0, 0.5) inset;
   }
 
   .recipe-card:hover {
@@ -186,7 +186,7 @@ hr {
     width: 32vw;
     max-width: 21em;
     margin-right: 1.25em;
-		box-shadow: 0 0 6px 1.5px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 6px 1.5px rgba(0, 0, 0, 0.6);
   }
 
   .recipe-image {
@@ -226,6 +226,10 @@ hr {
 }
 
 @media (min-width: 1800px) {
+  .recipe-card {
+    min-height: 16em;
+  }
+
   .recipe-heading {
     font-size: 1.8em;
   }
