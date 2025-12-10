@@ -232,7 +232,7 @@ button:disabled {
 }
 
 .success-message {
-    color: #2e7d32;
+    color: #fff700;
     font-weight: bold;
     margin: 10px 0;
 }
