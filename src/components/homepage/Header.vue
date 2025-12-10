@@ -53,7 +53,7 @@ h1 {
 
 input {
   width: 100%;
-  height: 2.75em;
+  height: 2.5em;
   border-radius: 5px;
   border: 1px solid black;
   padding: 0 0 0 0.2em;
