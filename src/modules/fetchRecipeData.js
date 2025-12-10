@@ -8,8 +8,3 @@ export async function fetchData(url) {
     console.error('Fetch failed:', error);
   }
 }
-
-export async function getRecipes() {
-	const data = await fetchData(`/src/data/recept.json`); //blev tvungen att ändra path.
-	return data.recipes;
-}
