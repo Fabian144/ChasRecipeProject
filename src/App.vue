@@ -15,7 +15,7 @@ body {
   height: 100dvh;
   width: 100vw;
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/images/background.png');
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/images/background.webp');
   background-size: cover;
   background-position: center;
   filter: blur(2px);
