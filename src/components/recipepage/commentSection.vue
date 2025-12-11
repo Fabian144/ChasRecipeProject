@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { APIUrl, teamId } from '@/modules/fetchRecipeData';
+
 export default {
     name: "CommentSection",
     props: {
@@ -61,7 +63,7 @@ export default {
         async fetchComments() {
             try {
                 const response = await fetch( 
-                    `REMOVED/${this.teamId}/recipes/${this.recipeId}/comments`
+                    `${APIUrl}/${teamId}/recipes/${this.recipeId}/comments`
                 ); 
                 if (!response.ok) throw new Error(`Status: ${response.status}`);
 
@@ -86,7 +88,7 @@ export default {
 
             try {
                 const response = await fetch(
-                    `REMOVED/${this.teamId}/recipes/${this.recipeId}/comments`,
+                    `${APIUrl}/${teamId}/recipes/${this.recipeId}/comments`, 
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

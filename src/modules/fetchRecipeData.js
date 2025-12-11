@@ -1,3 +1,6 @@
+export const teamId = 'REMOVED';
+export const APIUrl = 'REMOVED';
+
 export async function fetchData(url) {
   try {
     const response = await fetch(url);
@@ -7,9 +10,4 @@ export async function fetchData(url) {
   } catch (error) {
     console.error('Fetch failed:', error);
   }
-}
-
-export async function getRecipes() {
-	const data = await fetchData(`/src/data/recept.json`); //blev tvungen att ändra path.
-	return data.recipes;
 }

@@ -23,6 +23,7 @@
 
 <script>
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
+import { APIUrl, teamId } from '@/modules/fetchRecipeData';
 
 export default {
   setup() {
@@ -52,7 +53,7 @@ export default {
     async fetchAllCategories() {
       try {
         const response = await fetch(
-          `REMOVED/REMOVED/categories`,
+          `${APIUrl}/${teamId}/categories`,
         );
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
