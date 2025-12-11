@@ -137,7 +137,7 @@ export default {
 		async updateRecipe() {
 			try {
       	const recipeId = this.$route.params.recipeId;
-      	const url = `REMOVED/REMOVED/recipes/${recipeId}`;
+      	const url = `${APIUrl}/${teamId}/recipes/${recipeId}`;
 
       	this.fetchedRecipe = await fetchData(url); //from fetchRecipeData.js
 

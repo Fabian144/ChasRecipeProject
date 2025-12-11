@@ -105,7 +105,7 @@ export default {
       this.store.recipes.forEach((recipe) => {
         setTimeout(async () => {
           try {
-            const response = await fetch(`${APIUrl}/${teamId}/recipes`)
+            const response = await fetch(`${APIUrl}/${teamId}/recipes/${recipe.id}`);
             if (!response.ok) {
               throw new Error(`Status: ${response.status}`);
             }
@@ -138,9 +138,7 @@ export default {
 
     async fetchRecipesInBackground() {
       try {
-        const response = await fetch(
-          'REMOVED/REMOVED/recipes',
-        );
+        const response = await fetch(`${APIUrl}/${teamId}/recipes`);
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }

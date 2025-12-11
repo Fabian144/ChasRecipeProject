@@ -115,9 +115,7 @@ export default {
 
     async fetchRecipesInBackground() {
       try {
-        const response = await fetch(
-          'REMOVED/REMOVED/recipes',
-        );
+        const response = await fetch(`${APIUrl}/${teamId}/recipes`);
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
