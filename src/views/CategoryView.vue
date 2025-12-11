@@ -81,8 +81,8 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
-        this.saveAllCategoryInstances();
-        this.fetchAllRecipesIndividually();
+        this.fetchAllRecipesIndividually(this.store.recipes);
+        this.saveAllCategoryInstances(this.store.recipes);
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
         this.fetchErrorStatus = `${error.message}`;
@@ -92,17 +92,8 @@ export default {
       }
     },
 
-    saveAllCategoryInstances() {
-      this.allInstancesOfAllCategories = [];
-      this.store.recipes.forEach((recipe) => {
-        recipe.categories.forEach((category) => {
-          this.allInstancesOfAllCategories.push(category);
-        });
-      });
-    },
-
-    fetchAllRecipesIndividually() {
-      this.store.recipes.forEach((recipe) => {
+    fetchAllRecipesIndividually(recipes) {
+      recipes.forEach((recipe) => {
         setTimeout(async () => {
           try {
             const response = await fetch(`${APIUrl}/${teamId}/recipes/${recipe.id}`);
@@ -115,6 +106,15 @@ export default {
             console.error('Fetch failed:', error);
           }
         }, 1000);
+      });
+    },
+
+    saveAllCategoryInstances(recipes) {
+      this.allInstancesOfAllCategories = [];
+      recipes.forEach((recipe) => {
+        recipe.categories.forEach((category) => {
+          this.allInstancesOfAllCategories.push(category);
+        });
       });
     },
 
@@ -135,35 +135,13 @@ export default {
     correctCategory(categoryName) {
       return categoryName === this.currentCategory.name;
     },
-
-    async fetchRecipesInBackground() {
-      try {
-        const response = await fetch(`${APIUrl}/${teamId}/recipes`);
-        if (!response.ok) {
-          throw new Error(`Status: ${response.status}`);
-        }
-        const data = await response.json();
-        this.updateRecipesIfNew(data);
-      } catch (error) {
-        console.error('Fetch failed:', error);
-      }
-    },
-
-    updateRecipesIfNew(newlyFetchedRecipes) {
-      if (this.store.recipes !== newlyFetchedRecipes) {
-        this.store.recipes = newlyFetchedRecipes;
-        this.saveAllCategoryInstances();
-        this.fetchAllRecipesIndividually();
-      }
-    },
   },
 
   async mounted() {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();
     } else {
-      this.saveAllCategoryInstances();
-      this.fetchRecipesInBackground();
+      this.saveAllCategoryInstances(this.store.recipes);
     }
   },
 };
