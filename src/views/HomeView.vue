@@ -86,7 +86,7 @@ export default {
       this.store.recipes.forEach(recipe => {
         recipe.categories.forEach(category => { this.allInstancesOfAllCategories.push(category) })
       })
-    }
+    },
 
     fetchAllRecipesIndividually() {
       this.store.recipes.forEach((recipe) => {

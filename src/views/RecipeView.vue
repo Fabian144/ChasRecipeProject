@@ -16,7 +16,6 @@ export default {
 		recipeInfo,
 	},
 
-
 	computed: {
 		recipeId() {
 			return this.$route.params.recipeId;
