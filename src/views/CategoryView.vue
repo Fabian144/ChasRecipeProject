@@ -24,7 +24,7 @@ import Header from '@/components/homepage/Header.vue';
 import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
-import { APIUrl, teamId } from '@/modules/fetchRecipeData';
+import { allRecipesEndpoint } from '@/modules/fetchRecipeData';
 
 export default {
   setup() {
@@ -76,7 +76,7 @@ export default {
     async fetchAllRecipes() {
       this.loading = true;
       try {
-        const response = await fetch(`${APIUrl}/${teamId}/recipes`);
+        const response = await fetch(allRecipesEndpoint);
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
@@ -96,7 +96,7 @@ export default {
       recipes.forEach((recipe) => {
         setTimeout(async () => {
           try {
-            const response = await fetch(`${APIUrl}/${teamId}/recipes/${recipe.id}`);
+            const response = await fetch(`${allRecipesEndpoint}/${recipe.id}`);
             if (!response.ok) {
               throw new Error(`Status: ${response.status}`);
             }

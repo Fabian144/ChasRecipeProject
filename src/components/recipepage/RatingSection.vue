@@ -51,7 +51,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import StarDisplay from '../StarDisplay.vue';
-import { APIUrl, teamId } from '@/modules/fetchRecipeData';
+import { allRecipesEndpoint } from '@/modules/fetchRecipeData';
 
 library.add(fas, far, faStar);
 
@@ -146,7 +146,7 @@ export default {
       this.postingRating = true;
       this.fetchErrorStatus = '';
       try {
-        const response = await fetch(`${APIUrl}/${teamId}/recipes/${this.recipeId}/ratings`, {
+        const response = await fetch(`${allRecipesEndpoint}/${this.recipeId}/ratings`, {
           method: 'POST',
           headers: { 'Content-type': 'application/json' },
           body: JSON.stringify(this.chosenRating),
