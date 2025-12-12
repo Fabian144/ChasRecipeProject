@@ -1,5 +1,9 @@
-export const teamId = 'REMOVED';
-export const APIUrl = 'REMOVED';
+const APIUrl = 'REMOVED';
+const teamId = 'REMOVED';
+
+export const allRecipesEndpoint = `${APIUrl}/${teamId}/recipes`
+export const allCategoriesEndpoint = `${APIUrl}/${teamId}/categories`
+
 
 export async function fetchData(url) {
   try {

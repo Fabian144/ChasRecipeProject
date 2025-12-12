@@ -3,7 +3,7 @@
 import PortionSlider from './PortionSlider.vue';
 import { fetchData } from '@/modules/fetchRecipeData.js';
 import StarDisplay from '@/components/StarDisplay.vue';
-import { APIUrl, teamId } from '@/modules/fetchRecipeData.js';
+import { allRecipesEndpoint } from '@/modules/fetchRecipeData.js';
 
 export default {
   components: 
@@ -41,7 +41,7 @@ export default {
     try 
     {
       const recipeId = this.$route.params.recipeId;
-      const url = `${APIUrl}/${teamId}/recipes/${recipeId}`;
+      const url = `${allRecipesEndpoint}/${recipeId}`;
 
       this.fetchedRecipe = await fetchData(url); //from fetchRecipeData.js
 
@@ -137,9 +137,9 @@ export default {
 		async updateRecipe() {
 			try {
       	const recipeId = this.$route.params.recipeId;
-      	const url = `${APIUrl}/${teamId}/recipes/${recipeId}`;
+      	const url = `${allRecipesEndpoint}/${recipeId}`;
 
-      	this.fetchedRecipe = await fetchData(url); //from fetchRecipeData.js
+      	this.fetchedRecipe = await fetchData(url);
 
       	if (this.fetchedRecipe != null) {
         	this.setRecipeState(this.fetchedRecipe);

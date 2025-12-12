@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { APIUrl, teamId } from '@/modules/fetchRecipeData';
+import { allRecipesEndpoint } from '@/modules/fetchRecipeData';
 
 export default {
     name: "CommentSection",
@@ -63,7 +63,7 @@ export default {
         async fetchComments() {
             try {
                 const response = await fetch( 
-                    `${APIUrl}/${teamId}/recipes/${this.recipeId}/comments`
+                    `${allRecipesEndpoint}/${this.recipeId}/comments`
                 ); 
                 if (!response.ok) throw new Error(`Status: ${response.status}`);
 
@@ -88,7 +88,7 @@ export default {
 
             try {
                 const response = await fetch(
-                    `${APIUrl}/${teamId}/recipes/${this.recipeId}/comments`, 
+                    `${allRecipesEndpoint}/${this.recipeId}/comments`, 
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

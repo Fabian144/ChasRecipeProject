@@ -26,7 +26,7 @@
 
 <script>
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
-import { APIUrl, teamId } from '@/modules/fetchRecipeData';
+import { allCategoriesEndpoint } from '@/modules/fetchRecipeData';
 
 export default {
   setup() {
@@ -55,7 +55,7 @@ export default {
 
     async fetchAllCategories() {
       try {
-        const response = await fetch(`${APIUrl}/${teamId}/categories`);
+        const response = await fetch(allCategoriesEndpoint);
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
