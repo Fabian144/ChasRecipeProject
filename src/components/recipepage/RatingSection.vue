@@ -146,14 +146,11 @@ export default {
       this.postingRating = true;
       this.fetchErrorStatus = '';
       try {
-        const response = await fetch(
-          `${APIUrl}/${teamId}/recipes/${this.recipeId}/ratings`,
-          {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(this.chosenRating),
-          },
-        );
+        const response = await fetch(`${APIUrl}/${teamId}/recipes/${this.recipeId}/ratings`, {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify(this.chosenRating),
+        });
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
