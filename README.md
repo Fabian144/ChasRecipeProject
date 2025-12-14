@@ -33,6 +33,7 @@ This website was built using:
 - **CSS**
 - **JavaScript**
 - **Vue.js**
+- **Pinia**
 - **REST API**
 
 ## Team members 👥️
