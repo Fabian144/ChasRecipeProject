@@ -10,7 +10,7 @@
         :recipe-image="recipe.imageUrl"
         :recipe-name="recipe.title"
         :recipe-description="recipe.description"
-        :recipe-ingredients="recipe.ingredients"
+        :recipe-ingredients="recipe.ingredientCount"
         :recipe-cooking-time="recipe.timeInMins"
         :recipe-average-rating="calculateAverage(recipe.ratings)"
         :amount-of-ratings="recipe.ratings.length"

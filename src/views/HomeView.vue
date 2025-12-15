@@ -69,7 +69,6 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
-        this.fetchAllRecipesIndividually(this.store.recipes);
         this.saveAllCategoryInstances(this.store.recipes);
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
@@ -78,23 +77,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    fetchAllRecipesIndividually(recipes) {
-      recipes.forEach((recipe) => {
-        setTimeout(async () => {
-          try {
-            const response = await fetch(`${allRecipesEndpoint}/${recipe.id}`);
-            if (!response.ok) {
-              throw new Error(`Status: ${response.status}`);
-            }
-            const newRecipe = await response.json();
-            recipe.ingredients = newRecipe.ingredients;
-          } catch (error) {
-            console.error('Fetch failed:', error);
-          }
-        }, 1000);
-      });
     },
 
     saveAllCategoryInstances(recipes) {
