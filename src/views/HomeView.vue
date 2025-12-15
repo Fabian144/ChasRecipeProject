@@ -79,6 +79,31 @@ export default {
       }
     },
 
+    async fetchRecipesInBackground() {
+			console.log('comparing')
+      try {
+        const response = await fetch(allRecipesEndpoint);
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        const recipes = await response.json();
+        this.updateRecipesIfNew(recipes);
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    },
+
+    updateRecipesIfNew(newlyFetchedRecipes) {
+      const currentRecipesString = JSON.stringify(this.store.recipes);
+      const newRecipesString = JSON.stringify(newlyFetchedRecipes);
+      console.log(currentRecipesString !== newRecipesString);
+
+      if (currentRecipesString !== newRecipesString) {
+        this.store.recipes = newlyFetchedRecipes;
+        this.saveAllCategoryInstances(newlyFetchedRecipes);
+      }
+    },
+
     saveAllCategoryInstances(recipes) {
       this.allInstancesOfAllCategories = [];
       recipes.forEach((recipe) => {
@@ -100,6 +125,7 @@ export default {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();
     } else {
+      this.fetchRecipesInBackground();
       this.saveAllCategoryInstances(this.store.recipes);
     }
   },
