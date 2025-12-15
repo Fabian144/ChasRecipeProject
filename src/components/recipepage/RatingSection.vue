@@ -19,7 +19,6 @@
         "
         @mouseover="fillCorrectStars(starIcon)"
         @mouseleave="emptyCorrectStars"
-        @touchstart="keepCorrectStarState(starIcon)"
         :class="[starIcon.class, starIcon.icon]"
         :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
         :disabled="postingRating"
@@ -115,14 +114,13 @@ export default {
       });
     },
 
-    keepCorrectStarState(clickedStar) {
+    keepCorrectStarState(clickedStar) { // För att kunna använda stjärnorna med mellanslag, enter eller på touch enheter
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.value <= clickedStar.value) {
+        if (clickedStar.value === this.chosenRating) {
+          starIcon.icon = this.emptyStar;
+        } else if (starIcon.value <= clickedStar.value) {
           starIcon.icon = this.filledStar;
         } else {
-          starIcon.icon = this.emptyStar;
-        }
-        if (clickedStar.value === this.chosenRating) {
           starIcon.icon = this.emptyStar;
         }
       });
