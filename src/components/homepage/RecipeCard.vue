@@ -32,7 +32,7 @@
     <div class="card-bottom-container">
       <hr />
       <p class="bottom-section-text">
-        {{ amountOfIngredients }} {{ ingredientsText }} | {{ recipeCookingTime }} MINUTER
+        {{ recipeIngredients }} {{ ingredientsText }} | {{ recipeCookingTime }} MINUTER
       </p>
     </div>
   </article>
@@ -48,7 +48,7 @@ export default {
     recipeImage: String,
     recipeName: String,
     recipeDescription: String,
-    recipeIngredients: Array,
+    recipeIngredients: Number,
     recipeCookingTime: Number,
     recipeAverageRating: Number,
     amountOfRatings: Number,
@@ -59,12 +59,8 @@ export default {
       return Math.round(this.recipeAverageRating);
     },
 
-    amountOfIngredients() {
-      return this.recipeIngredients.length;
-    },
-
     ingredientsText() {
-      return this.recipeIngredients.length === 1 ? 'INGREDIENS' : 'INGREDIENSER';
+      return this.recipeIngredients === 1 ? 'INGREDIENS' : 'INGREDIENSER';
     },
   },
 };
