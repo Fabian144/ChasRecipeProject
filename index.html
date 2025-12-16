@@ -1,60 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="icon" href="/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Homepage</title>
-	<script src="https://kit.fontawesome.com/df5f7c64ea.js" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<link rel="stylesheet" href="./CSS/css_reset.css">
-	<link rel="stylesheet" href="./CSS/recipeCards.css">
-	<link rel="stylesheet" href="./CSS/recipeCardsMedia.css">
-
+	<title>Vite App</title>
 </head>
 
 <body>
-	<header>
-		<h1 class="homepage-heading">Test heading</h1>
-		<p class="header-caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi mollitia pariatur esse
-			expedita blanditiis, exercitationem ad.</p>
-	</header>
-
-	<main class="recipe-card-section">
-		<div id="recipe-cards">
-			<a v-for="recipe in recipes" class="recipe-card-link" href="./recipePage.html">
-
-				<article class="recipe-card">
-					<figure class="recipe-image-container">
-						<img :src="recipe.image" :alt="recipe.alt_text">
-					</figure>
-
-					<div class="recipe-info-container">
-						<h2 class="recipe-heading">
-							{{recipe.name}}
-						</h2>
-
-						<div class="recipe-star-container">
-							<i v-for="starIcon in starIcons" :class="{ 'fa-solid': recipeRating(recipe) >= starIcon.rating}"
-								class="fa-regular fa-star fa-xl"></i>
-						</div>
-
-						<p class="recipe-description">
-							{{recipe.description}}
-						</p>
-					</div>
-
-					<div class="recipe-bottom-container">
-						<hr>
-						<p class="recipe-bottom-text">{{recipe.ingredients.length}} INGREDIENSER | {{recipe.cooking_time}} MINUTER
-						</p>
-					</div>
-				</article>
-			</a>
-		</div>
-	</main>
-
-	<script type="module" src="./Scripts/main.js"></script>
+	<div id="app"></div>
+	<script type="module" src="/src/main.js"></script>
 </body>
 
 </html>
