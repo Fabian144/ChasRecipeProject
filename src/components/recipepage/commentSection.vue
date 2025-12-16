@@ -139,7 +139,6 @@ export default {
 
 <style scoped>
 .comment-section {
-  /* background-color: #187f42; */
   background-color: rgba(68, 133, 56, 0.9);
   border-radius: 12px;
   padding: 25px;
@@ -150,11 +149,11 @@ export default {
 }
 .comment-list {
   list-style-type: none;
-  /* tar bort punkterna */
+ 
   padding: 0;
-  /* tar bort extra indrag */
+
   margin: 0;
-  /* valfritt */
+
 }
 .title::before {
   content: '🎄';
@@ -288,5 +287,48 @@ button:disabled {
     margin-top: 4px;
 }
 
+/* 📱 Mobile responsiveness */
+@media (max-width: 600px) {
 
+  .comment-section {
+      width: 80%;
+        padding: 15px;
+   
+  }
+
+  .form {
+      max-width: 90%;
+        padding: 10px;
+     
+  }
+
+  
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px;
+
+  }
+
+  button {
+    width: 50%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .comment-item {
+    max-width: 80%;
+    padding: 14px;
+  }
+
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .char-counter {
+    text-align: left;
+  }
+}
 </style>
