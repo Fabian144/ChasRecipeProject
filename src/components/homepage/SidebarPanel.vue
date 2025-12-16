@@ -114,6 +114,7 @@ li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
+	text-transform: capitalize;
 }
 
 li a:hover {
