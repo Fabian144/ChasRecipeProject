@@ -49,7 +49,6 @@ export default {
       {
         this.setRecipeState(this.fetchedRecipe);
         this.fetchedRecipeChecker();
-        console.log(this.fetchedRecipe);
       } 
       else 
       {
