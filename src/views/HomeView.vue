@@ -9,8 +9,8 @@
   </GetMethodError>
 
   <template v-else>
+    <Header @added-search="(term) => (searchTerm = term)"></Header>
     <SidebarPanel :all-instances-of-all-categories="allInstancesOfAllCategories" />
-    <Header @added-search="(term) => searchTerm = term"></Header>
     <main>
       <RecipeCardSection :recipes="filteredRecipes" />
     </main>
@@ -50,10 +50,12 @@ export default {
   },
 
   computed: {
+    recipesInSearch() {
+      return this.store.recipes.filter((recipe) => this.checkSearchTermMatch(recipe));
+    },
+
     filteredRecipes() {
-      if (this.searchTerm) {
-        return this.store.recipes.filter((recipe) => this.checkSearchTermMatch(recipe))
-      } else { return this.store.recipes }
+      return this.searchTerm ? this.recipesInSearch : this.store.recipes;
     },
   },
 
@@ -68,7 +70,7 @@ export default {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
-        this.saveAllCategoryInstances()
+        this.saveAllCategoryInstances();
         this.fetchAllRecipesIndividually();
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
@@ -78,14 +80,14 @@ export default {
         this.loading = false;
       }
     },
-    checkSearchTermMatch(recipe) {
-      return recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) || recipe.timeInMins === Number(this.searchTerm)
 
-    },
     saveAllCategoryInstances() {
-      this.store.recipes.forEach(recipe => {
-        recipe.categories.forEach(category => { this.allInstancesOfAllCategories.push(category) })
-      })
+      this.allInstancesOfAllCategories = [];
+      this.store.recipes.forEach((recipe) => {
+        recipe.categories.forEach((category) => {
+          this.allInstancesOfAllCategories.push(category);
+        });
+      });
     },
 
     fetchAllRecipesIndividually() {
@@ -106,12 +108,45 @@ export default {
         }, 1000);
       });
     },
+
+    checkSearchTermMatch(recipe) {
+      return (
+        recipe.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        recipe.timeInMins === Number(this.searchTerm)
+      );
+    },
+
+    async fetchRecipesInBackground() {
+      try {
+        const response = await fetch(
+          'REMOVED/REMOVED/recipes',
+        );
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        const data = await response.json();
+        this.updateRecipesIfNew(data);
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    },
+
+    updateRecipesIfNew(newlyFetchedRecipes) {
+      if (this.store.recipes !== newlyFetchedRecipes) {
+        this.store.recipes = newlyFetchedRecipes;
+        this.saveAllCategoryInstances();
+        this.fetchAllRecipesIndividually();
+      }
+    },
   },
 
   async mounted() {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();
-    } else {this.saveAllCategoryInstances()}
+    } else {
+      this.saveAllCategoryInstances();
+      this.fetchRecipesInBackground();
+    }
   },
 };
 </script>
@@ -119,13 +154,11 @@ export default {
 <style scoped>
 main {
   display: flex;
-  margin: 0;
 }
 
 @media (min-width: 768px) {
   main {
-    margin-left: 210px;
-
+    margin-left: 12.5em;
   }
 }
 </style>

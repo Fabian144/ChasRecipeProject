@@ -48,6 +48,7 @@ export default {
       {
         this.setRecipeState(this.fetchedRecipe);
         this.fetchedRecipeChecker();
+        console.log(this.fetchedRecipe);
       } 
       else 
       {
@@ -62,23 +63,42 @@ export default {
   methods: 
   {
 
-    setRecipeState(recipe) //recipe = fetchedRecipe
+    setRecipeState(fetchedRecipe)
     {
-
-      this.titleVar = recipe.title;
-      this.timeInMinsVar = recipe.timeInMins;
-      this.ingredientsVar = recipe.ingredients;
-      this.instructionsVar = recipe.instructions;
-      this.imageUrlVar = recipe.imageUrl;
-      this.ingredientsAmountVar = recipe.ingredients.length;
-      this.categoriesVar = recipe.categories;
-
       
-      this.recipeRating = this.calculateAverageRating(recipe.ratings);
+      this.titleVar = fetchedRecipe.title;
+      this.timeInMinsVar = fetchedRecipe.timeInMins;
+      this.ingredientsVar = fetchedRecipe.ingredients;
+      this.instructionsVar = fetchedRecipe.instructions;
+      this.imageUrlVar = fetchedRecipe.imageUrl;
+      this.ingredientsAmountVar = fetchedRecipe.ingredients.length;
+      this.categoriesVar = fetchedRecipe.categories;
+      
+      this.recipeRating = this.calculateAverageRating(fetchedRecipe.ratings);
 
     },
 
-    
+    calculateAverageRating(currentRatings) 
+    {
+      if (!Array.isArray(currentRatings) || currentRatings.length === 0) 
+      {
+        return 0;
+      }
+
+      let totalRatingSum = 0;
+      let totalVotes = currentRatings.length; //totalt antal röster i arrayen
+
+      for (let i = 0; i < totalVotes; i++) 
+      {
+        totalRatingSum += currentRatings[i]; //alla ratings i arrayen plusas ihop in till totalRatingSum
+      }
+
+      let result = totalRatingSum / totalVotes; //medelvärdet räknas ut
+      
+      return result;
+    },
+
+  
     fetchedRecipeChecker() 
     {
           // Skillnad på false och !falsy
@@ -112,29 +132,43 @@ export default {
           }
     },
 
-
-    calculateAverageRating(currentRatings) 
+		async updateRecipe() //tillägg av Fabian
     {
-      if (!Array.isArray(currentRatings) || currentRatings.length === 0) 
+			try {
+      	const recipeId = this.$route.params.recipeId;
+      	const url = `REMOVED/REMOVED/recipes/${recipeId}`;
+
+      	this.fetchedRecipe = await fetchData(url); //from fetchRecipeData.js
+
+      	if (this.fetchedRecipe != null) 
+        {
+        	this.setRecipeState(this.fetchedRecipe);
+        	this.fetchedRecipeChecker();
+      	} else 
+        {
+        	this.$router.push({ name: 'RouteError' });
+      	}
+    	} catch (error) 
       {
-        return 0;
-      }
+      	console.error('Error fetching or parsing JSON:', error);
+    	}
+		}
+  },
 
-      let totalRatingSum = 0;
-      let totalVotes = currentRatings.length; //totalt antal röster i arrayen
+	watch: {
+		ratingPosted() {
+			if (this.ratingPosted) {
+				this.updateRecipe()
+			}
+		}
+	},
 
-      for (let i = 0; i < totalVotes; i++) 
-      {
-        totalRatingSum += currentRatings[i]; //alla ratings i arrayen plusas ihop in till totalRatingSum
-      }
-
-      let result = totalRatingSum / totalVotes; //medelvärdet räknas ut
-      return result;
-    }
-    
-
-  }
+	props: {
+		ratingPosted: Boolean
+	}
 }
+
+
 </script>
 
 <template>
@@ -205,7 +239,7 @@ export default {
   </section>
 </template>
 
-<style>
+<style scoped>
 * 
 {
   box-sizing: border-box;

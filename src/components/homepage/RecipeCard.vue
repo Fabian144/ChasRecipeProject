@@ -5,9 +5,9 @@
     </figure>
 
     <div class="recipe-info-container">
-      <h2 class="recipe-heading">
+      <h3 class="recipe-heading">
         {{ recipeName }}
-      </h2>
+      </h3>
 
       <ul
         class="recipe-rating-container"
@@ -16,7 +16,10 @@
         <li class="recipe-star-container">
           <StarDisplay :value-to-display="roundedRecipeAverageRating" />
         </li>
-        <li class="recipe-rating-amount" :aria-label="`Receptet har ${roundedRecipeAverageRating} röster`">
+        <li
+          class="recipe-rating-amount"
+          :aria-label="`Receptet har ${roundedRecipeAverageRating} röster`"
+        >
           ({{ amountOfRatings }})
         </li>
       </ul>
@@ -61,7 +64,7 @@ export default {
     },
 
     ingredientsText() {
-      return this.recipeIngredients.length > 1 ? 'INGREDIENSER' : 'INGREDIENS';
+      return this.recipeIngredients.length === 1 ? 'INGREDIENS' : 'INGREDIENSER';
     },
   },
 };
@@ -74,26 +77,29 @@ export default {
   height: 100%;
   color: rgb(255, 255, 255);
   background-color: rgba(68, 133, 56, 0.9);
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 2px 1.5px rgba(0, 0, 0, 0.5) inset;
+  border: solid black 3px;
+  border-radius: 7px;
+  transition: all 100ms;
 }
 
 .recipe-card:active {
-  box-shadow: #00000096 1px 1px 10px 1px;
+  box-shadow: 2px 2px 5px black;
 }
 
 .recipe-image-container {
   display: flex;
   justify-content: center;
   margin: 0;
-  padding: 0.5em 0.5em 0;
   max-height: 17em;
   height: 60vw;
+  box-shadow: 0 0 4px 1.5px rgba(0, 0, 0, 0.5);
 }
 
 .recipe-image {
-  border: solid rgb(0, 0, 0) 3px;
-  border-radius: 5px;
+  border-bottom: solid black 3px;
+  border-radius: 5px 5px 0 0;
   width: 100%;
   object-fit: cover;
 }
@@ -148,7 +154,6 @@ hr {
 @media (min-width: 526px) {
   .recipe-card {
     min-height: 28em;
-    width: 100%;
     grid-template-rows: 1fr 1fr;
   }
 
@@ -164,25 +169,31 @@ hr {
     grid-template-rows: 1fr;
     min-height: unset;
     max-width: unset;
+    box-shadow: 0 0 1px 0.5px rgba(0, 0, 0, 0.5) inset;
   }
 
   .recipe-card:hover {
-    box-shadow: #00000096 1px 1px 10px 1px;
+    transform: scale(1.01);
   }
 
   .recipe-image-container {
     aspect-ratio: 16/11;
-    max-height: unset;
-    width: 37vw;
-    max-width: 20em;
     align-self: center;
-    padding: 1em;
     grid-row-start: 1;
     grid-row-end: 3;
+    height: 100%;
+    max-height: unset;
+    width: 32vw;
+    max-width: 21em;
+    margin-right: 1.25em;
+    box-shadow: 0 0 6px 1.5px rgba(0, 0, 0, 0.6);
   }
 
   .recipe-image {
     max-width: 100%;
+    border-bottom: none;
+    border-right: solid black 3px;
+    border-radius: 5px 0 0 5px;
   }
 
   .recipe-heading {
@@ -190,7 +201,7 @@ hr {
   }
 
   .recipe-info-container {
-    padding: 1em 1em 0 0;
+    padding: 0.75em 1em 0 0;
   }
 
   hr {
@@ -206,7 +217,7 @@ hr {
 
 @media (min-width: 1400px) {
   .recipe-card {
-    min-height: 16em;
+    min-height: 15em;
   }
 
   .recipe-image-container {
@@ -215,6 +226,10 @@ hr {
 }
 
 @media (min-width: 1800px) {
+  .recipe-card {
+    min-height: 16em;
+  }
+
   .recipe-heading {
     font-size: 1.8em;
   }
