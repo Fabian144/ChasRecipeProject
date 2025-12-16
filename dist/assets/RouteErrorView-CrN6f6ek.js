@@ -1,0 +1,1 @@
+import{_ as n,c as s,a as t,o}from"./index-CwvrwecT.js";const a={},r={class:"not-found"};function c(d,e){return o(),s("div",r,[...e[0]||(e[0]=[t("h1",null,"404 – Den här sidan finns inte",-1),t("a",{href:"/"},"Gå till startsidan",-1)])])}const _=n(a,[["render",c],["__scopeId","data-v-36c9ab6f"]]);export{_ as default};
