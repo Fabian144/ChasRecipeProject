@@ -24,6 +24,7 @@ import Header from '@/components/homepage/Header.vue';
 import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
+import { allRecipesEndpoint } from '@/modules/fetchRecipeData';
 
 export default {
   setup() {
@@ -75,15 +76,12 @@ export default {
     async fetchAllRecipes() {
       this.loading = true;
       try {
-        const response = await fetch(
-          'REMOVED/REMOVED/recipes',
-        );
+        const response = await fetch(allRecipesEndpoint);
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
         this.store.recipes = await response.json();
-        this.saveAllCategoryInstances();
-        this.fetchAllRecipesIndividually();
+        this.saveAllCategoryInstances(this.store.recipes);
       } catch (error) {
         this.fetchErrorMessage = `Recepten kunde inte laddas in eller hittas inte`;
         this.fetchErrorStatus = `${error.message}`;
@@ -93,31 +91,37 @@ export default {
       }
     },
 
-    saveAllCategoryInstances() {
+    async fetchRecipesInBackground() {
+      console.log('comparing');
+      try {
+        const response = await fetch(allRecipesEndpoint);
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        const recipes = await response.json();
+        this.updateRecipesIfNew(recipes);
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    },
+
+    updateRecipesIfNew(newlyFetchedRecipes) {
+      const currentRecipesString = JSON.stringify(this.store.recipes);
+      const newRecipesString = JSON.stringify(newlyFetchedRecipes);
+      console.log(currentRecipesString !== newRecipesString);
+
+      if (currentRecipesString !== newRecipesString) {
+        this.store.recipes = newlyFetchedRecipes;
+        this.saveAllCategoryInstances(newlyFetchedRecipes);
+      }
+    },
+
+    saveAllCategoryInstances(recipes) {
       this.allInstancesOfAllCategories = [];
-      this.store.recipes.forEach((recipe) => {
+      recipes.forEach((recipe) => {
         recipe.categories.forEach((category) => {
           this.allInstancesOfAllCategories.push(category);
         });
-      });
-    },
-
-    fetchAllRecipesIndividually() {
-      this.store.recipes.forEach((recipe) => {
-        setTimeout(async () => {
-          try {
-            const response = await fetch(
-              `REMOVED/REMOVED/recipes/${recipe.id}`,
-            );
-            if (!response.ok) {
-              throw new Error(`Status: ${response.status}`);
-            }
-            const newRecipe = await response.json();
-            recipe.ingredients = newRecipe.ingredients;
-          } catch (error) {
-            console.error('Fetch failed:', error);
-          }
-        }, 1000);
       });
     },
 
@@ -138,37 +142,14 @@ export default {
     correctCategory(categoryName) {
       return categoryName === this.currentCategory.name;
     },
-
-    async fetchRecipesInBackground() {
-      try {
-        const response = await fetch(
-          'REMOVED/REMOVED/recipes',
-        );
-        if (!response.ok) {
-          throw new Error(`Status: ${response.status}`);
-        }
-        const data = await response.json();
-        this.updateRecipesIfNew(data);
-      } catch (error) {
-        console.error('Fetch failed:', error);
-      }
-    },
-
-    updateRecipesIfNew(newlyFetchedRecipes) {
-      if (this.store.recipes !== newlyFetchedRecipes) {
-        this.store.recipes = newlyFetchedRecipes;
-        this.saveAllCategoryInstances();
-        this.fetchAllRecipesIndividually();
-      }
-    },
   },
 
   async mounted() {
     if (this.store.recipes.length === 0) {
       this.fetchAllRecipes();
     } else {
-      this.saveAllCategoryInstances();
       this.fetchRecipesInBackground();
+      this.saveAllCategoryInstances(this.store.recipes);
     }
   },
 };

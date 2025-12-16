@@ -19,7 +19,6 @@
         "
         @mouseover="fillCorrectStars(starIcon)"
         @mouseleave="emptyCorrectStars"
-        @touchstart="keepCorrectStarState(starIcon)"
         :class="[starIcon.class, starIcon.icon]"
         :aria-label="`Ge ett omdöme på ${starIcon.value} av 5 stjärnor`"
         :disabled="postingRating"
@@ -51,6 +50,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import StarDisplay from '../StarDisplay.vue';
+import { allRecipesEndpoint } from '@/modules/fetchRecipeData';
 
 library.add(fas, far, faStar);
 
@@ -114,14 +114,13 @@ export default {
       });
     },
 
-    keepCorrectStarState(clickedStar) {
+    keepCorrectStarState(clickedStar) { // För att kunna använda stjärnorna med mellanslag, enter eller på touch enheter
       this.starIcons.forEach((starIcon) => {
-        if (starIcon.value <= clickedStar.value) {
+        if (clickedStar.value === this.chosenRating) {
+          starIcon.icon = this.emptyStar;
+        } else if (starIcon.value <= clickedStar.value) {
           starIcon.icon = this.filledStar;
         } else {
-          starIcon.icon = this.emptyStar;
-        }
-        if (clickedStar.value === this.chosenRating) {
           starIcon.icon = this.emptyStar;
         }
       });
@@ -145,14 +144,11 @@ export default {
       this.postingRating = true;
       this.fetchErrorStatus = '';
       try {
-        const response = await fetch(
-          `REMOVED/REMOVED/recipes/${this.recipeId}/ratings`,
-          {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(this.chosenRating),
-          },
-        );
+        const response = await fetch(`${allRecipesEndpoint}/${this.recipeId}/ratings`, {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify(this.chosenRating),
+        });
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }

@@ -2,7 +2,10 @@
   <button class="hamburger" v-if="!isOpen" @click="toggleMenu">☰</button>
   <button class="closeBurger" v-if="isOpen" @click="closeMenu">✕</button>
   <aside :class="{ open: isOpen }">
-    <img src="../../images/Julrecept för Alla Logo Image.png" alt="Logotyp för Julrecept för Alla">
+    <img
+      src="../../images/Julrecept för Alla Logo Image.png"
+      alt="Logotyp för Julrecept för Alla"
+    />
     <h2>Kategorier</h2>
     <ul>
       <li>
@@ -23,6 +26,7 @@
 
 <script>
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
+import { allCategoriesEndpoint } from '@/modules/fetchRecipeData';
 
 export default {
   setup() {
@@ -51,9 +55,7 @@ export default {
 
     async fetchAllCategories() {
       try {
-        const response = await fetch(
-          `REMOVED/REMOVED/categories`,
-        );
+        const response = await fetch(allCategoriesEndpoint);
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`);
         }
