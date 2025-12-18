@@ -136,9 +136,9 @@ export default {
     {
 			try {
       	const recipeId = this.$route.params.recipeId;
-      	const url = `${allRecipesEndpoint}/${recipeId}`;
+      	const url = `${allRecipesEndpoint}/${recipeId}/ratings`;
 
-      	this.fetchedRecipe = await fetchData(url);
+      	this.fetchedRecipe.ratings = await fetchData(url);
 
       	if (this.fetchedRecipe != null) 
         {

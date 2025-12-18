@@ -92,7 +92,6 @@ export default {
     },
 
     async fetchRecipesInBackground() {
-      console.log('comparing');
       try {
         const response = await fetch(allRecipesEndpoint);
         if (!response.ok) {
@@ -108,7 +107,6 @@ export default {
     updateRecipesIfNew(newlyFetchedRecipes) {
       const currentRecipesString = JSON.stringify(this.store.recipes);
       const newRecipesString = JSON.stringify(newlyFetchedRecipes);
-      console.log(currentRecipesString !== newRecipesString);
 
       if (currentRecipesString !== newRecipesString) {
         this.store.recipes = newlyFetchedRecipes;
