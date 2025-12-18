@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
     <h1>404 – Den här sidan finns inte</h1>
-    <a href="/">Gå till startsidan</a>
+    <a href="/ChasRecipeProject/">Gå till startsidan</a>
   </div>
 </template>
 
