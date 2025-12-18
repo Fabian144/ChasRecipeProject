@@ -62,6 +62,10 @@ export default {
   
   methods: 
   {
+    goBackButton() 
+    {
+      this.$router.push('/recipes');
+    },
 
     setRecipeState(fetchedRecipe)
     {
@@ -74,7 +78,9 @@ export default {
       this.ingredientsAmountVar = fetchedRecipe.ingredients.length;
       this.categoriesVar = fetchedRecipe.categories;
       
-      this.recipeRating = this.calculateAverageRating(fetchedRecipe.ratings);
+      this.currentRatings = fetchedRecipe.ratings;
+
+      this.recipeRating = this.calculateAverageRating(this.currentRatings);
 
     },
 
@@ -174,6 +180,7 @@ export default {
 <template>
   <section class="Title_and_recipe_information">
     <div class="recipe_title">
+      <button class="goBackButton" @click="goBackButton">Gå tillbaka</button>
       <h2>
         {{ titleVar }}
       </h2>
@@ -274,7 +281,7 @@ export default {
   padding: 10px;
   font-size: 32px;
   color: rgb(14, 13, 13);
-  background-color: #f3f3f3;
+  background-color: #ffffff;
   border: 3px solid #000000;
   border-radius: 10px;
   padding: 10px;
@@ -456,6 +463,23 @@ export default {
   transform: scale(1.02);
 }
 /* Steps list End */
+
+.goBackButton
+{
+  margin: 0px 0 10px 0;
+  font-size: 21px;
+  font-weight: bold;
+  color: white;
+  background: #c41e3a;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 5px 15px;
+}
+.goBackButton:hover {
+  scale: 1.05;
+  background: #348f00;
+}
 
 /* Responsive */
 @media (max-width: 1024px) 
