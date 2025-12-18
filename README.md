@@ -22,8 +22,17 @@ The goal of the project was to create a dynamic and accessible website using **V
 Visit the website here: https://fabian144.github.io/ChasRecipeProject/
 
 ## Run project locally 📥
+
+1. Clone the repository
+2. Install dependencies with:
+
 ```sh
 npm ci
+```
+
+### Run development server
+
+```sh
 npm run dev
 ```
 
