@@ -1,1 +1,0 @@
-import{_ as s,c as n,a as t,o}from"./index-cVlQCEr0.js";const r={},a={class:"not-found"};function c(i,e){return o(),n("div",a,[...e[0]||(e[0]=[t("h1",null,"404 – Den här sidan finns inte",-1),t("a",{href:"/ChasRecipeProject/"},"Gå till startsidan",-1)])])}const _=s(r,[["render",c],["__scopeId","data-v-efb75905"]]);export{_ as default};
