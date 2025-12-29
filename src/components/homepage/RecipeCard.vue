@@ -150,12 +150,11 @@ hr {
 @media (min-width: 526px) {
   .recipe-card {
     min-height: 28em;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 0fr 1fr;
   }
 
   .recipe-image-container {
     max-height: 13em;
-    height: unset;
   }
 }
 
@@ -213,17 +212,17 @@ hr {
 
 @media (min-width: 1400px) {
   .recipe-card {
-    min-height: 15em;
+    min-height: 17em;
   }
 
   .recipe-image-container {
-    width: 21vw;
+    width: 19vw;
   }
 }
 
 @media (min-width: 1800px) {
   .recipe-card {
-    min-height: 16em;
+    min-height: 18em;
   }
 
   .recipe-heading {
