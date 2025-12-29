@@ -27,7 +27,7 @@
 .loading-text {
   font-size: 1.25em;
   margin: 0;
-  color: #fff700;
+  color: #ffffff;
 }
 
 @keyframes spin {
