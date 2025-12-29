@@ -127,8 +127,8 @@ export default {
     },
 
     animateClickedStar(clickedStar) {
-      clickedStar.class = 'clicked';
-      setTimeout(() => (clickedStar.class = ''), 250);
+      clickedStar.class = '';
+      setTimeout(() => (clickedStar.class = 'clicked'));
     },
 
     updateChosenRating(clickedStar) {
