@@ -182,6 +182,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+	text-align: center;
   margin: 2em auto 0;
 }
 
