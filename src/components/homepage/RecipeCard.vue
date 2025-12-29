@@ -72,7 +72,7 @@ export default {
   width: 100%;
   height: 100%;
   color: rgb(255, 255, 255);
-  background-color: rgba(68, 133, 56, 0.9);
+  background-color: rgba(57, 145, 42, 0.9);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 2px 1.5px rgba(0, 0, 0, 0.5) inset;
   border: solid black 3px;
@@ -81,7 +81,7 @@ export default {
 }
 
 .recipe-card:active {
-  box-shadow: 2px 2px 5px black;
+  background-color: rgba(56, 128, 44, 0.9);
 }
 
 .recipe-image-container {
@@ -192,7 +192,7 @@ hr {
   }
 
   .recipe-heading {
-    margin: 0.35em 0 0;
+    margin: 0.2em 0 0;
   }
 
   .recipe-info-container {
