@@ -1,22 +1,28 @@
 <template>
-  <recipeInfo :rating-posted="ratingPosted" />
-  <RatingSection
-    :recipe-id="recipeId"
-    @rating-posted="(theBoolean) => (ratingPosted = theBoolean)"
-  />
-  <CommentSection :recipeId="recipeId" />
+  <div class="page-container">
+    <recipeInfo :rating-posted="ratingPosted" />
+    <RatingSection
+      :recipe-id="recipeId"
+      @rating-posted="(theBoolean) => (ratingPosted = theBoolean)"
+    />
+    <CommentSection :recipeId="recipeId" />
+  </div>
+
+  <Footer variant="recipe-page"></Footer>
 </template>
 
 <script>
 import RatingSection from '@/components/recipepage/RatingSection.vue';
 import CommentSection from '@/components/recipepage/commentSection.vue';
 import recipeInfo from '@/components/recipepage/recipeInfo.vue';
+import Footer from '@/components/Footer.vue';
 
 export default {
   components: {
     CommentSection,
     RatingSection,
     recipeInfo,
+    Footer,
   },
 
   data() {
@@ -33,4 +39,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.page-container {
+  min-height: 100dvh;
+}
+</style>

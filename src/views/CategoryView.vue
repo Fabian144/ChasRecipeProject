@@ -14,6 +14,7 @@
     <main>
       <RecipeCardSection :recipes="filteredRecipes" />
     </main>
+    <Footer></Footer>
   </template>
 </template>
 
@@ -23,6 +24,7 @@ import GetMethodError from '@/components/GetMethodError.vue';
 import Header from '@/components/homepage/Header.vue';
 import SidebarPanel from '../components/homepage/SidebarPanel.vue';
 import RecipeCardSection from '@/components/homepage/RecipeCardSection.vue';
+import Footer from '@/components/Footer.vue';
 import { useRecipeAndCategoryStore } from '@/stores/allRecipesAndCategories';
 import { allRecipesEndpoint } from '@/modules/fetchRecipeData';
 
@@ -38,6 +40,7 @@ export default {
     Header,
     RecipeCardSection,
     SidebarPanel,
+    Footer,
   },
 
   data() {
@@ -156,6 +159,7 @@ export default {
 <style scoped>
 main {
   display: flex;
+  min-height: 100dvh;
 }
 
 @media (min-width: 768px) {
