@@ -8,7 +8,7 @@
     <CommentSection :recipeId="recipeId" />
   </div>
 
-  <Footer></Footer>
+  <Footer variant="recipe-page"></Footer>
 </template>
 
 <script>
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-	.page-container {
-		min-height: 100dvh;
-	}
+.page-container {
+  min-height: 100dvh;
+}
 </style>
