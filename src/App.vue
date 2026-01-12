@@ -1,14 +1,19 @@
 <template>
   <div class="background"></div>
   <router-view></router-view>
+  <Footer></Footer>
 </template>
 
-<script></script>
+<script>
+export default {
+  components: { Footer },
+};
+</script>
 
 <style>
 body {
   margin: 0;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .background {
@@ -21,7 +26,7 @@ body {
   background-position: center;
   filter: blur(2px);
   z-index: -1;
-	transform: scale(1.1);
-	position: fixed;
+  transform: scale(1.1);
+  position: fixed;
 }
 </style>
