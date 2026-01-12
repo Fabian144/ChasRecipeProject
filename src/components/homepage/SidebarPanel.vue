@@ -139,7 +139,7 @@ li a:hover {
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .hamburger {
     position: fixed;
     display: flex;
