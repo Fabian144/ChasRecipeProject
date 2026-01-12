@@ -1,10 +1,13 @@
 <template>
-  <recipeInfo :rating-posted="ratingPosted" />
-  <RatingSection
-    :recipe-id="recipeId"
-    @rating-posted="(theBoolean) => (ratingPosted = theBoolean)"
-  />
-  <CommentSection :recipeId="recipeId" />
+  <div class="page-container">
+    <recipeInfo :rating-posted="ratingPosted" />
+    <RatingSection
+      :recipe-id="recipeId"
+      @rating-posted="(theBoolean) => (ratingPosted = theBoolean)"
+    />
+    <CommentSection :recipeId="recipeId" />
+  </div>
+
   <Footer></Footer>
 </template>
 
@@ -36,4 +39,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+	.page-container {
+		min-height: 100dvh;
+	}
+</style>
