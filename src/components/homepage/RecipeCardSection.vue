@@ -53,6 +53,7 @@ export default {
   gap: 0.75em;
   margin: 0 1.2em 1em 1em;
   width: 100%;
+	height: fit-content;
 }
 
 @media (min-width: 526px) {

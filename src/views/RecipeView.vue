@@ -5,18 +5,21 @@
     @rating-posted="(theBoolean) => (ratingPosted = theBoolean)"
   />
   <CommentSection :recipeId="recipeId" />
+  <Footer></Footer>
 </template>
 
 <script>
 import RatingSection from '@/components/recipepage/RatingSection.vue';
 import CommentSection from '@/components/recipepage/commentSection.vue';
 import recipeInfo from '@/components/recipepage/recipeInfo.vue';
+import Footer from '@/components/Footer.vue';
 
 export default {
   components: {
     CommentSection,
     RatingSection,
     recipeInfo,
+    Footer,
   },
 
   data() {
