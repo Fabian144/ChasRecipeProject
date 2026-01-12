@@ -14,9 +14,8 @@
     <main>
       <RecipeCardSection :recipes="filteredRecipes" />
     </main>
+    <Footer></Footer>
   </template>
-
-  <Footer></Footer>
 </template>
 
 <script>
@@ -41,7 +40,7 @@ export default {
     Header,
     RecipeCardSection,
     SidebarPanel,
-		Footer
+    Footer,
   },
 
   data() {
@@ -160,7 +159,7 @@ export default {
 <style scoped>
 main {
   display: flex;
-	min-height: 100dvh;
+  min-height: 100dvh;
 }
 
 @media (min-width: 768px) {

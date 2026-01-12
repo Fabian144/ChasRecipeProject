@@ -14,9 +14,8 @@
     <main>
       <RecipeCardSection :recipes="filteredRecipes" />
     </main>
+    <Footer></Footer>
   </template>
-
-  <Footer></Footer>
 </template>
 
 <script>
