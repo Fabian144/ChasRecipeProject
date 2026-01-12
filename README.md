@@ -19,7 +19,7 @@ The goal of the project was to create a dynamic and accessible website using **V
 - **Recipe cards** with an image of the recipe and the recipe's name, description, average rating and additional information
 
 ## Live demo 💻
-Visit the website here: https://fabian144.github.io/ChasRecipeProject/
+Visit the website here: https://julreceptforalla.netlify.app/
 
 ## Run project locally 📥
 
