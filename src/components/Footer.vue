@@ -22,19 +22,32 @@ footer {
   justify-content: center;
   align-items: center;
   text-align: center;
+	max-width: 90%;
+	margin: auto;
 }
 
 p {
   color: white;
+	margin: 0;
 }
 
 @media (min-width: 768px) {
   hr {
-    margin: 0 10px 0 13em;
+    margin: 0 0.625em 0 13em;
   }
 
   footer {
-    margin-left: 12.5em;
+    margin-left: 13em;
+  }
+}
+
+@media (max-width: 635px) {
+	hr {
+		margin: 15px 10px 0 10px
+	}
+
+  footer {
+    margin: 10px auto;
   }
 }
 
