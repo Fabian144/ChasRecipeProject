@@ -56,6 +56,6 @@ p {
 }
 
 .footer--recipe-page {
-  margin-left: 0;
+  margin: auto;
 }
 </style>
