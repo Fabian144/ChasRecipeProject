@@ -6,6 +6,8 @@ This is a group project made in 2025 by **Chas Academy Front-End Development/UX 
 
 The goal of the project was to create a dynamic and accessible webapp using **Vue.js**, a **REST API** and routing through **Vue router** for different views, where the user can browse for recipes as well as leave a rating and a comment on each one.
 
+Optimization, scalability and finding workarounds for deficiencies in the API played a big part in building the webapp.
+
 ## Features 🔍
 
 - **Category navigation bar** to easily filter recipes by category with a click
