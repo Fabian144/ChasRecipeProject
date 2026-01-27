@@ -1,7 +1,7 @@
 <template>
   <hr :class="`hr--${variant}`" />
   <footer :class="`footer--${variant}`">
-    <p>© 2025 Julrecept För Alla | Grupparbete - Front-end utveckling med ramverk</p>
+    <p>© 2025 Julrecept För Alla</p>
   </footer>
 </template>
 
@@ -21,7 +21,6 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
 	max-width: 90%;
 	margin: auto;
 }
