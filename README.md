@@ -1,4 +1,4 @@
-# Chas Academy Front-End with frameworks project: Recipe Website
+# Christmas recipe website 🎄
 
 This is a group project made in 2025 by **Chas Academy Front-End Development/UX Design** students, as part of the **Front-end Development with frameworks course**.
 
