@@ -2,6 +2,8 @@
 
 This is a group project made in 2025 by **Chas Academy Front-End Development/UX Design** students, as part of the **Front-end Development with frameworks course**.
 
+**Live demo:** https://fabian144.github.io/ChasRecipeProject/
+
 ## The goal 🎯
 
 The goal of the project was to create a dynamic and accessible webapp using **Vue.js**, a **REST API** and routing through **Vue router** for different views, where the user can browse for recipes as well as leave a rating and a comment on each one.
@@ -19,9 +21,6 @@ Optimization, scalability and finding workarounds for deficiencies in the API pl
 - **Comment section** on the recipe pages for the ability to leave a comment on each recipe
 
 - **Recipe cards** with an image of the recipe and the recipe's name, description, average rating and additional information
-
-## Live demo 💻
-Visit the website here: https://fabian144.github.io/ChasRecipeProject/
 
 ## Run project locally 📥
 
