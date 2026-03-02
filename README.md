@@ -24,26 +24,31 @@ Optimization, scalability and finding workarounds for deficiencies in the API pl
 
 ## Run project locally 📥
 
-1. Clone the repository
-2. Install dependencies with:
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/fabian144/ChasRecipeProject.git
+    cd ChasRecipeProject
+    ```
 
-```sh
-npm install
-```
+2.  **Install dependencies:**
+    ```sh
+    npm install
+    ```
 
-3. Create a `.env` file in the root of the project.
-4. Add the right credentials to the file:
+3.  **Configure environmental variables:**
 
-```env
-VITE_API_URL=The url
-VITE_TEAM_ID=The team id
-```
+    -  Create a `.env` file in the root of the project.
+    -  Add the right credentials to the file:
+    
+        ```env
+        VITE_API_URL=The url
+        VITE_TEAM_ID=The team id
+        ```
 
-5. Run development server
-
-```sh
-npm run dev
-```
+5.  **Run the development server:**
+    ```sh
+    npm run dev
+    ```
 
 ## Tools 🛠️
 This website was built using:
