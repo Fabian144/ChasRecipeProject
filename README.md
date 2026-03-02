@@ -31,7 +31,15 @@ Optimization, scalability and finding workarounds for deficiencies in the API pl
 npm ci
 ```
 
-### Run development server
+3. Create a `.env` file in the root of the project.
+4. Add the right credentials to the file:
+
+```env
+VITE_API_URL=The url
+VITE_TEAM_ID=The team id
+```
+
+5. Run development server
 
 ```sh
 npm run dev
