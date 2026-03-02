@@ -28,7 +28,7 @@ Optimization, scalability and finding workarounds for deficiencies in the API pl
 2. Install dependencies with:
 
 ```sh
-npm ci
+npm install
 ```
 
 3. Create a `.env` file in the root of the project.
