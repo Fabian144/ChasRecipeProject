@@ -24,6 +24,8 @@ Optimization, scalability and finding workarounds for deficiencies in the API pl
 
 ## Run project locally 📥
 
+Follow these steps to run the project in a development server:
+
 1.  **Clone the repository:**
     ```sh
     git clone https://github.com/fabian144/ChasRecipeProject.git
