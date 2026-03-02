@@ -45,7 +45,7 @@ VITE_TEAM_ID=The team id
 npm run dev
 ```
 
-## Tools 🔨
+## Tools 🛠️
 This website was built using:
 - **HTML**
 - **CSS**
