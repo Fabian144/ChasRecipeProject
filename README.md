@@ -58,10 +58,8 @@ Follow these steps to run this project in a development server:
 
 ## Tools 🛠️
 This website was built using:
-- **HTML**
-- **CSS**
-- **JavaScript**
 - **Vue.js**
+- **JavaScript**
 - **Pinia**
 - **REST API**
 
