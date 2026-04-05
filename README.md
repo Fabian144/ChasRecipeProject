@@ -1,10 +1,10 @@
 # Recipe website project - Julrecept för alla 🎄
 
-<div align="center">
-  
-[![Live Demo](https://img.shields.io/badge/Live_demo-Julrecept_för_alla-g?style=for-the-badge&logo=github)](https://fabian144.github.io/ChasRecipeProject/)
+<div align="center"> 
 
-An interactive website with christmas recipes. This is a group project made in 2025 by **Chas Academy Front-End Development/UX Design** students, as part of a **Front-end Development with frameworks** course.
+An interactive website in Swedish with a variety of christmas recipes. This is a group project made in 2025 by **Chas Academy Front-End Development/UX Design** students, as part of a **Front-end Development with frameworks** course.
+
+[![Live Demo](https://img.shields.io/badge/Live_demo-Julrecept_för_alla-g?style=for-the-badge&logo=github)](https://fabian144.github.io/ChasRecipeProject/)
 
 </div>
 
