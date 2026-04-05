@@ -13,10 +13,8 @@ dist
 dist-ssr
 coverage
 *.local
-.env
 
 # Editor directories and files
-.vscode/*
 !.vscode/extensions.json
 .idea
 *.suo
@@ -36,3 +34,4 @@ replacements.txt
 
 # Vitest
 __screenshots__/
+config.bat
